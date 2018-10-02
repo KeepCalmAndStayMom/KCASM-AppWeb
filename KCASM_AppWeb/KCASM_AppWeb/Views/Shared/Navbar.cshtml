@@ -1,0 +1,58 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @{
+                    if (ViewData["Session"].Equals("user"))
+                    {
+                        <li><a asp-controller="User" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="User" asp-action="Details">Dettagli</a></li>
+                        <li><a asp-controller="User" asp-action="Tasks">Attività</a></li>
+                        <li><a asp-controller="User" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
+                    }
+                    else if (ViewData["Session"].Equals("medic"))
+                    {
+                        <li><a asp-controller="Medic" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
+                    }
+                    else if (ViewData["Session"].Equals("medicUser"))
+                    {
+                        <li><a asp-controller="User" asp-action="Index">Sintesi paziente</a></li>
+                        <li><a asp-controller="User" asp-action="Details">Dettagli paziente</a></li>
+                        <li><a asp-controller="User" asp-action="Tasks">Attività paziente</a></li>
+                        <li><a asp-controller="Medic" asp-action="Index" style="border-left: 2px solid grey;">Home</a></li>
+                        <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+    ul {
+        font-weight: bold;
+        font-size: 20px;
+    }
+    li {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+</style>

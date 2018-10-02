@@ -1,0 +1,116 @@
+﻿@model KCASM_AppWeb.Models.User;
+
+<h2>Attività</h2>
+@if (Model != null)
+{
+    @if (ViewData["Session"].Equals("medicUser"))
+    {
+        <fieldset style="margin-top: 2em">
+            <legend>Aggiungi un'attività</legend>
+            <form id="form_settings" method="post" action="/User/TaskAdd">
+                <div class="form-inline">
+                    <input class="form-control" type="text" name="title" placeholder="Titolo" maxlength="50" required />
+                    <textarea class="form-control" name="description" placeholder="Descrizione" rows="1" cols="25" maxlength="250" style="resize: none;" required></textarea>
+                    <input class="form-control" type="date" name="date" required />
+                    <input class="btn btn-primary" type="submit" value="Aggiungi attività" />
+                </div>
+            </form>
+        </fieldset>
+    }
+
+
+    @if (Model.Tasks != null)
+    {
+
+        List<SelectListItem> listItems = new List<SelectListItem>();
+
+        foreach (string id in Model.Tasks.Keys)
+        {
+            listItems.Add(new SelectListItem { Text = id, Value = id });
+        }
+
+        if (ViewData["Session"].Equals("user"))
+        {
+            <fieldset style="margin-top: 2em">
+                <legend></legend>
+                <form id="form_settings" method="post" action="/User/TaskCheck">
+                    <div class="form-horizontal">
+                        @Html.DropDownList("Task_Id", new SelectList(listItems, "Value", "Text"))
+                        <input class="btn btn-primary" type="submit" name="status" value="Attività completata" />
+                        <input class="btn btn-primary" type="submit" name="status" value="Attività da completare" />
+                    </div>
+                </form>
+            </fieldset>
+        }
+
+        if (ViewData["Session"].Equals("medicUser"))
+        {
+            <fieldset style="margin-top:2em">
+                <legend>Rimuovi un'attività</legend>
+                <form id="form_settings" method="post" action="/User/TaskRemove">
+                    <div class="form-inline">
+                        @Html.DropDownList("Task_Id", new SelectList(listItems, "Value", "Text"))
+                        <input class="btn btn-primary" type="submit" value="Elimina attività" />
+                    </div>
+                </form>
+            </fieldset>
+        }
+
+        <h3 style="margin-top: 2em">Elenco di tutte le tue attività</h3>
+        <div id="task" style="margin-top:2em"></div>
+        <script>
+            $(document).ready(function () {
+                $("#task").kendoGrid({
+                    dataSource: {
+                        data: @Json.Serialize(Model.Tasks.Values),
+                        type: "json",
+                        schema: {
+                            model: {
+                                fields: {
+                                    id: {type: "string"},
+                                    title: { type: "string" },
+                                    description: { type: "string" },
+                                    programmed_date: { type: "string" },
+                                    executed: { type: "boolean" }
+                                }
+                            }
+                        },
+                        pageSize: 10
+                    },
+                    height: "30em",
+                    groupable: false,
+                    sortable: true,
+                    pageable: {
+                        refresh: false,
+                        pageSizes: true,
+                        buttonCount: 5
+                    },
+                    columns: [{
+                        field: "id",
+                        title: "ID"
+                    },{
+                        field: "title",
+                        title: "Titolo"
+                    }, {
+                        field: "description",
+                        title: "Descrizione"
+                    }, {
+                        field: "programmed_date",
+                        title: "Data Programmata",
+                    }, {
+                        field: "executed",
+                        title: "Completato"
+                    }]
+                });
+            });
+        </script>
+    }
+    else
+    {
+        <h3 class="error-message" style="margin-top: 1.5em; margin-bottom: 1.5em;">Non ci sono attività da eseguire</h3>
+    }
+}
+else
+{
+    <p class="error-message">Si è verificato un errore. Riprova più tardi</p>
+}

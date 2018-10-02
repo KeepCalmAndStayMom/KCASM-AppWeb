@@ -1,0 +1,321 @@
+﻿@model KCASM_AppWeb.Models.User
+
+<h2>Dettagli</h2>
+
+<fieldset style="margin-top: 2em; margin-bottom: 2em;">
+    <legend></legend>
+    <form id="form_details" method="post">
+        <div class="form-group">
+            <div class="col-md-2">
+                <label>Totale</label><br />
+                <input class="view-mode" type="radio" name="mode" value="total" checked />
+            </div>
+            <div class="col-md-2">
+                <label>Progressivo</label><br />
+                <input class="view-mode" type="radio" name="mode" value="progressive" />
+            </div>
+            <div class="col-md-3">
+                <label>Data inizio</label>
+                <input class="date-mode form-control" type="date" name="start_date" placeholder="data d'inizio" min="2018-01-01" required />
+            </div>
+            <div class="col-md-3">
+                <label>Data fine</label>
+                <input class="date-mode form-control" type="date" name="end_date" placeholder="data di fine" min="2018-01-02" required />
+            </div>
+            <div class="col-md-2">
+                <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Controlla" />
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+@if (Model != null)
+{
+   if (Model.FitbitList != null)
+   {
+        <div id="fitbit"></div><br />
+        <script>
+            function createChart() {
+
+                $("#fitbit").kendoChart({
+                    title: {
+                        text: "Fitbit",
+                        font: "30px sans-serif",
+                        color: "black"
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    series: [{
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Heartbeats),
+                        name: "Battiti Cardiaci Medi",
+                        color: "#cc0000",
+                        axis: "heart"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Steps),
+                        name: "Passi",
+                        color: "#00ff00",
+                        axis: "steps"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Distance),
+                        name: "Distanza (Km)",
+                        color: "#0000ff",
+                        axis: "distance"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Elevation),
+                        name: "Elevazione (altezza Km)",
+                        color: "#808080",
+                        axis: "elevation"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Floors),
+                        name: "Piani",
+                        color: "#651a1a",
+                        axis: "floors"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.Calories),
+                        name: "Calorie (Kcal)",
+                        color: "#ffc14d",
+                        axis: "calories"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.MinutesAsleep),
+                        name: "Minuti di Sonno",
+                        color: "#e6e600",
+                        axis: "asleep"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.FitbitList.MinutesAwake),
+                        name: "Minuti Svegli",
+                        color: "#ff00ff",
+                        axis: "awake"
+                    }],
+                    valueAxes: [{
+                        name: "heart",
+                        color: "#cc0000",
+                        min: 40,
+                        max: 250
+                    }, {
+                        name: "steps",
+                        color: "#00ff00",
+                        min: 0,
+                        max: 6000
+                    }, {
+                        name: "distance",
+                        color: "#0000ff",
+                        min: 0,
+                        max: 50
+                    }, {
+                        name: "elevation",
+                        color: "#808080",
+                        min: 0,
+                        max: 1000
+                    }, {
+                        name: "floors",
+                        color: "#651a1a",
+                        min: 0,
+                        max: 25
+                    }, {
+                        name: "calories",
+                        color: "#ffc14d",
+                        min: 0,
+                        max: 5000
+                    }, {
+                        name: "asleep",
+                        color: "#e6e600",
+                        min: 0,
+                        max: 600
+                    }, {
+                        name: "awake",
+                        color: "#ff00ff",
+                        min: 0,
+                        max: 1200
+                    }],
+                    categoryAxis: {
+                        categories: @Json.Serialize(Model.DateFitbit),
+                        axisCrossingValues: [0, 22, 0, 0, 0, 22, 22, 22],
+                        justified: true,
+                        labels: { rotation: "auto" }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0}",
+                        template: "#= category #: #= value #"
+                    }
+                });
+            }
+
+            $(document).ready(createChart);
+            $(document).bind("kendo:skinChange", createChart);
+        </script>
+    }
+    else
+    {
+        <h3 align="center" class="error-message">Grafico fitbit vuoto (nessun dato rilevato)</h3>
+    }
+
+    if (Model.HueList != null)
+    {
+        <div id="hue"></div> <br />
+        <script>
+            function createChart() {
+
+                $("#hue").kendoChart({
+                    title: {
+                        text: "Cromoterapia",
+                        font: "30px sans-serif",
+                        color: "black"
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    series: [{
+                        type: "column",
+                        data: @Json.Serialize(Model.HueList.CromoSoft),
+                        name: "Cromoterapie Soft",
+                        color: "#00ff00",
+                        axis: "cromosoft"
+                    }, {
+                        type: "column",
+                        data: @Json.Serialize(Model.HueList.CromoHard),
+                        name: "Cromoterapie Hard",
+                        color: "#0066ff",
+                        axis: "cromohard"
+                    }],
+                    valueAxes: [{
+                        name: "cromosoft",
+                        color: "#00ff00",
+                        min: 0,
+                        max: 30
+                    }, {
+                        name: "cromohard",
+                        color: "#0066ff",
+                        min: 0,
+                        max: 30
+                        }],
+                    categoryAxis: {
+                        categories: @Json.Serialize(Model.DateHue),
+                        axisCrossingValues: [0, 22],
+                        justified: true,
+                        labels: { rotation: "auto" }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0}",
+                        template: "#= category #: #= value #"
+                    }
+                });
+            }
+
+            $(document).ready(createChart);
+            $(document).bind("kendo:skinChange", createChart);
+        </script>
+    }
+    else
+    {
+        <h3 align="center" class="error-message">Grafico hue vuoto (nessun dato rilevato)</h3>
+    }
+
+    if (Model.SensorList != null)
+    {
+        <div id="sensor"></div>
+        <script>
+            function createChart() {
+                $("#sensor").kendoChart({
+                    title: {
+                        text: "Sensore",
+                        font: "30px sans-serif",
+                        color: "black"
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    series: [{
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.SensorList.Temperature),
+                        name: "Temperature [C°]",
+                        color: "#ff1c1c",
+                        axis: "temp"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.SensorList.Humidity),
+                        name: "Umidità [%]",
+                        color: "#ffae00",
+                        axis: "hum"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Json.Serialize(Model.SensorList.Luminescence),
+                        name: "Luminosita [lux]",
+                        color: "#73c100",
+                        axis: "lum"
+                    }],
+                    valueAxes: [{
+                        name: "temp",
+                        color: "#ff1c1c",
+                        min: 0,
+                        max: 50
+                    }, {
+                        name: "hum",
+                        color: "#ffae00",
+                        min: 0,
+                        max: 100
+                    }, {
+                        name: "lum",
+                        color: "#73c100",
+                        min: 0,
+                        max: 1000
+                    }],
+                    categoryAxis: {
+                        categories: @Json.Serialize(Model.DateSensor),
+                        axisCrossingValues: [0, 0, 22],
+                        justified: true,
+                        labels: { rotation: "auto" }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0}",
+                        template: "#= category #: #= value #"
+                    }
+                });
+            }
+
+            $(document).ready(createChart);
+            $(document).bind("kendo:skinChange", createChart);
+        </script>
+    }
+    else
+    {
+        <h3 align="center" class="error-message">Grafico sensore vuoto (nessun dato rilevato)</h3>
+    }
+}
+else
+{
+    <p class="error-message">Si è verificato un errore. Riprova più tardi</p>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".view-mode").click(function () {
+    if ($('input[name=mode]:checked').val() == "total")
+                $(".date-mode").prop("type", "date");
+            else
+                $(".date-mode").prop("type", "datetime-local");
+        });
+    });
+</script>
