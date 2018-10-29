@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KCASM_AppWeb.Controllers
 {
-    public class HomeController : Controller
+    public class WeightController : Controller
     {
         public IActionResult Index()
         {
