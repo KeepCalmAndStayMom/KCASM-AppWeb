@@ -12,5 +12,17 @@ namespace KCASM_AppWeb.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PasswordForgot()
+        {
+            return View();
+        }
     }
 }

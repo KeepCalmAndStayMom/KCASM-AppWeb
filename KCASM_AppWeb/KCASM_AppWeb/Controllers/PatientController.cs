@@ -8,7 +8,18 @@ namespace KCASM_AppWeb.Controllers
 {
     public class PatientController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Patient()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Update()
+        {
+            return View();
+        }
+
+        public IActionResult RedirectMedic()
         {
             return View();
         }

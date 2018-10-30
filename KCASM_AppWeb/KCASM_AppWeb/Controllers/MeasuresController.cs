@@ -8,7 +8,14 @@ namespace KCASM_AppWeb.Controllers
 {
     public class MeasuresController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Measures()
+        {
+            return View();
+        }
+
+        /*possibile form / filtro per le misure immaginando tutte le misure nella stessa pagina*/
+        [HttpPost]
+        public IActionResult Details()
         {
             return View();
         }

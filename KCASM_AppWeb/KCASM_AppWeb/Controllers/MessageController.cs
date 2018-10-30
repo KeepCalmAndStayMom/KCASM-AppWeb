@@ -8,7 +8,18 @@ namespace KCASM_AppWeb.Controllers
 {
     public class MessageController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Message()
+        {
+            return View();
+        }
+
+        public IActionResult OpenMessage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewMessage()
         {
             return View();
         }

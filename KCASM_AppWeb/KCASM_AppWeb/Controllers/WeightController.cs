@@ -8,7 +8,13 @@ namespace KCASM_AppWeb.Controllers
 {
     public class WeightController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Weight()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewWeight()
         {
             return View();
         }
