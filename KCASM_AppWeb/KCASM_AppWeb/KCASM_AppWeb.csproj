@@ -45,4 +45,10 @@
     <None Include="wwwroot\default\lib\jquery\dist\jquery.min.map" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="ExtensionMethods\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
