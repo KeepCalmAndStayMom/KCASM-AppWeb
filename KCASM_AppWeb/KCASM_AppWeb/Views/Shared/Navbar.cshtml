@@ -13,7 +13,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 @{
-                    if (ViewData["Session"].Equals("user"))
+                    if (ViewData["Session"].Equals("Patient"))
                     {
                         <li><a asp-controller="User" asp-action="Index">Home</a></li>
                         <li><a asp-controller="User" asp-action="Details">Dettagli</a></li>
@@ -21,13 +21,13 @@
                         <li><a asp-controller="User" asp-action="Settings">Impostazioni</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
                     }
-                    else if (ViewData["Session"].Equals("medic"))
+                    else if (ViewData["Session"].Equals("Medic"))
                     {
                         <li><a asp-controller="Medic" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
                     }
-                    else if (ViewData["Session"].Equals("medicUser"))
+                    else if (ViewData["Session"].Equals("MedicPatient"))
                     {
                         <li><a asp-controller="User" asp-action="Index">Sintesi paziente</a></li>
                         <li><a asp-controller="User" asp-action="Details">Dettagli paziente</a></li>
@@ -35,6 +35,10 @@
                         <li><a asp-controller="Medic" asp-action="Index" style="border-left: 2px solid grey;">Home</a></li>
                         <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
+                    }
+                    else if (ViewData["Session"].Equals("Admin"))
+                    {
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     }
                     else
                     {

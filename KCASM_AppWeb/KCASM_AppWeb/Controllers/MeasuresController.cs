@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KCASM_AppWeb.ExtensionMethods;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KCASM_AppWeb.Controllers
@@ -10,6 +12,10 @@ namespace KCASM_AppWeb.Controllers
     {
         public IActionResult Measures()
         {
+            if (!"Measures".checkSession(HttpContext.Session.GetString("Type")))
+                RedirectToAction("Index", "Home");
+
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();
         }
 
@@ -17,6 +23,7 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult Details()
         {
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();
         }
     }
