@@ -13,7 +13,9 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult Medic()
         {
             if (!"Medic".checkSession(HttpContext.Session.GetString("Type")))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+
+            HttpContext.Session.SetString("Type", "MedicPatient");
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();

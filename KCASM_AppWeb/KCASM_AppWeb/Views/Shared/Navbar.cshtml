@@ -15,25 +15,29 @@
                 @{
                     if (ViewData["Session"].Equals("Patient"))
                     {
-                        <li><a asp-controller="User" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="User" asp-action="Details">Dettagli</a></li>
-                        <li><a asp-controller="User" asp-action="Tasks">Attività</a></li>
-                        <li><a asp-controller="User" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Patient" asp-action="Patient">Paziente</a></li>
+                        <li><a asp-controller="Measures" asp-action="Measures">Misurazioni</a></li>
+                        <li><a asp-controller="Tasks" asp-action="Tasks">Tasks</a></li>
+                        <li><a asp-controller="Weight" asp-action="Weight">Pesi</a></li>
+                        <li><a asp-controller="Message" asp-action="Message">Messaggi</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
                     }
                     else if (ViewData["Session"].Equals("Medic"))
                     {
-                        <li><a asp-controller="Medic" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Medic" asp-action="Medic">Medico</a></li>
+                        <li><a asp-controller="Message" asp-action="Message">Messaggi</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
                     }
                     else if (ViewData["Session"].Equals("MedicPatient"))
                     {
-                        <li><a asp-controller="User" asp-action="Index">Sintesi paziente</a></li>
-                        <li><a asp-controller="User" asp-action="Details">Dettagli paziente</a></li>
-                        <li><a asp-controller="User" asp-action="Tasks">Attività paziente</a></li>
-                        <li><a asp-controller="Medic" asp-action="Index" style="border-left: 2px solid grey;">Home</a></li>
-                        <li><a asp-controller="Medic" asp-action="Settings">Impostazioni</a></li>
+                        <li><a asp-controller="Patient" asp-action="Patient">Paziente</a></li>
+                        <li><a asp-controller="Measures" asp-action="Measures">Misurazioni</a></li>
+                        <li><a asp-controller="Tasks" asp-action="Tasks">Tasks</a></li>
+                        <li><a asp-controller="Weight" asp-action="Weight">Pesi</a></li>
+                        <li><a asp-controller="Home" asp-action="Index" style="border-left: 2px solid grey;">Home</a></li>
+                        <li><a asp-controller="Medic" asp-action="Medic">Medico</a></li>
                         <li><a asp-controller="Home" asp-action="Logout">Esci</a></li>
                     }
                     else if (ViewData["Session"].Equals("Admin"))

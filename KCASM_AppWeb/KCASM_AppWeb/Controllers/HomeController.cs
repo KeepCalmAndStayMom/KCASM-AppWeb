@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using KCASM_AppWeb.Configuration;
 using KCASM_AppWeb.ExtensionMethods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace KCASM_AppWeb.Controllers
 {
@@ -20,11 +24,40 @@ namespace KCASM_AppWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login()
+        public IActionResult Login(string email, string password)
         {
+            var client = new WebClient();
+            string type = "NotLogged", id = null;
+
+            try
+            {
+                var content = client.DownloadString($"{Constant.API_ADDRESS}login?email={email}&password={password}");
+                Dictionary<string, String> login = JsonConvert.DeserializeObject<Dictionary<string, String>>(content);
+
+                if (login.ContainsKey("patient_id"))
+                {
+                    type = "Patient";
+                    id = login["patient_id"];
+                }
+                else if (login.ContainsKey("medic_id"))
+                {
+                    type = "Medic";
+                    id = login["medic_id"];
+                }
+
+                HttpContext.Session.SetString("Type", type);
+                HttpContext.Session.SetString("Id", id);
+
+                return RedirectToAction(type, type);
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e);
+                ViewData["result"] = "Utente non trovato";
+            }
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -32,6 +65,12 @@ namespace KCASM_AppWeb.Controllers
         {
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

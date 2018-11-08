@@ -4,13 +4,14 @@
 
         <form class="form-signin" style="text-align: center;" method="post" action="/Home/Login">
             <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Username or Email address" required autofocus>
+                <input type="text" name="email" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
             <input class="btn btn-primary" type="submit" value="Login" />
         </form>
+
         <p class="forgot-password" style="cursor: pointer; margin-top: 1em;">Recupera la Password</p>
         <form id="recovery" method="post" style="display: none; text-align: center;" action="/Home/PasswordForgot">
             <div class="form-group">
@@ -21,6 +22,8 @@
         </form>
     </div>
 </div>
+
+<p>@ViewData["result"]</p>
 
 <script>$(document).ready(function(){
     $(".forgot-password").click(function () {

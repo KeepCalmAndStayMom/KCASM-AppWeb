@@ -13,7 +13,7 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult Patient()
         {
             if (!"Patient".checkSession(HttpContext.Session.GetString("Type")))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();

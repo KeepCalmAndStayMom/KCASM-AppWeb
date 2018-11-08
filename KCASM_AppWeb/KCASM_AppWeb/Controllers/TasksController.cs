@@ -10,10 +10,10 @@ namespace KCASM_AppWeb.Controllers
 {
     public class TasksController : Controller
     {
-        public IActionResult Task()
+        public IActionResult Tasks()
         {
             if (!"Tasks".checkSession(HttpContext.Session.GetString("Type")))
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View();
