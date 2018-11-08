@@ -31,7 +31,9 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-                var content = client.DownloadString($"{Constant.API_ADDRESS}login?email={email}&password={password}");
+
+                client.Headers.Add("Authorization", "Basic " + System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(email+":"+password)));
+                var content = client.UploadString($"{Constant.API_ADDRESS}login_data", "POST");
                 Dictionary<string, String> login = JsonConvert.DeserializeObject<Dictionary<string, String>>(content);
 
                 if (login.ContainsKey("patient_id"))
