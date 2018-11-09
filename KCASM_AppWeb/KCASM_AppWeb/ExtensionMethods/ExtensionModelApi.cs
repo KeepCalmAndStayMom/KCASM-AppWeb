@@ -35,7 +35,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             return p;
         }
 
-        public static TaskList getTasks(this string firstId, Boolean patient, String type, Int16 secondId, Boolean executed, String date, String endDate, Boolean startingProgram)
+        public static TaskList getTasks(this string firstId, Boolean patient, String type, Dictionary<String, Object> filter)
         {
             TaskList t = null;
             string url = Constant.API_ADDRESS;
@@ -44,7 +44,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             else
                 url += "medics/";
 
-            url += firstId + "/tastks/" + type;
+            url += firstId + "/tasks/" + type;
             // al momento senza filtri ....
 
             var content = executeGet(url);
@@ -90,7 +90,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             return m;
         }
 
-        public static MessageList GetMessage(this string id, Boolean patient, String type, String date, String endDate, String timedate, Int16 medicId)
+        public static MessageList GetMessage(this string id, Boolean patient, String type, Dictionary<String, Object> filter)
         {
             MessageList m = null;
             string url = Constant.API_ADDRESS;
@@ -99,7 +99,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             else
                 url += "medics/";
 
-            url += id + "/message/" + type;
+            url += id + "/messages/" + type;
             // al momento senza filtri ....
 
             var content = executeGet(url);
@@ -112,7 +112,7 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static MeasuresList GetMeasures(this string id, String type, String device, String date, String endDate)
         {
             MeasuresList m = null;
-            string url = Constant.API_ADDRESS + "patients/" + id + "/tasks/" + type + "/" + device;
+            string url = Constant.API_ADDRESS + "patients/" + id + "/measures/" + type + "/" + device;
             if (type.Equals("total"))
                 url += "?date=" + date;
 

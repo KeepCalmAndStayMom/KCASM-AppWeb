@@ -11,7 +11,7 @@ namespace KCASM_AppWeb.Models.ForApi
 
         public String Timedate { get; set; }
 
-        public Int16 Avg_heartbeats { get; set; }
+        public Int16? Avg_heartbeats { get; set; }
 
         public Int16 Calories { get; set; }
 

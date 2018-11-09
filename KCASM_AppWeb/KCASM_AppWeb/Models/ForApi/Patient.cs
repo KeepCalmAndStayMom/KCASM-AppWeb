@@ -11,7 +11,7 @@ namespace KCASM_AppWeb.Models.ForApi
 
         public String Name { get; set; }
 
-        public String Surnamne { get; set; }
+        public String Surname { get; set; }
 
         public Int16 Age { get; set; }
 

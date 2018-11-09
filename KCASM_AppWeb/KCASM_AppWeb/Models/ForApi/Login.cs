@@ -11,9 +11,9 @@ namespace KCASM_AppWeb.Models.ForApi
 
         public String Password { get; set; }
 
-        public Int16 Patient_id { get; set; }
+        public Int16? Patient_id { get; set; }
 
-        public Int16 Medic_id { get; set; }
+        public Int16? Medic_id { get; set; }
 
         public Boolean Email_notify { get; set; }
 

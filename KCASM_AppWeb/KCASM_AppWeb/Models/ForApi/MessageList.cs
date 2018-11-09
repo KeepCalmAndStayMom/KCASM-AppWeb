@@ -7,8 +7,8 @@ namespace KCASM_AppWeb.Models.ForApi
 {
     public class MessageList
     {
-        public List<MessageMedicPatient> Message_sent { get; set; }
+        public List<MessageMedicPatient> Message_sent { get; set; } = null;
 
-        public List<MessageMedicPatient> Message_received { get; set; }
+        public List<MessageMedicPatient> Message_received { get; set; } = null;
     }
 }

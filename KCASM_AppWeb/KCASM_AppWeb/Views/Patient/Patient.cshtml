@@ -1,9 +1,44 @@
-﻿@model KCASM_AppWeb.Models.ForApi.Patient;
+﻿@{ 
+    //@model KCASM_AppWeb.Models.ForApi.Patient;
+
+    //@model KCASM_AppWeb.Models.ForApi.TaskList;
+
+    //@model KCASM_AppWeb.Models.ForApi.WeightsList;
+
+    //@model KCASM_AppWeb.Models.ForApi.PatientInitial;
+
+    @model List<KCASM_AppWeb.Models.ForApi.Medic>;
+
+    //@model KCASM_AppWeb.Models.ForApi.MessageList;
+
+    //@model KCASM_AppWeb.Models.ForApi.MeasuresList;
+
+    //@model KCASM_AppWeb.Models.ForApi.Login;
+}
+
+
 @{
     ViewData["Title"] = "Patient";
 }
 
 <h2>Patient</h2>
 
-<p> @Model.Name  @Model.Age</p>
+@{ 
+
+    //<p> Patient --> name: @Model.Name   surname: @Model.Surname  age: @Model.Age  phone: @Model.Phone  ad_home: @Model.Address_home  ad_hospital: @Model.Address_hospital</p>
+
+    //<p> TaskList -->  general: @Model.General  activities: @Model.Activities  diet: @Model.Diets</p>
+
+    //<p> weightList --> @Model</p>
+
+    //<p> PatientInitial --> start date: @Model.Pregnancy_start_date  weight: @Model.Weight  height: @Model.Height  bmi: @Model.Bmi  twin: @Model.Twin</p>
+
+    <p> medics --> @Model</p>
+
+    //<p> MessageList --> received: @Model.Message_received  sent: @Model.Message_sent</p>
+
+    //<p> MeasuresList --> samples fitbit: @Model.fitbit_samples  samples hue: @Model.hue_samples  samples sensor: @Model.sensor_samples  total fitbit: @Model.fitbit_total  total hue: @Model.hue_total  total sensor: @Model.sensor_total</p>
+
+    //<p> Login --> email: @Model.Email  password: @Model.Password  patient_id: @Model.Patient_id  medic_id: @Model.Medic_id  email_notify: @Model.Email_notify  sms_notify: @Model.Sms_notify</p>
+}
 
