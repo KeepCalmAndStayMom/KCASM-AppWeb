@@ -109,9 +109,9 @@ namespace KCASM_AppWeb.ExtensionMethods
             return m;
         }
 
-        public static MeasuresList GetMeasures(this string id, String type, String device, String date, String endDate)
+        public static Measures GetMeasures(this string id, String type, String device, String date, String endDate)
         {
-            MeasuresList m = null;
+            Measures m = null;
             string url = Constant.API_ADDRESS + "patients/" + id + "/measures/" + type + "/" + device;
             if (type.Equals("total"))
                 url += "?date=" + date;
@@ -120,8 +120,20 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             var content = executeGet(url);
             if (content != null)
-                m = JsonConvert.DeserializeObject<MeasuresList>(content);
-
+            {
+                if (type.Equals("total"))
+                {
+                    m = new MeasuresTotal();
+                    switch (device)
+                    {
+                        case "fitbit": ((MeasuresTotal)m).fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
+                        case "hue": ((MeasuresTotal)m).hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
+                        case "sensor": ((MeasuresTotal)m).sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
+                    }
+                }
+                else
+                    m = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
+            }
             return m;
         }
 
