@@ -109,30 +109,38 @@ namespace KCASM_AppWeb.ExtensionMethods
             return m;
         }
 
-        public static Measures GetMeasures(this string id, String type, String device, String date, String endDate)
+        public static MeasuresListSamples GetMeasures(this string id, String device, String date, String endDate)
         {
-            Measures m = null;
-            string url = Constant.API_ADDRESS + "patients/" + id + "/measures/" + type + "/" + device;
-            if (type.Equals("total"))
-                url += "?date=" + date;
+            MeasuresListSamples m = null;
+            string url = Constant.API_ADDRESS + "patients/" + id + "/measures/samples/" + device;
 
             // al momento senza filtri ....
 
             var content = executeGet(url);
             if (content != null)
             {
-                if (type.Equals("total"))
-                {
-                    m = new MeasuresTotal();
-                    switch (device)
-                    {
-                        case "fitbit": ((MeasuresTotal)m).fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
-                        case "hue": ((MeasuresTotal)m).hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
-                        case "sensor": ((MeasuresTotal)m).sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
-                    }
-                }
-                else
                     m = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
+            }
+            return m;
+        }
+
+        public static MeasuresTotal GetMeasuresTotal(this string id, String device, String date, String endDate)
+        {
+            MeasuresTotal m = null;
+            string url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/" + device + "?date=" + date;
+
+            // al momento senza filtri ....
+
+            var content = executeGet(url);
+            if (content != null)
+            {
+                m = new MeasuresTotal();
+                switch (device)
+                {
+                    case "fitbit": m.fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
+                    case "hue": m.hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
+                    case "sensor": m.sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
+                }
             }
             return m;
         }
