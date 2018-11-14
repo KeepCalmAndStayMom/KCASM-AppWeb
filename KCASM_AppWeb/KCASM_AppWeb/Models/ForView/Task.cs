@@ -7,6 +7,19 @@ namespace KCASM_AppWeb.Models.ForView
 {
     public class Task
     {
+        public Task(Models.ForApi.Task task, String type)
+        {
+            this.Id = task.Id;
+            this.Type = type;
+            this.Patient_id = task.Patient_id;
+            this.Medic_id = task.Medic_id;
+            this.Date = task.Date;
+            this.Category = task.Category;
+            this.Description = task.Description;
+            this.Starting_program = task.Starting_program;
+            this.Executed = task.Executed;
+        }
+
         public Int16 Id { get; set; }
 
         public String Type { get; set; }
