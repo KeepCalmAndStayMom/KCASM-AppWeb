@@ -5,3 +5,251 @@
 
 <h2>Measures</h2>
 
+<script>
+    function createChart() {
+
+        $("#fitbit").kendoChart({
+            title: {
+                text: "Fitbit",
+                font: "30px sans-serif",
+                color: "black"
+            },
+            legend: {
+                position: "bottom"
+            },
+            series: [{
+                type: "line",
+                style: "smooth",
+                data: [78, 91, 83],
+                name: "Battiti Cardiaci Medi",
+                color: "#cc0000",
+                axis: "heart"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [3325, 6454, 1234],
+                name: "Passi",
+                color: "#00ff00",
+                axis: "steps"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [1, 5, 3],
+                name: "Distanza (Km)",
+                color: "#0000ff",
+                axis: "distance"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [3, 4, 5],
+                name: "Elevazione (altezza Km)",
+                color: "#808080",
+                axis: "elevation"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [1, 2, 3],
+                name: "Piani",
+                color: "#651a1a",
+                axis: "floors"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [1000, 1500, 2000],
+                name: "Calorie (Kcal)",
+                color: "#ffc14d",
+                axis: "calories"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [200, 150, 100],
+                name: "Minuti di Sonno",
+                color: "#e6e600",
+                axis: "asleep"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [100, 150, 200],
+                name: "Minuti Svegli",
+                color: "#ff00ff",
+                axis: "awake"
+            }],
+            valueAxes: [{
+                name: "heart",
+                color: "#cc0000",
+                min: 40,
+                max: 250
+            }, {
+                name: "steps",
+                color: "#00ff00",
+                min: 0,
+                max: 6000
+            }, {
+                name: "distance",
+                color: "#0000ff",
+                min: 0,
+                max: 50
+            }, {
+                name: "elevation",
+                color: "#808080",
+                min: 0,
+                max: 1000
+            }, {
+                name: "floors",
+                color: "#651a1a",
+                min: 0,
+                max: 25
+            }, {
+                name: "calories",
+                color: "#ffc14d",
+                min: 0,
+                max: 5000
+            }, {
+                name: "asleep",
+                color: "#e6e600",
+                min: 0,
+                max: 600
+            }, {
+                name: "awake",
+                color: "#ff00ff",
+                min: 0,
+                max: 1200
+            }],
+            categoryAxis: {
+                categories: ["2018-11-14", "2018-11-15", "2018-11-16"],
+                axisCrossingValues: [0, 3, 0, 0, 0, 3, 3, 3],
+                justified: true,
+                labels: { rotation: "auto" }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}",
+                template: "#= category #: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+</script>
+
+<script>
+    function createChart() {
+
+        $("#hue").kendoChart({
+            title: {
+                text: "Cromoterapia",
+                font: "30px sans-serif",
+                color: "black"
+            },
+            legend: {
+                position: "bottom"
+            },
+            series: [{
+                type: "column",
+                data: [1, 0, 6],
+                name: "Cromoterapie Soft",
+                color: "#00ff00",
+                axis: "cromosoft"
+            }, {
+                type: "column",
+                data: [10, 5, 7],
+                name: "Cromoterapie Hard",
+                color: "#0066ff",
+                axis: "cromohard"
+            }],
+            valueAxes: [{
+                name: "cromosoft",
+                color: "#00ff00",
+                min: 0,
+                max: 30
+            }, {
+                name: "cromohard",
+                color: "#0066ff",
+                min: 0,
+                max: 30
+            }],
+            categoryAxis: {
+                categories: ["2018-11-14", "2018-11-15", "2018-11-16"],
+                axisCrossingValues: [0, 3],
+                justified: true,
+                labels: { rotation: "auto" }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}",
+                template: "#= category #: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+</script>
+
+<script>
+    function createChart() {
+        $("#sensor").kendoChart({
+            title: {
+                text: "Sensore",
+                font: "30px sans-serif",
+                color: "black"
+            },
+            legend: {
+                position: "bottom"
+            },
+            series: [{
+                type: "line",
+                style: "smooth",
+                data: [25, 27, 19],
+                name: "Temperature [C°]",
+                color: "#ff1c1c",
+                axis: "temp"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [11, 33, 27],
+                name: "Umidità [%]",
+                color: "#ffae00",
+                axis: "hum"
+            }, {
+                type: "line",
+                style: "smooth",
+                data: [142, 435, 795],
+                name: "Luminosita [lux]",
+                color: "#73c100",
+                axis: "lum"
+            }],
+            valueAxes: [{
+                name: "temp",
+                color: "#ff1c1c",
+                min: 0,
+                max: 50
+            }, {
+                name: "hum",
+                color: "#ffae00",
+                min: 0,
+                max: 100
+            }, {
+                name: "lum",
+                color: "#73c100",
+                min: 0,
+                max: 1000
+            }],
+            categoryAxis: {
+                categories: ["2018-11-14", "2018-11-15", "2018-11-16"],
+                axisCrossingValues: [0, 0, 3],
+                justified: true,
+                labels: { rotation: "auto" }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}",
+                template: "#= category #: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+</script>
