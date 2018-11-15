@@ -9,10 +9,10 @@ namespace KCASM_AppWeb.Models.ForView
     {
         public String[] Date { get; set; }
 
-        public Double[] Temperature { get; set; }
+        public Double?[] Temperature { get; set; }
 
-        public Double[] Luminescence { get; set; }
+        public Double?[] Luminescence { get; set; }
 
-        public Double[] Humidity { get; set; }
+        public Double?[] Humidity { get; set; }
     }
 }

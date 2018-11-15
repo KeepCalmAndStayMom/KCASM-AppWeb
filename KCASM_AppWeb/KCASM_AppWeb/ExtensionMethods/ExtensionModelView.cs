@@ -1,7 +1,9 @@
 ﻿
+using KCASM_AppWeb.Configuration;
 using KCASM_AppWeb.Models.ForView;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,8 +60,15 @@ namespace KCASM_AppWeb.ExtensionMethods
             return tasks;
         }
 
-        public static Weights GetWeights(this Models.ForApi.WeightsList weights, Models.ForApi.PatientInitial patientInitial)
+        public static Weights GetWeights(this Models.ForApi.WeightsList weightsList, Models.ForApi.PatientInitial patientInitial)
         {
+            Weights weights = new Weights();
+            int i = 0;
+            foreach (Models.ForApi.Weights w in weightsList.Weights)
+            {
+                weights.Date[i] = w.Date;
+                weights.Weight[i] = w.Weight;
+            }
 
             return null;
         }
@@ -92,14 +101,181 @@ namespace KCASM_AppWeb.ExtensionMethods
             return null;
         }
 
-        public static Measures GetMeasuresTotal(this Int16 id, String date, String endDate)
+        public static Measures GetMeasuresTotal(this string id, DateTime date, DateTime endDate)
         {
+            Measures measures = new Measures();
+            measures.fitbitArray = new FitbitArray();
+            measures.hueArray = new HueArray();
+            measures.sensorArray = new SensorArray();
+
+            Models.ForApi.MeasuresTotal measuresTotal;
+            int range;
+
+            if (endDate != null)
+            {
+                if (date.CompareTo(endDate) > 0)
+                {
+                    DateTime tmp = date;
+                    date = endDate;
+                    endDate = tmp;
+                }
+
+                range = endDate.Subtract(date).Days + 1;
+                if (range > Constant.DATE_LIMIT_TOTAL)
+                    range = Constant.DATE_LIMIT_TOTAL;
+
+            }
+            else
+                range = Constant.DATE_LIMIT_TOTAL;
+
+            for (int i = 0; i < range; i++)
+            {
+                var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+
+                measuresTotal = id.GetMeasuresTotalApi(null, dateFormatted, null);
+
+                if (measuresTotal != null)
+                {
+                    if (measuresTotal.fitbit_total != null)
+                    {
+                        measures.fitbitArray.Date[i] = dateFormatted;
+                        measures.fitbitArray.Avg_heartbeats[i] = measuresTotal.fitbit_total.Avg_heartbeats;
+                        measures.fitbitArray.Calories[i] = measuresTotal.fitbit_total.Calories;
+                        measures.fitbitArray.Elevation[i] = measuresTotal.fitbit_total.Elevation;
+                        measures.fitbitArray.Floors[i] = measuresTotal.fitbit_total.Floors;
+                        measures.fitbitArray.Steps[i] = measuresTotal.fitbit_total.Steps;
+                        measures.fitbitArray.Distance[i] = measuresTotal.fitbit_total.Distance;
+                        measures.fitbitArray.Minutes_asleep[i] = measuresTotal.fitbit_total.Minutes_asleep;
+                        measures.fitbitArray.Minutes_awake[i] = measuresTotal.fitbit_total.Minutes_awake;
+                    }
+                    else
+                    {
+                        measures.fitbitArray.Date[i] = dateFormatted;
+                        measures.fitbitArray.Avg_heartbeats[i] = null;
+                        measures.fitbitArray.Calories[i] = null;
+                        measures.fitbitArray.Elevation[i] = null;
+                        measures.fitbitArray.Floors[i] = null;
+                        measures.fitbitArray.Steps[i] = null;
+                        measures.fitbitArray.Distance[i] = null;
+                        measures.fitbitArray.Minutes_asleep[i] = null;
+                        measures.fitbitArray.Minutes_awake[i] = null;
+                    }
+
+                    if (measuresTotal.hue_total != null)
+                    {
+                        measures.hueArray.Date[i] = dateFormatted;
+                        measures.hueArray.Hard[i] = measuresTotal.hue_total.Hard;
+                        measures.hueArray.Soft[i] = measuresTotal.hue_total.Soft;
+                    }
+                    else
+                    {
+                        measures.hueArray.Date[i] = dateFormatted;
+                        measures.hueArray.Hard[i] = 0;
+                        measures.hueArray.Soft[i] = 0;
+                    }
+
+                    if (measuresTotal.sensor_total != null)
+                    {
+                        measures.sensorArray.Date[i] = dateFormatted;
+                        measures.sensorArray.Temperature[i] = measuresTotal.sensor_total.Temperature;
+                        measures.sensorArray.Luminescence[i] = measuresTotal.sensor_total.Luminescence;
+                        measures.sensorArray.Humidity[i] = measuresTotal.sensor_total.Humidity;
+                    }
+                    else
+                    {
+                        measures.sensorArray.Date[i] = dateFormatted;
+                        measures.sensorArray.Temperature[i] = null;
+                        measures.sensorArray.Luminescence[i] = null;
+                        measures.sensorArray.Humidity[i] = null;
+                    }
+                }
+
+                date = date.AddDays(1);
+            }
+
 
             return null;
         }
 
-        public static Measures GetMeasuresSamples(this Int16 id, String date, String endDate)
+        public static Measures GetMeasuresSamples(this string id, DateTime date, DateTime endDate)
         {
+            Measures measures = new Measures();
+            measures.fitbitArray = new FitbitArray();
+            measures.hueArray = new HueArray();
+            measures.sensorArray = new SensorArray();
+
+            if (date != null && endDate != null)
+            {
+                if (date.CompareTo(endDate) > 0)
+                {
+                    DateTime tmp = date;
+                    date = endDate;
+                    endDate = tmp;
+                }
+            }
+
+            var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+            var endDateFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+            Models.ForApi.MeasuresListSamples measuresSamples = id.GetMeasuresSamplesApi(null, dateFormatted, endDateFormatted);
+
+            int i = 0;
+   
+            foreach (Models.ForApi.Fitbit fitbit in measuresSamples.fitbit_samples)
+            {
+                if (i <= Constant.LIMIT_SAMPLES)
+                {
+                    measures.fitbitArray.Date[i] = fitbit.Timedate;
+                    measures.fitbitArray.Avg_heartbeats[i] = fitbit.Avg_heartbeats;
+                    measures.fitbitArray.Calories[i] = fitbit.Calories;
+                    measures.fitbitArray.Elevation[i] = fitbit.Elevation;
+                    measures.fitbitArray.Floors[i] = fitbit.Floors;
+                    measures.fitbitArray.Steps[i] = fitbit.Steps;
+                    measures.fitbitArray.Distance[i] = fitbit.Distance;
+                    measures.fitbitArray.Minutes_asleep[i] = fitbit.Minutes_asleep;
+                    measures.fitbitArray.Minutes_awake[i] = fitbit.Minutes_awake;
+                }
+                else
+                    break;
+                i++;
+            }
+
+            i = 0;
+            foreach (Models.ForApi.Hue hue in measuresSamples.hue_samples)
+            {
+                if (i <= Constant.LIMIT_SAMPLES)
+                {
+                    measures.hueArray.Date[i] = hue.Timedate;
+                    if (hue.Chromotherapy.Equals("Hard"))
+                    {
+                        measures.hueArray.Hard[i] = 1;
+                        measures.hueArray.Soft[i] = 0;
+                    }
+                    else
+                    {
+                        measures.hueArray.Hard[i] = 0;
+                        measures.hueArray.Soft[i] = 1;
+                    }
+                }
+                else
+                    break;
+                i++;
+            }
+
+            i = 0;
+            foreach (Models.ForApi.Sensor sensor in measuresSamples.sensor_samples)
+            {
+                if (i <= Constant.LIMIT_SAMPLES)
+                {
+                    measures.sensorArray.Date[i] = sensor.Timedate;
+                    measures.sensorArray.Temperature[i] = sensor.Temperature;
+                    measures.sensorArray.Luminescence[i] = sensor.Luminescence;
+                    measures.sensorArray.Humidity[i] = sensor.Humidity;
+
+                }
+                else
+                    break;
+                i++;
+            }
 
             return null;
         }

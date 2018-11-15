@@ -11,18 +11,18 @@ namespace KCASM_AppWeb.Models.ForView
 
         public Int16?[] Avg_heartbeats { get; set; }
 
-        public Int16[] Calories { get; set; } 
+        public Int16?[] Calories { get; set; } 
 
-        public Double[] Elevation { get; set; }
+        public Double?[] Elevation { get; set; }
 
-        public Int16[] Floors { get; set; }
+        public Int16?[] Floors { get; set; }
 
-        public Int16[] Steps { get; set; }
+        public Int16?[] Steps { get; set; }
 
-        public Double[] Distance { get; set; }
+        public Double?[] Distance { get; set; }
 
-        public Int16[] Minutes_asleep { get; set; }
+        public Int16?[] Minutes_asleep { get; set; }
 
-        public Int16[] Minutes_awake { get; set; }
+        public Int16?[] Minutes_awake { get; set; }
     }
 }
