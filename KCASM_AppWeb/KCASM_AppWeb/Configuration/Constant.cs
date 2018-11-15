@@ -10,5 +10,6 @@
 
         public const int DATE_LIMIT_TOTAL = 20;
         public const int LIMIT_SAMPLES = 20;
+        public const int WEIGHT_LIMIT = 20;
     }
 }
