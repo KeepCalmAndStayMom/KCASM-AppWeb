@@ -60,15 +60,26 @@ namespace KCASM_AppWeb.ExtensionMethods
             return tasks;
         }
 
-        public static Weights GetWeights(this Models.ForApi.WeightsList weightsList, Models.ForApi.PatientInitial patientInitial)
+        public static Weights GetWeights(this Models.ForApi.WeightsList weightsList, Models.ForApi.PatientInitial patientInitial, DateTime date, DateTime endDate)
         {
             Weights weights = new Weights();
             int i = 0;
+
             foreach (Models.ForApi.Weights w in weightsList.Weights)
             {
-                weights.Date[i] = w.Date;
-                weights.Weight[i] = w.Weight;
+                if (i < Constant.WEIGHT_LIMIT)
+                {
+                    if (date.CompareTo(DateTime.Parse(w.Date)) >= 0 && endDate.CompareTo(DateTime.Parse(w.Date)) <= 0)
+                    {
+                        weights.Date[i] = w.Date;
+                        weights.Weight[i] = w.Weight;
+                    }
+                }
+                i++;
             }
+
+            weights.UpperThreshold = patientInitial.Bmi.getUpperThreshold(patientInitial.Twin, date, endDate);
+            weights.LowerThreshold = patientInitial.Bmi.getLowerThreshold(patientInitial.Twin, date, endDate);
 
             return weights;
         }
@@ -98,6 +109,7 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             foreach (Models.ForApi.Medic medic in medics)
                 patient.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
+
             return patient;
         }
 
@@ -132,7 +144,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             {
                 var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
 
-                measuresTotal = id.GetMeasuresTotalApi(null, dateFormatted, null);
+                measuresTotal = id.GetMeasuresTotalApi(null, dateFormatted);
 
                 if (measuresTotal != null)
                 {
@@ -203,20 +215,27 @@ namespace KCASM_AppWeb.ExtensionMethods
             measures.fitbitArray = new FitbitArray();
             measures.hueArray = new HueArray();
             measures.sensorArray = new SensorArray();
+            Models.ForApi.MeasuresListSamples measuresSamples;
 
-            if (date != null && endDate != null)
+            if (date != null)
             {
-                if (date.CompareTo(endDate) > 0)
+                var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+                if (endDate != null)
                 {
-                    DateTime tmp = date;
-                    date = endDate;
-                    endDate = tmp;
+                    var endDateFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+                    if (date.CompareTo(endDate) > 0)
+                    {
+                        DateTime tmp = date;
+                        date = endDate;
+                        endDate = tmp;
+                    }
+                    measuresSamples = id.GetMeasuresSamplesApi(null, dateFormatted, endDateFormatted);
                 }
+                else
+                    measuresSamples = id.GetMeasuresSamplesApi(null, dateFormatted);
             }
-
-            var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
-            var endDateFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
-            Models.ForApi.MeasuresListSamples measuresSamples = id.GetMeasuresSamplesApi(null, dateFormatted, endDateFormatted);
+            else
+                measuresSamples = id.GetMeasuresSamplesApi(null);
 
             int i = 0;
    
