@@ -68,6 +68,16 @@ namespace KCASM_AppWeb.ExtensionMethods
             return w;
         }
 
+        public static Threshold GetThreshold(this string id)
+        {
+            Threshold t = null;
+            string url = Constant.API_ADDRESS + "patients/" + id + "threshold";
+            var content = executeGet(url);
+            if (content != null)
+                t = JsonConvert.DeserializeObject<Threshold>(content);
+            return t;
+        }
+
         public static PatientInitial GetPatientInitial(this string id)
         {
             PatientInitial p = null;

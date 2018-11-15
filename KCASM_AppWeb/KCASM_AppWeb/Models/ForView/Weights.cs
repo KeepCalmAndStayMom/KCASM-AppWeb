@@ -9,7 +9,7 @@ namespace KCASM_AppWeb.Models.ForView
     {
         public String[] Date { get; set; }
 
-        public Double[] Weight { get; set; }
+        public Double?[] Weight { get; set; }
 
         public Double[] UpperThreshold { get; set; }
 

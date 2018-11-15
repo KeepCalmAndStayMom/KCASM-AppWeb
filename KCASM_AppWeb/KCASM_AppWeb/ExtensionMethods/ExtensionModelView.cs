@@ -60,26 +60,44 @@ namespace KCASM_AppWeb.ExtensionMethods
             return tasks;
         }
 
-        public static Weights GetWeights(this Models.ForApi.WeightsList weightsList, Models.ForApi.PatientInitial patientInitial, DateTime date, DateTime endDate)
+        public static Weights GetWeights(this Models.ForApi.WeightsList weightsList, Models.ForApi.PatientInitial patientInitial, Models.ForApi.Threshold threshold)
         {
             Weights weights = new Weights();
-            int i = 0;
+            DateTime startDate = DateTime.Parse(patientInitial.Pregnancy_start_date);
+            weights.Date[0] = DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+            weights.Weight[0] = patientInitial.Weight;
+            startDate = startDate.AddDays(1);
 
-            foreach (Models.ForApi.Weights w in weightsList.Weights)
+            double avg;
+            double count;
+            for (int i = 1; i <= Constant.WEIGHT_LIMIT; i++)
             {
-                if (i < Constant.WEIGHT_LIMIT)
+                weights.Date[i] =  DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+
+                avg = 0d;
+                count = 0d;
+                for (int j = 0; j < 7; j++)
                 {
-                    if (date.CompareTo(DateTime.Parse(w.Date)) >= 0 && endDate.CompareTo(DateTime.Parse(w.Date)) <= 0)
+                    foreach (Models.ForApi.Weights w in weightsList.Weights)
                     {
-                        weights.Date[i] = w.Date;
-                        weights.Weight[i] = w.Weight;
+                        if (DateTime.Parse(w.Date).Equals(startDate))
+                        {
+                            avg += w.Weight;
+                            count += 1;
+                            break;
+                        }
                     }
+                    startDate = startDate.AddDays(1);
                 }
-                i++;
+
+                if (avg / count != 0)
+                    weights.Weight[i] = avg / count;
+                else
+                    weights.Weight[i] = null;
             }
 
-            weights.UpperThreshold = patientInitial.Bmi.getUpperThreshold(patientInitial.Twin, date, endDate);
-            weights.LowerThreshold = patientInitial.Bmi.getLowerThreshold(patientInitial.Twin, date, endDate);
+            weights.LowerThreshold = threshold.Min;
+            weights.UpperThreshold = threshold.Max;
 
             return weights;
         }
