@@ -6,13 +6,9 @@
 
 <h2>Patient</h2>
 
-<center>
-    <div id="fitbit" style="margin-top: 1.5em; margin-bottom: 1.5em;"></div>
-    <div id="hue" style="margin-top: 1.5em; margin-bottom:1.5em;"></div>
-    <div id="sensor" style="margin-top: 1.5em; margin-bottom: 1.5em;"></div>
-</center>
+<!-- possibile form di selezione medico -->
 
-    <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
+<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
     <div id="medic"></div>
         <script>
                 $(document).ready(function () {
@@ -85,7 +81,7 @@
                             <div>
                                 <label>Sistema di notifiche</label>
                                 Email <input type="checkbox" name="notify_email" value="@Model.Email_notify" />
-                                SMS <input type="checkbox" name="notify_SMS" value="@Model.Email_notify" />
+                                SMS <input type="checkbox" name="notify_SMS" value="@Model.Sms_notify" />
                             </div>
                             <div>
                                 <label>Parto gemellare</label>
@@ -106,7 +102,7 @@
     </div>
 
     <div id="not_editable_patient_data">
-        <p>Data d'inizio gravidanza: @Model.Pregnancy_start_date</p>
-        <p>Peso iniziale: @Model.Weight</p>
-        <p>Indice di massa corporea (BMI): @Model.Bmi</p>
+        <p>Data d'inizio gravidanza: @Model.Pregnancy_start_date</p><br />
+        <p>Peso iniziale: @Model.Weight</p><br />
+        <p>Indice di massa corporea (BMI): @Model.Bmi</p><br />
     </div>

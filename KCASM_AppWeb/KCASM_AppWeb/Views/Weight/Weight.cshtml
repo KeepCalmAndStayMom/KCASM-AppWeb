@@ -1,7 +1,95 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Weight";
 }
 
 <h2>Weight</h2>
 
+@model KCASM_AppWeb.Models.ForView.Weights
+
+<fieldset style="margin-top: 2em; margin-bottom: 2em;">
+    <legend></legend>
+    <form id="form_details" method="post">
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Data inizio</label>
+                <input class="date-mode form-control" type="date" name="start_date" placeholder="data d'inizio" min="2018-01-01" required />
+            </div>
+            <div class="col-md-3">
+                <label>Data fine</label>
+                <input class="date-mode form-control" type="date" name="end_date" placeholder="data di fine" min="2018-01-02" required />
+            </div>
+            <div class="col-md-2">
+                <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Controlla" />
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+<div id="weight"></div> <br />
+<script>
+            function createChart() {
+                $("#weight").kendoChart({
+                    title: {
+                        text: "Pesi",
+                        font: "30px sans-serif",
+                        color: "black"
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    series: [{
+                        type: "line",
+                        style: "smooth"
+                        data: @Model.Weight,
+                        name: "Peso",
+                        color: "#00ff00",
+                        axis: "weight"
+                    }, {
+                        type: "line",
+                        style: "smooth",
+                        data: @Model.UpperThreshold,
+                        name: "Soglia superiore",
+                        color: "#0066ff",
+                        axis: "upper"
+                        }, {
+                            type: "line",
+                            style: "smooth",
+                            data: @Model.LowerThreshold,
+                            name: "Soglia inferiore",
+                            color: "#73c100",
+                            axis: "lower"
+                        }],
+                    valueAxes: [{
+                        name: "weight",
+                        color: "#00ff00",
+                        min: 0,
+                        max: 250
+                    }, {
+                        name: "upper",
+                        color: "#0066ff",
+                        min: 0,
+                        max: 250
+                        }, {
+                            name: "lower",
+                            color: "#73c100",
+                            min: 0,
+                            max: 250
+                        }
+                    ],
+                    categoryAxis: {
+                        categories: @Model.Date,
+                        axisCrossingValues: [0, 22, 22],
+                        justified: true,
+                        labels: { rotation: "auto" }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0}",
+                        template: "#= category #: #= value #"
+                    }
+                });
+            }
+
+            $(document).ready(createChart);
+            $(document).bind("kendo:skinChange", createChart);
+</script>

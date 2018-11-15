@@ -1,7 +1,90 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Medic";
 }
 
+@model KCASM_AppWeb.Models.ForView.Medic
+
 <h2>Medic</h2>
 
+<!-- possibile form di selezione paziente -->
+
+<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutte le pazienti</p>
+<div id="medic"></div>
+<script>
+                $(document).ready(function () {
+                    $("#medic").kendoGrid({
+                        dataSource: {
+                            data: @Model.Patients,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        name: { type: "string" },
+                                        surname: { type: "string" },
+                                    }
+                                }
+                            },
+                            pageSize: 10
+                        },
+                        height: "30em",
+                        groupable: false,
+                        sortable: true,
+                        pageable: {
+                            refresh: false,
+                            pageSizes: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            field: "name",
+                            title: "Nome"
+                        }, {
+                            field: "surname",
+                            title: "Cognome"
+                        }]
+                    });
+                });
+</script>
+
+<div>
+    <fieldset style="margin-top: 2em">
+        <legend>Profilo</legend>
+        <form id="form_settings" method="post">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nome</label>
+                        <input class="form-control" type="text" name="username" value="@Model.Name" placeholder="@Model.Name" required />
+                        <label>Cognome</label>
+                        <input class="form-control" type="text" name="name" value="@Model.Surname" placeholder="@Model.Surname" required />
+                        <label>Numero di telefono</label>
+                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
+                        <label>Indirizzo email</label>
+                        <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
+                        <label>Indirizzo dello studio</label>
+                        <input class="form-control" type="text" name="home_address" value="@Model.Address" placeholder="@Model.Address" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Età</label>
+                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
+                    </div>
+                    <div>
+                        <label>Sistema di notifiche</label>
+                        Email <input type="checkbox" name="notify_email" value="@Model.Email_notify" />
+                        SMS <input type="checkbox" name="notify_SMS" value="@Model.Sms_notify" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-1">
+                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p class="error-message">@ViewData["Message"]</p>
+    </fieldset>
+</div>
+
+<p>Specializzazione: @Model.Specialization</p>

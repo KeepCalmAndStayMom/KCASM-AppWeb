@@ -70,7 +70,7 @@ namespace KCASM_AppWeb.ExtensionMethods
                 weights.Weight[i] = w.Weight;
             }
 
-            return null;
+            return weights;
         }
 
         public static Patient GetPatient(this Models.ForApi.Patient apiPatient, Models.ForApi.PatientInitial patientInitial, Models.ForApi.Login login, List<Models.ForApi.Medic> medics)
@@ -98,7 +98,7 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             foreach (Models.ForApi.Medic medic in medics)
                 patient.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
-            return null;
+            return patient;
         }
 
         public static Measures GetMeasuresTotal(this string id, DateTime date, DateTime endDate)
@@ -194,7 +194,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             }
 
 
-            return null;
+            return measures;
         }
 
         public static Measures GetMeasuresSamples(this string id, DateTime date, DateTime endDate)
@@ -277,7 +277,7 @@ namespace KCASM_AppWeb.ExtensionMethods
                 i++;
             }
 
-            return null;
+            return measures;
         }
     }
 }

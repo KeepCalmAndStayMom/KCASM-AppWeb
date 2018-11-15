@@ -1,7 +1,115 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Message";
 }
 
-<h2>Message</h2>
+@model KCASM_AppWeb.Models.ForView.Message
 
+<h2>Messaggi</h2>
+
+<!-- possibile form di selezione messaggio per segnalare lettura -->
+
+<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi ricevuti</p>
+<div id="received_messages"></div>
+<script>
+                $(document).ready(function () {
+                    $("#medic").kendoGrid({
+                        dataSource: {
+                            data: @Model.Message_received,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        Medic_id: { type: "int" }, //da capire se si può usare solo quello appropriato in base alla sessione
+                                        Patient_id: { type: "int" },
+                                        Timedate: { type: "string" },
+                                        Subject: { type: "string" },
+                                        Message: { type: "string" },
+                                        Read: { type: "boolean" }
+                                    }
+                                }
+                            },
+                            pageSize: 10
+                        },
+                        height: "30em",
+                        groupable: false,
+                        sortable: true,
+                        pageable: {
+                            refresh: false,
+                            pageSizes: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            field: "Medic_id",
+                            title: "ID del medico"
+                        }, {
+                            field: "Patient_id",
+                            title: "ID della paziente"
+                            }, {
+                                field: "Timedate",
+                                title: "Ora"
+                            }, {
+                                field: "Subject",
+                                title: "Oggetto"
+                            }, {
+                                field: "Message",
+                                title: "Contenuto messaggio"
+                            }, {
+                                field: "Read",
+                                title: "Letto"
+                            }]
+                    });
+                });
+</script>
+
+<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi inviati</p>
+<div id="sent_messages"></div>
+<script>
+                $(document).ready(function () {
+                    $("#medic").kendoGrid({
+                        dataSource: {
+                            data: @Model.Message_sent,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        Medic_id: { type: "int" }, //come sopra
+                                        Patient_id: { type: "int" },
+                                        Timedate: { type: "string" },
+                                        Subject: { type: "string" },
+                                        Message: { type: "string" },
+                                        Read: { type: "boolean" }
+                                    }
+                                }
+                            },
+                            pageSize: 10
+                        },
+                        height: "30em",
+                        groupable: false,
+                        sortable: true,
+                        pageable: {
+                            refresh: false,
+                            pageSizes: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            field: "Medic_id",
+                            title: "ID del medico"
+                        }, {
+                            field: "Patient_id",
+                            title: "ID della paziente"
+                            }, {
+                                field: "Timedate",
+                                title: "Ora"
+                            }, {
+                                field: "Subject",
+                                title: "Oggetto"
+                            }, {
+                                field: "Message",
+                                title: "Contenuto messaggio"
+                            }, {
+                                field: "Read",
+                                title: "Letto"
+                            }]
+                    });
+                });
+</script>
+
+<!-- possibile form di invio messaggio -->
