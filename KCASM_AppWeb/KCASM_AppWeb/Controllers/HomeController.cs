@@ -32,7 +32,6 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-
                 client.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(email+":"+password)));
                 var content = client.UploadString($"{Constant.API_ADDRESS}login_data", "POST");
                 Dictionary<string, String> login = JsonConvert.DeserializeObject<Dictionary<string, String>>(content);
@@ -68,6 +67,9 @@ namespace KCASM_AppWeb.Controllers
         {
             try
             {
+
+                /* DA CORREGGERE INDIRIZZO API APPENA PRONTA*/
+
                 var client = new WebClient();
                 /*controllo se ho inserito una email corretta presente nel database*/
                 client.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(email)));

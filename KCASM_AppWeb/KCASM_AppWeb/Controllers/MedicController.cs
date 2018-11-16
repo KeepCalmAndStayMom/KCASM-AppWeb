@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using KCASM_AppWeb.Configuration;
 using KCASM_AppWeb.ExtensionMethods;
 using KCASM_AppWeb.Models.ForView;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +31,20 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult Update(string name, string surname, int age, string phone, string home_address)
         {
+            var id = HttpContext.Session.GetString("Id");
+            string body = $"{{ \"name\": \"{name}\", \"surname\": \"{surname}\", \"age\": {age}, \"phone\": \"{phone}\", \"home_address\": \"{home_address}\" }}";
+
+            try
+            {
+                new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}", "PUT", body);
+                ViewData["Message"] = "Successo";
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+            }
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Medic","Medic");
         }
@@ -36,6 +52,20 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult UpdateLogin(string email, bool email_notify, bool sms_notify)
         {
+            var id = HttpContext.Session.GetString("Id");
+            string body = $"{{ \"email\": \"{email}\", \"email_notify\": {email_notify}, \"sms_notify\": {sms_notify} }}";
+
+            try
+            {
+                new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/login_data", "PUT", body);
+                ViewData["Message"] = "Successo";
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+            }
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Medic", "Medic");
         }
