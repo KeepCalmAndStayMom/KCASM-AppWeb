@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using KCASM_AppWeb.Configuration;
 using KCASM_AppWeb.ExtensionMethods;
 using KCASM_AppWeb.Models.ForView;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +33,21 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult NewWeight(double weight)
         {
+            var id = HttpContext.Session.GetString("Id");
+            var date = DateTime.Today;
+            string body = $"{{ \"weight\": \"{weight}\", \"date\": \"{date}\" }}";
+
+            try
+            {
+                new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/weights", "POST", body);
+                ViewData["Message"] = "Successo";
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+            }
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Weight","Weight");
         }

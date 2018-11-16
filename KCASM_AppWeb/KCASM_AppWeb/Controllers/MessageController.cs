@@ -65,9 +65,9 @@ namespace KCASM_AppWeb.Controllers
             try
             {
                 if (HttpContext.Session.GetString("Type").Equals("Medic"))
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/messages", "PUT", body);
+                    new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/messages", "POST", body);
                 else
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/messages", "PUT", body);
+                    new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/messages", "POST", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)
