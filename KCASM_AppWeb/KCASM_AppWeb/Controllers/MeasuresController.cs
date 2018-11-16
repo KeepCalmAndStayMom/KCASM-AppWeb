@@ -33,10 +33,25 @@ namespace KCASM_AppWeb.Controllers
 
         /*possibile form / filtro per le misure immaginando tutte le misure nella stessa pagina*/
         [HttpPost]
-        public IActionResult Details(string type, string startDate, string endDate)
+        public IActionResult Measures(string type, string startDate, string endDate)
         {
+            string id;
+            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
+                id = HttpContext.Session.GetString("PatientId");
+            else
+                id = HttpContext.Session.GetString("Id");
+
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+            Measures measures = null;
+
+            if (type.Equals("Total"))
+                measures = id.GetMeasuresTotal(start, end);
+            else
+                measures = id.GetMeasuresSamples(start, end); 
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return RedirectToAction("Measures","Measures");
+            return View(measures);
         }
     }
 }
