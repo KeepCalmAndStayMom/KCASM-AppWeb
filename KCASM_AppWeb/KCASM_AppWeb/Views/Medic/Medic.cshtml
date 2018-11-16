@@ -52,9 +52,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label>Nome</label>
-                        <input class="form-control" type="text" name="username" value="@Model.Name" placeholder="@Model.Name" required />
+                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
                         <label>Cognome</label>
-                        <input class="form-control" type="text" name="name" value="@Model.Surname" placeholder="@Model.Surname" required />
+                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
                         <label>Numero di telefono</label>
                         <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
                         <label>Indirizzo email</label>
@@ -70,8 +70,8 @@
                     </div>
                     <div>
                         <label>Sistema di notifiche</label>
-                        Email <input type="checkbox" name="notify_email" value="@Model.Email_notify" />
-                        SMS <input type="checkbox" name="notify_SMS" value="@Model.Sms_notify" />
+                        Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
+                        SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
                     </div>
                 </div>
             </div>
