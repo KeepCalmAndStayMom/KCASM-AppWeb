@@ -20,13 +20,14 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             list = new LinkedList<string>();
             list.AddFirst("Medic");
-            list.AddFirst("MedicPatient");
             list.AddFirst("Admin");
+            list.AddFirst("MedicPatient");
             sessionKey.Add("Medic", list);
 
             list = new LinkedList<string>();
             list.AddFirst("Patient");
             list.AddFirst("Medic");
+            list.AddFirst("MedicPatient");
             list.AddFirst("Admin");
             sessionKey.Add("Message", list);
 
@@ -38,7 +39,6 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             list = new LinkedList<string>();
             list.AddFirst("Patient");
-            list.AddFirst("Medic");
             list.AddFirst("MedicPatient");
             list.AddFirst("Admin");
             sessionKey.Add("Tasks", list);
@@ -52,7 +52,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             return sessionKey;
         }
 
-        public static bool checkSession(this string controller, string type)
+        public static bool CheckSession(this string controller, string type)
         {
             if (type != null)
             {

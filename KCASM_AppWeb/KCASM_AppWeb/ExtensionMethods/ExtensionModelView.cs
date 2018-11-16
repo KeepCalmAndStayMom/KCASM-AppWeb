@@ -90,7 +90,7 @@ namespace KCASM_AppWeb.ExtensionMethods
                     startDate = startDate.AddDays(1);
                 }
 
-                if (avg / count != 0)
+                if (count != 0)
                     weights.Weight[i] = avg / count;
                 else
                     weights.Weight[i] = null;

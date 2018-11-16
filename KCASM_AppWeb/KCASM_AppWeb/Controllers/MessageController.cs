@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KCASM_AppWeb.ExtensionMethods;
+using KCASM_AppWeb.Models.ForView;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,24 +13,30 @@ namespace KCASM_AppWeb.Controllers
     {
         public IActionResult Message()
         {
-            if (!"Message".checkSession(HttpContext.Session.GetString("Type")))
+            if (!"Message".CheckSession(HttpContext.Session.GetString("Type")))
                 return RedirectToAction("Index", "Home");
 
+            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
+                HttpContext.Session.SetString("Type", "Medic");
+
+            string id = HttpContext.Session.GetString("Id");
+            Message message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null));
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return View(message);
         }
 
-        public IActionResult OpenMessage()
+        public IActionResult ReadMessage(int id)
         {
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return RedirectToAction("Message", "Message");
         }
 
         [HttpPost]
-        public IActionResult NewMessage()
+        public IActionResult NewMessage(int id_receiver, string subject, string message)
         {
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return RedirectToAction("Message", "Message");
         }
     }
 }

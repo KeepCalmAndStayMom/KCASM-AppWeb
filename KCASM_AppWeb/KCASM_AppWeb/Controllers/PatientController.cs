@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KCASM_AppWeb.ExtensionMethods;
-using KCASM_AppWeb.Models.ForApi;
+using KCASM_AppWeb.Models.ForView;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,58 +13,48 @@ namespace KCASM_AppWeb.Controllers
     {
         public IActionResult Patient()
         {
-            if (!"Patient".checkSession(HttpContext.Session.GetString("Type")))
+            if (!"Patient".CheckSession(HttpContext.Session.GetString("Type")))
                 return RedirectToAction("Index", "Home");
 
-            /*test di tutti i modelli in questa pagina*/
-            //Patient patient = HttpContext.Session.GetString("Id").getPatient();
+            string id;
+            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
+                id = HttpContext.Session.GetString("PatientId");
+            else
+                id = HttpContext.Session.GetString("Id");
 
-            //TaskList taskListPatientGeneral = HttpContext.Session.GetString("Id").getTasks(true, "general", null);
-
-            //TaskList taskListPatientActivities = HttpContext.Session.GetString("Id").getTasks(true, "activities", null);
-
-            //TaskList taskListPatientDiet = HttpContext.Session.GetString("Id").getTasks(true, "diets", null);
-
-            //WeightsList weightsList = HttpContext.Session.GetString("Id").GetWeights(null);
-
-            //PatientInitial patientInitial = HttpContext.Session.GetString("Id").GetPatientInitial();
-
-            //List<Medic> medics = HttpContext.Session.GetString("Id").getPatientMedics();
-
-            //MessageList messageListReceived = HttpContext.Session.GetString("Id").GetMessage(true, "received", null);
-
-            //MessageList messageListSent = HttpContext.Session.GetString("Id").GetMessage(true, "sent", null);
-
-            //MeasuresList measuresListSamplesFitbit = HttpContext.Session.GetString("Id").GetMeasures("samples", "fitbit", null, null);
-
-            //MeasuresList measuresListSamplesHue = HttpContext.Session.GetString("Id").GetMeasures("samples", "hue", null, null);
-
-            //MeasuresList measuresListSamplesSensor = HttpContext.Session.GetString("Id").GetMeasures("samples", "sensor", null, null);
-
-            //MeasuresList measuresListTotalFitbit = HttpContext.Session.GetString("Id").GetMeasures("total", "fitbit", "2018-11-08", null);
-
-            //MeasuresList measuresListTotalHue = HttpContext.Session.GetString("Id").GetMeasures("total", "hue", "2018-11-08", null);
-
-            //MeasuresList measuresListTotalSensor = HttpContext.Session.GetString("Id").GetMeasures("total", "sensor", "2018-11-08", null);
-
-            //Login login = HttpContext.Session.GetString("Id").getLogin(true);
-
+            Patient patient = id.getPatient().GetPatient(id.GetPatientInitial(), id.getLogin(true), id.getPatientMedics());
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return View(patient);
         }
 
         [HttpPost]
-        public IActionResult Update()
+        public IActionResult Update(string name, string surname, int age, string phone, string home_address, string hospital_address)
         {
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return RedirectToAction("Patient", "Patient");
         }
 
-        public IActionResult RedirectMedic()
+        [HttpPost]
+        public IActionResult UpdateLogin(string email, bool email_notify, bool sms_notify)
         {
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View();
+            return RedirectToAction("Patient", "Patient");
         }
+
+        [HttpPost]
+        public IActionResult UpdatePassword(string old_password, string new_password, string new_password2)
+        {
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            return RedirectToAction("Patient", "Patient");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateInitial(bool twin)
+        {
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            return RedirectToAction("Patient", "Patient");
+        }
+
     }
 }

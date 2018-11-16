@@ -18,12 +18,18 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        Medic_id: { type: "int" }, //da capire se si può usare solo quello appropriato in base alla sessione
-                                        Patient_id: { type: "int" },
-                                        Timedate: { type: "string" },
-                                        Subject: { type: "string" },
-                                        Message: { type: "string" },
-                                        Read: { type: "boolean" }
+                                         if(@ViewData["Session"].Equals("Patient"))
+                                         {
+                                            Medic_id: { type: "int" }, 
+                                         }
+                                         else 
+                                         {
+                                            Patient_id: { type: "int" },
+                                         }
+                                         Timedate: { type: "string" },
+                                         Subject: { type: "string" },
+                                         Message: { type: "string" },
+                                         Read: { type: "boolean" if
                                     }
                                 }
                             },
