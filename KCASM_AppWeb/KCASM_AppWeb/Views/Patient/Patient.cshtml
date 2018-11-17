@@ -6,11 +6,116 @@
 
 <h2>Patient</h2>
 
-<!-- possibile form di selezione medico -->
+<div id="dati_anagrafici">
+    <fieldset style="margin-top: 2em">
+        <legend>Dati anagrafici</legend>
+        <form id="form_anagrafica" method="post" action="/Patient/Update">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nome</label>
+                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
+                        <label>Cognome</label>
+                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
+                        <label>Età</label>
+                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" min="18" max="60" required />
+                        <label>Numero di telefono</label>
+                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
+                        <label>Indirizzo di casa</label>
+                        <input class="form-control" type="text" name="home_address" value="@Model.Address_home" placeholder="@Model.Address_home" required />
+                        <label>Indirizzo dell'ospedale</label>
+                        <input class="form-control" type="text" name="hospital_address" value="@Model.Address_hospital" placeholder="@Model.Address_hospital" required />
+                    </div>
+                    <div>
+                        <label>Sistema di notifiche</label>
+                        Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
+                        SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
+                    </div>
+                    <div class="col-md-1">
+                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p class="error-message"></p>
+    </fieldset>
+</div>
+
+<div id="dati_iniziali">
+    <fieldset style="margin-top: 2em">
+        <legend>Dati iniziali</legend>
+        <form id="form_login" method="post" action="/Patient/UpdateInitial">
+            <div class="row">
+                <div>
+                    <label>Data d'inizio gravidanza</label>
+                    <p>@Model.Pregnancy_start_date</p>
+                </div>
+                <div>
+                    <label>Altezza</label>
+                    <p>@Model.Height</p>
+                </div>
+                <div>
+                    <label>Peso iniziale</label>
+                    <p>@Model.Weight</p>
+                </div>
+                <div>
+                    <label>Indice di massa corporea (BMI)</label>
+                    <p>@Model.Bmi</p>
+                </div>
+                @if (ViewData["Session"].Equals("MedicPatient"))
+                {
+                    <div>
+                        <label>Parto gemellare</label>
+                        <input class="form-control" type="checkbox" name="twin" value="@Model.Twin" />
+                    </div>
+                    <div class="col-md-1">
+                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <label>Parto gemellare</label>
+                        <p>@Model.Twin</p>
+                    </div>
+                }
+            </div>
+        </form>
+    </fieldset>
+</div>
+
+<div id="dati_login">
+    <fieldset style="margin-top: 2em">
+        <legend>Dati di accesso</legend>
+        <form id="form_login" method="post" action="/Patient/UpdatePassword">
+            <div class="row">
+                <div>
+                    <label>Indirizzo email</label>
+                    <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
+                </div>
+                <div>
+                    <label>Vecchia password</label>
+                    <input class="form-control" type="password" name="old_password" required />
+                </div>
+                <div>
+                    <label>Nuova password</label>
+                    <input class="form-control" type="password" name="new_password" required />
+                </div>
+                <div>
+                    <label>Conferma della nuova password</label>
+                    <input class="form-control" type="password" name="new_password2" required />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+            </div>
+        </form>
+    </fieldset>
+</div>
 
 <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
-    <div id="medic"></div>
-        <script>
+<div id="medic"></div>
+<script>
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
@@ -46,63 +151,4 @@
                         }]
                     });
                 });
-        </script>
-
-    <div id="editable_patient_data">
-            <fieldset style="margin-top: 2em">
-                <legend>Profilo</legend>
-                <form id="form_settings" method="post">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nome</label>
-                                <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
-                                <label>Cognome</label>
-                                <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
-                                <label>Numero di telefono</label>
-                                <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
-                                <label>Indirizzo email</label>
-                                <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
-                                <label>Indirizzo di casa</label>
-                                <input class="form-control" type="text" name="home_address" value="@Model.Address_home" placeholder="@Model.Address_home" required />
-                                <label>Indirizzo dell'ospedale</label>
-                                <input class="form-control" type="text" name="hospital_address" value="@Model.Address_hospital" placeholder="@Model.Address_hospital" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label>Età</label>
-                                <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
-                            </div>
-                            <div class="col-md-2">
-                                <label>Altezza</label>
-                                <input class="form-control" type="number" name="height" value="@Model.Height" placeholder="@Model.Height" required min="120" max="250" />
-                            </div>
-                            <div>
-                                <label>Sistema di notifiche</label>
-                                Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
-                                SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
-                            </div>
-                            <div>
-                                <label>Parto gemellare</label>
-                                <input class="view-mode" type="checkbox" name="twin" value="@Model.Twin"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <p class="error-message"></p>
-            </fieldset>
-    </div>
-
-    <div id="initial_patient_data">
-        <p>Data d'inizio gravidanza: @Model.Pregnancy_start_date</p><br />
-        <p>Peso iniziale: @Model.Weight</p><br />
-        <p>Indice di massa corporea (BMI): @Model.Bmi</p><br />
-    </div>
+</script>
