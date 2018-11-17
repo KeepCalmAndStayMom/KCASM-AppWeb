@@ -18,18 +18,12 @@
                             schema: {
                                 model: {
                                     fields: {
-                                         if(@ViewData["Session"].Equals("Patient"))
-                                         {
-                                            Medic_id: { type: "int" }, 
-                                         }
-                                         else 
-                                         {
-                                            Patient_id: { type: "int" },
-                                         }
-                                         Timedate: { type: "string" },
-                                         Subject: { type: "string" },
-                                         Message: { type: "string" },
-                                         Read: { type: "boolean" if
+                                        Medic_id: { type: "int" },
+                                        Patient_id: { type: "int" },
+                                        Timedate: { type: "string" },
+                                        Subject: { type: "string" },
+                                        Message: { type: "string" },
+                                        Read: { type: "boolean" }
                                     }
                                 }
                             },
@@ -76,7 +70,7 @@
                             schema: {
                                 model: {
                                     fields: {
-                                        Medic_id: { type: "int" }, //come sopra
+                                        Medic_id: { type: "int" },
                                         Patient_id: { type: "int" },
                                         Timedate: { type: "string" },
                                         Subject: { type: "string" },

@@ -12,11 +12,11 @@
         <div class="form-group">
             <div class="col-md-2">
                 <label>Totale</label><br />
-                <input class="view-mode" type="radio" name="mode" value="total" checked />
+                <input class="view-mode" type="radio" name="type" value="Total" checked />
             </div>
             <div class="col-md-2">
                 <label>Progressivo</label><br />
-                <input class="view-mode" type="radio" name="mode" value="progressive" />
+                <input class="view-mode" type="radio" name="type" value="Progressive" />
             </div>
             <div class="col-md-3">
                 <label>Data inizio</label>
@@ -32,8 +32,6 @@
         </div>
     </form>
 </fieldset>
-
-<!-- paragrafo con scritto "ecco i dati degli ultimi N giorni" che non appare più dopo l'uso del form -->
 
 <div id="fitbit"></div><br />
         <script>
@@ -288,7 +286,6 @@
             $(document).ready(createChart);
             $(document).bind("kendo:skinChange", createChart);
         </script>
-
 
 
 
