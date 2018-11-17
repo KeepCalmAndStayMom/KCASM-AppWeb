@@ -29,10 +29,10 @@ namespace KCASM_AppWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(string name, string surname, int age, string phone, string home_address, bool email_notify, bool sms_notify)
+        public IActionResult Update(string name, string surname, int age, string phone, string address, bool email_notify, bool sms_notify)
         {
             var id = HttpContext.Session.GetString("Id");
-            string body = $"{{ \"name\": \"{name}\", \"surname\": \"{surname}\", \"age\": {age}, \"phone\": \"{phone}\", \"home_address\": \"{home_address}\", \"email_notify\": {email_notify}, \"sms_notify\": {sms_notify} }}";
+            string body = $"{{ \"name\": \"{name}\", \"surname\": \"{surname}\", \"age\": {age}, \"phone\": \"{phone}\", \"address\": \"{address}\", \"email_notify\": {email_notify}, \"sms_notify\": {sms_notify} }}";
 
             try
             {

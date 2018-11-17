@@ -41,9 +41,9 @@ namespace KCASM_AppWeb.Controllers
             {
                 switch (type)
                 {
-                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/fitbit/{id}", "PUT", body); break;
-                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue/{id}", "PUT", body); break;
-                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor/{id}", "PUT", body); break;
+                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/activities/{id}", "PUT", body); break;
+                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/general/{id}", "PUT", body); break;
+                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/diets/{id}", "PUT", body); break;
                 }
                 ViewData["Message"] = "Successo";
             }
@@ -60,7 +60,8 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult UpdateAll(int id, string type, string date, string category, string description, bool starting_program)
         {
-            var patient_id = HttpContext.Session.GetString("Id");
+            var patient_id = HttpContext.Session.GetString("PatientId");
+            var medic_id = HttpContext.Session.GetString("Id");
             string body = $"{{ \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
 
 
@@ -68,9 +69,9 @@ namespace KCASM_AppWeb.Controllers
             {
                 switch (type)
                 {
-                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/fitbit/{id}", "PUT", body); break;
-                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue/{id}", "PUT", body); break;
-                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor/{id}", "PUT", body); break;
+                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "PUT", body); break;
+                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "PUT", body); break;
+                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "PUT", body); break;
                 }
                 ViewData["Message"] = "Successo";
             }
@@ -88,15 +89,16 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult NewTask(string type, string date, string category, string description, bool starting_program)
         {
             var id = HttpContext.Session.GetString("Id");
-            string body = $"{{ \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
+            var patient_id = HttpContext.Session.GetString("PatientId");
+            string body = $"{{ \"patient_id\": {patient_id}, \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
 
             try
             {
                 switch(type)
                 {
-                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/fitbit", "POST", body); break;
-                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue", "POST", body); break;
-                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor", "POST", body); break;
+                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/activities", "POST", body); break;
+                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/general", "POST", body); break;
+                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/diets", "POST", body); break;
                 }
                 
                 ViewData["Message"] = "Successo";
@@ -114,15 +116,15 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult Delete(int id, string type)
         {
-            var patient_id = HttpContext.Session.GetString("Id");
+            var medic_id = HttpContext.Session.GetString("Id");
 
             try
             {
                 switch (type)
                 {
-                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/fitbit/{id}", "DELETE", null); break;
-                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue/{id}", "DELETE", null); break;
-                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor/{id}", "DELETE", null); break;
+                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "DELETE", null); break;
+                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "DELETE", null); break;
+                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "DELETE", null); break;
                 }
                 ViewData["Message"] = "Successo";
             }
