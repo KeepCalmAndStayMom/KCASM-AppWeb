@@ -22,10 +22,10 @@ namespace KCASM_AppWeb.ExtensionMethods
             medic.Phone = apiMedic.Phone;
             medic.Address = apiMedic.Address;
             medic.Specialization = apiMedic.Specialization;
+            medic.Email_notify = apiMedic.Email_notify;
+            medic.Sms_notify = apiMedic.Sms_notify;
 
             medic.Email = apiLogin.Email;
-            medic.Email_notify = apiLogin.Email_notify;
-            medic.Sms_notify = apiLogin.Sms_notify;
 
             medic.Patients = new List<PatientsForMedic>();
 
