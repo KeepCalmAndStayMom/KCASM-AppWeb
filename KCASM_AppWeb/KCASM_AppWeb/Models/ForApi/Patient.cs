@@ -20,5 +20,9 @@ namespace KCASM_AppWeb.Models.ForApi
         public String Address_home { get; set; }
 
         public String Address_hospital { get; set; }
+
+        public Boolean Email_notify { get; set; }
+
+        public Boolean Sms_notify { get; set; }
     }
 }

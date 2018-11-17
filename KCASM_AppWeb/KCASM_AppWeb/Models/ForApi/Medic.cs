@@ -21,5 +21,8 @@ namespace KCASM_AppWeb.Models.ForApi
 
         public String Specialization { get; set; }
 
+        public Boolean Email_notify { get; set; }
+
+        public Boolean Sms_notify { get; set; }
     }
 }

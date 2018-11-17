@@ -15,9 +15,5 @@ namespace KCASM_AppWeb.Models.ForApi
 
         public Int16? Medic_id { get; set; }
 
-        public Boolean Email_notify { get; set; }
-
-        public Boolean Sms_notify { get; set; }
-
     }
 }

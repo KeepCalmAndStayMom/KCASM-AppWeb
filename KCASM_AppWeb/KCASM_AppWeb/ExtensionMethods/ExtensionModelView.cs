@@ -112,6 +112,8 @@ namespace KCASM_AppWeb.ExtensionMethods
             patient.Phone = apiPatient.Phone;
             patient.Address_home = apiPatient.Address_home;
             patient.Address_hospital = apiPatient.Address_hospital;
+            patient.Email_notify = apiPatient.Email_notify;
+            patient.Sms_notify = apiPatient.Sms_notify;
 
             patient.Pregnancy_start_date = patientInitial.Pregnancy_start_date;
             patient.Weight = patientInitial.Weight;
@@ -120,8 +122,6 @@ namespace KCASM_AppWeb.ExtensionMethods
             patient.Twin = patientInitial.Twin;
 
             patient.Email = login.Email;
-            patient.Email_notify = login.Email_notify;
-            patient.Sms_notify = login.Sms_notify;
 
             patient.Medics = new List<MedicsForPatient>();
 
