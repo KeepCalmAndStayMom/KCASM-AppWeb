@@ -5,3 +5,79 @@
 
 <h2>Tasks</h2>
 
+
+<legend>Aggiorna task</legend>
+<form id="form_details" method="post" action="/Tasks/UpdateExecuted">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Id</label>
+            <input type="number" name="id" placeholder="id" required />
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+            <label>Eseguito?</label>
+            <input type="checkbox" name="executed" checked>
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+        </div>
+    </div>
+</form>
+
+<legend>Aggiorna task</legend>
+<form id="form_details" method="post" action="/Tasks/UpdateAll">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Id</label>
+            <input type="number" name="id" placeholder="id" required />
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+            <label>Data</label>
+            <input type="date" name="date" placeholder="data" required />
+            <label>Categoria</label>
+            <input type="text" name="category" placeholder="categoria" required />
+            <label>Descrizione</label>
+            <input type="text" name="description" placeholder="descrizione" required />
+            <label>Inizio Programma</label>
+            <input type="checkbox" name="starting_program" />
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+        </div>
+    </div>
+</form>
+
+<legend>Aggiungi task</legend>
+<form id="form_details" method="post" action="/Tasks/NewTasks">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+            <label>Data</label>
+            <input type="date" name="date" placeholder="data" required />
+            <label>Categoria</label>
+            <input type="text" name="category" placeholder="categoria" required />
+            <label>Descrizione</label>
+            <input type="text" name="description" placeholder="descrizione" required />
+            <label>Inizio Programma</label>
+            <input type="checkbox" name="starting_program" />
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
+        </div>
+    </div>
+</form>
+
+<legend>Elimina task</legend>
+<form id="form_details" method="post" action="/Tasks/Delete">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Id</label>
+            <input type="number" name="id" placeholder="id" required />
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Elimina" />
+        </div>
+    </div>
+</form>

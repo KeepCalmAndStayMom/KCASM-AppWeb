@@ -6,9 +6,6 @@
 
 <h2>Medic</h2>
 
-<div>
-    <fieldset style="margin-top: 2em">
-
         <legend>Dati Anagrafici</legend>
         <form id="form_settings" method="post" action="/Medic/Update">
             <div class="form-group">
@@ -44,9 +41,9 @@
                 <label>Indirizzo email</label>
                 <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
                 <label>Nuova Password</label>
-                <input class="form-control" type="email" name="new_password" value="" placeholder="" required />
+                <input class="form-control" type="email" name="new_password" value="" placeholder=""/>
                 <label>Conferma Nuova Password</label>
-                <input class="form-control" type="email" name="new_password2" value="" placeholder="" required />
+                <input class="form-control" type="email" name="new_password2" value="" placeholder=""/>
                 <label>Reinserisci Vecchia Password</label>
                 <input class="form-control" type="email" name="old_password" value="" placeholder="" required />
             </div>

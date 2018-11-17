@@ -58,6 +58,33 @@ namespace KCASM_AppWeb.Controllers
         }
 
         [HttpPost]
+        public IActionResult UpdateAll(int id, string type, string date, string category, string description, bool starting_program)
+        {
+            var patient_id = HttpContext.Session.GetString("Id");
+            string body = $"{{ \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
+
+
+            try
+            {
+                switch (type)
+                {
+                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/fitbit/{id}", "PUT", body); break;
+                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue/{id}", "PUT", body); break;
+                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor/{id}", "PUT", body); break;
+                }
+                ViewData["Message"] = "Successo";
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+            }
+
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            return RedirectToAction("Tasks", "Tasks");
+        }
+
+        [HttpPost]
         public IActionResult NewTask(string type, string date, string category, string description, bool starting_program)
         {
             var id = HttpContext.Session.GetString("Id");
