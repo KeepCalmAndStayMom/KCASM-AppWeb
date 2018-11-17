@@ -6,11 +6,57 @@
 
 <h2>Medic</h2>
 
-<!-- possibile form di selezione paziente -->
+<div>
+    <fieldset style="margin-top: 2em">
 
-<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutte le pazienti</p>
-<div id="medic"></div>
-<script>
+        <legend>Dati Anagrafici</legend>
+        <form id="form_settings" method="post" action="/Medic/Update">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nome</label>
+                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
+                        <label>Cognome</label>
+                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
+                        <label>Età</label>
+                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
+                        <label>Numero di telefono</label>
+                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
+                        <label>Indirizzo dello studio</label>
+                        <input class="form-control" type="text" name="home_address" value="@Model.Address" placeholder="@Model.Address" required />
+                        <label>Sistema di notifiche</label>
+                        <div class="col-md-2">
+                            Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
+                            SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
+                        </div>
+                        <p>Specializzazione: @Model.Specialization</p>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                </div>
+            </div>
+        </form>
+
+        <legend>Dati Accesso</legend>
+        <form id="form_settings" method="post" action="/Medic/UpdateLogin">
+            <div class="row">
+                <label>Indirizzo email</label>
+                <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
+                <label>Nuova Password</label>
+                <input class="form-control" type="email" name="new_password" value="" placeholder="" required />
+                <label>Conferma Nuova Password</label>
+                <input class="form-control" type="email" name="new_password2" value="" placeholder="" required />
+                <label>Reinserisci Vecchia Password</label>
+                <input class="form-control" type="email" name="old_password" value="" placeholder="" required />
+            </div>
+        </form> 
+
+            <!-- possibile form di selezione paziente -->
+
+            <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutte le pazienti</p>
+            <div id="medic"></div>
+            <script>
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
@@ -42,49 +88,5 @@
                         }]
                     });
                 });
-</script>
+            </script>
 
-<div>
-    <fieldset style="margin-top: 2em">
-        <legend>Profilo</legend>
-        <form id="form_settings" method="post">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Nome</label>
-                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
-                        <label>Cognome</label>
-                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
-                        <label>Numero di telefono</label>
-                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
-                        <label>Indirizzo email</label>
-                        <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
-                        <label>Indirizzo dello studio</label>
-                        <input class="form-control" type="text" name="home_address" value="@Model.Address" placeholder="@Model.Address" required />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Età</label>
-                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
-                    </div>
-                    <div>
-                        <label>Sistema di notifiche</label>
-                        Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
-                        SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-1">
-                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-                    </div>
-                </div>
-            </div>
-        </form>
-        <p class="error-message">@ViewData["Message"]</p>
-    </fieldset>
-</div>
-
-<p>Specializzazione: @Model.Specialization</p>
