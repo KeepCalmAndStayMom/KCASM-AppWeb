@@ -54,9 +54,6 @@ namespace KCASM_AppWeb.Controllers
             }
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return RedirectToAction("Patient", "Patient");
-
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks","Tasks");
         }
 
@@ -90,6 +87,24 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult Delete(int id, string type)
         {
+            var patient_id = HttpContext.Session.GetString("Id");
+
+            try
+            {
+                switch (type)
+                {
+                    case "fitbit": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/fitbit/{id}", "DELETE", null); break;
+                    case "hue": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/hue/{id}", "DELETE", null); break;
+                    case "sensor": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/tasks/sensor/{id}", "DELETE", null); break;
+                }
+                ViewData["Message"] = "Successo";
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+            }
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks", "Tasks");
         }
