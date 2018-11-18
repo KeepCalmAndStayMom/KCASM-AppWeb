@@ -15,6 +15,16 @@ namespace KCASM_AppWeb.Controllers
     {
         public IActionResult Medic()
         {
+
+            HttpContext.Session.SetString("Type", "MedicPatient");
+            HttpContext.Session.SetString("PatientId", "2");
+
+            return RedirectToAction("Patient", "Patient");
+
+
+
+
+
             if (!"Medic".CheckSession(HttpContext.Session.GetString("Type")))
                 return RedirectToAction("Index", "Home");
 
@@ -36,7 +46,9 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-                new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}", "PUT", body);
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                client.UploadString($"{Constant.API_ADDRESS}medics/{id}", "PUT", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)

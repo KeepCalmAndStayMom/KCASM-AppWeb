@@ -39,7 +39,9 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-                new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/weights", "POST", body);
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                client.UploadString($"{Constant.API_ADDRESS}patients/{id}/weights", "POST", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)

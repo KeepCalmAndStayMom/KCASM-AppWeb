@@ -28,15 +28,34 @@
                     </div>
                     <div>
                         <label>Sistema di notifiche</label>
-                        Email <input type="checkbox" name="email_notify" value="@Model.Email_notify" />
-                        SMS <input type="checkbox" name="sms_notify" value="@Model.Sms_notify" />
+                        Email
+                        @if (Model.Email_notify)
+                        {
+                            <input type="checkbox" name="email_notify" value="true" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="email_notify" value="true" />
+                        }
+                        SMS
+                        @if (Model.Sms_notify)
+                        {
+                            <input type="checkbox" name="sms_notify" value="true" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="sms_notify" value="true" />
+                        }
                     </div>
-                    <div class="col-md-1">
-                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                    @if (ViewData["Session"].Equals("Patient"))
+                    {
+                        <div class="col-md-1">
+                            <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                        </div>
+                    }
                     </div>
-                </div>
             </div>
-        </form>
+            </form>
         <p class="error-message"></p>
     </fieldset>
 </div>
@@ -64,10 +83,18 @@
                 </div>
                 @if (ViewData["Session"].Equals("MedicPatient"))
                 {
-                    <div>
-                        <label>Parto gemellare</label>
-                        <input class="form-control" type="checkbox" name="twin" value="@Model.Twin" />
-                    </div>
+                <div>
+                    <label>Parto gemellare</label>
+                    @if (Model.Twin)
+                    {
+                    <input class="form-control" type="checkbox" name="twin" value="true" checked />
+                    }
+                    else
+                    {
+                    <input class="form-control" type="checkbox" name="twin" value="true"/>
+                    }
+                    
+                </div>
                     <div class="col-md-1">
                         <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
                     </div>
@@ -76,7 +103,14 @@
                 {
                     <div>
                         <label>Parto gemellare</label>
-                        <p>@Model.Twin</p>
+                        @if (Model.Twin)
+                        {
+                            <p>Si</p>
+                        }
+                        else
+                        {
+                            <p>No</p>
+                        }
                     </div>
                 }
             </div>
@@ -87,6 +121,8 @@
 <div id="dati_login">
     <fieldset style="margin-top: 2em">
         <legend>Dati di accesso</legend>
+        @if (ViewData["Session"].Equals("Patient"))
+        {
         <form id="form_login" method="post" action="/Patient/UpdatePassword">
             <div class="row">
                 <div>
@@ -106,10 +142,18 @@
                     <input class="form-control" type="password" name="new_password2" />
                 </div>
             </div>
-            <div class="col-md-1">
-                <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-            </div>
-        </form>
+            @if (ViewData["Session"].Equals("Patient"))
+            {
+                <div class="col-md-1">
+                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                </div>
+            }
+            </form>
+        }
+        else
+        {
+            <p>Email: @Model.Email</p>
+        }
     </fieldset>
 </div>
 
@@ -119,7 +163,7 @@
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
-                            data: @Model.Medics,
+                            data: @Json.Serialize(Model.Medics),
                             schema: {
                                 model: {
                                     fields: {

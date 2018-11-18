@@ -34,10 +34,12 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
                 if (HttpContext.Session.GetString("Type").Equals("Medic"))
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}?timedate={timedate}&medic_id={id}&patient_id={senderId}", "PUT", null);
+                    client.UploadString($"{Constant.API_ADDRESS}medics/{id}?timedate={timedate}&medic_id={id}&patient_id={senderId}", "PUT", null);
                 else
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}?timedate={timedate}&patient_id={id}&medic_id={senderId}", "PUT", null);
+                    client.UploadString($"{Constant.API_ADDRESS}patients/{id}?timedate={timedate}&patient_id={id}&medic_id={senderId}", "PUT", null);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)
@@ -64,10 +66,12 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
                 if (HttpContext.Session.GetString("Type").Equals("Medic"))
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/messages", "POST", body);
+                    client.UploadString($"{Constant.API_ADDRESS}medics/{id}/messages", "POST", body);
                 else
-                    new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/messages", "POST", body);
+                    client.UploadString($"{Constant.API_ADDRESS}patients/{id}/messages", "POST", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)

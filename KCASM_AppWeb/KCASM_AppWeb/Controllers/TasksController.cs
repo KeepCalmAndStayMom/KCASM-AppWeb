@@ -39,11 +39,13 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
                 switch (type)
                 {
-                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/activities/{id}", "PUT", body); break;
-                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/general/{id}", "PUT", body); break;
-                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/diets/{id}", "PUT", body); break;
+                    case "activities": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/activities/{id}", "PUT", body); break;
+                    case "general": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/general/{id}", "PUT", body); break;
+                    case "diets": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/diets/{id}", "PUT", body); break;
                 }
                 ViewData["Message"] = "Successo";
             }
@@ -67,11 +69,13 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
                 switch (type)
                 {
-                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "PUT", body); break;
-                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "PUT", body); break;
-                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "PUT", body); break;
+                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "PUT", body); break;
+                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "PUT", body); break;
+                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "PUT", body); break;
                 }
                 ViewData["Message"] = "Successo";
             }
@@ -94,11 +98,13 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-                switch(type)
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                switch (type)
                 {
-                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/activities", "POST", body); break;
-                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/general", "POST", body); break;
-                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/diets", "POST", body); break;
+                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/activities", "POST", body); break;
+                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/general", "POST", body); break;
+                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/diets", "POST", body); break;
                 }
                 
                 ViewData["Message"] = "Successo";
@@ -120,11 +126,13 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
                 switch (type)
                 {
-                    case "activities": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "DELETE", null); break;
-                    case "general": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "DELETE", null); break;
-                    case "diets": new WebClient().UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "DELETE", null); break;
+                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "DELETE", null); break;
+                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "DELETE", null); break;
+                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "DELETE", null); break;
                 }
                 ViewData["Message"] = "Successo";
             }

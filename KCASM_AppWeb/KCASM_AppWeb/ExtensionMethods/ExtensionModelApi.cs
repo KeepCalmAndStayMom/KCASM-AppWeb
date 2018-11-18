@@ -226,9 +226,9 @@ namespace KCASM_AppWeb.ExtensionMethods
             Login l = null;
             string url = Constant.API_ADDRESS;
             if (patient)
-                url += "patients/" + id;
+                url += "patients/" + id + "/login_data";
             else
-                url += "medics/" + id;
+                url += "medics/" + id + "/login_data";
 
             var content = executeGet(url);
             if (content != null)

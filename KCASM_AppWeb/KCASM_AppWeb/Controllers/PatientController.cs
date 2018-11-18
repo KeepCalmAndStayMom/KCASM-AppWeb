@@ -38,7 +38,9 @@ namespace KCASM_AppWeb.Controllers
 
             try
             {
-                new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}", "PUT", body);
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                client.UploadString($"{Constant.API_ADDRESS}patients/{id}", "PUT", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)
@@ -54,6 +56,53 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult UpdatePassword(string email, string old_password, string new_password, string new_password2)
         {
+            var id = HttpContext.Session.GetString("Id");
+            if(id.getLogin(true).Password.Equals(old_password))
+            {
+                if (new_password == null && new_password2 == null)
+                {
+                    try
+                    {
+                        string body = $"{{ \"email\": \"{email}\", \"password\": \"{old_password}\" }}";
+                        WebClient client = new WebClient();
+                        client.Headers.Add("Content-Type", "application/json");
+                        client.UploadString($"{Constant.API_ADDRESS}patients/{id}/login_data", "PUT", body);
+                    }
+                    catch (WebException e)
+                    {
+                        Console.WriteLine(e);
+                        ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+                    }
+                }
+                else
+                {
+                    if (new_password != null && new_password2 != null)
+                    {
+                        if (new_password.Equals(new_password2))
+                        {
+                            try
+                            {
+                                string body = $"{{ \"email\": \"{email}\", \"password\": \"{new_password}\" }}";
+                                WebClient client = new WebClient();
+                                client.Headers.Add("Content-Type", "application/json");
+                                client.UploadString($"{Constant.API_ADDRESS}patients/{id}", "PUT", body);
+                            }
+                            catch (WebException e)
+                            {
+                                Console.WriteLine(e);
+                                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
+                            }
+                        }
+                        else
+                            ViewData["Message"] = "Password non coincidono";
+                    }
+                    else
+                        ViewData["Message"] = "Password non coincidono";
+                }
+            }
+            else
+                ViewData["Message"] = "Password non corretta";
+
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Patient", "Patient");
         }
@@ -61,12 +110,14 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult UpdateInitial(bool twin)
         {
-            var id = HttpContext.Session.GetString("Id");
+            var id = HttpContext.Session.GetString("PatientId");
             string body = $"{{ \"twin\": {twin} }}";
 
             try
             {
-                new WebClient().UploadString($"{Constant.API_ADDRESS}patients/{id}/initial_data", "PUT", body);
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                client.UploadString($"{Constant.API_ADDRESS}patients/{id}/initial_data", "PUT", body);
                 ViewData["Message"] = "Successo";
             }
             catch (WebException e)
