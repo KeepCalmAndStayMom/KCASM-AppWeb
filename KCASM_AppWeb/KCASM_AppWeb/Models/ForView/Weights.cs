@@ -7,12 +7,12 @@ namespace KCASM_AppWeb.Models.ForView
 {
     public class Weights
     {
-        public String[] Date { get; set; }
+        public List<String> Date { get; set; }
 
-        public Double?[] Weight { get; set; }
+        public List<Double?> Weight { get; set; }
 
-        public Double[] UpperThreshold { get; set; }
+        public List<Double> UpperThreshold { get; set; }
 
-        public Double[] LowerThreshold { get; set; }
+        public List<Double> LowerThreshold { get; set; }
     }
 }

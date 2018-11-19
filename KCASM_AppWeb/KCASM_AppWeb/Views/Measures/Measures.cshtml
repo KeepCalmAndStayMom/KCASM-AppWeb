@@ -7,7 +7,7 @@
 <h2>Measures</h2>
 
 <fieldset style="margin-top: 2em; margin-bottom: 2em;">
-    <legend></legend>
+    <legend>Seleziona intervallo (Total 20 giorni massimo)</legend>
     <form id="form_details" method="post">
         <div class="form-group">
             <div class="col-md-2">
@@ -33,6 +33,7 @@
     </form>
 </fieldset>
 
+    <h1>Fitbit</h1>
 <div id="fitbit"></div><br />
         <script>
             function createChart() {
@@ -48,56 +49,56 @@
                     series: [{
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Avg_heartbeats,
+                        data: @Json.Serialize(Model.FitbitArray.Avg_heartbeats),
                         name: "Battiti Cardiaci Medi",
                         color: "#cc0000",
                         axis: "heart"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Steps,
+                        data: @Json.Serialize(Model.FitbitArray.Steps),
                         name: "Passi",
                         color: "#00ff00",
                         axis: "steps"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Distance,
+                        data: @Json.Serialize(Model.FitbitArray.Distance),
                         name: "Distanza (Km)",
                         color: "#0000ff",
                         axis: "distance"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Elevation,
+                        data: @Json.Serialize(Model.FitbitArray.Elevation),
                         name: "Elevazione (altezza Km)",
                         color: "#808080",
                         axis: "elevation"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Floors,
+                        data: @Json.Serialize(Model.FitbitArray.Floors),
                         name: "Piani",
                         color: "#651a1a",
                         axis: "floors"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Calories,
+                        data: @Json.Serialize(Model.FitbitArray.Calories),
                         name: "Calorie (Kcal)",
                         color: "#ffc14d",
                         axis: "calories"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Minutes_asleep,
+                        data: @Json.Serialize(Model.FitbitArray.Minutes_asleep),
                         name: "Minuti di Sonno",
                         color: "#e6e600",
                         axis: "asleep"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.fitbitArray.Minutes_awake,
+                        data: @Json.Serialize(Model.FitbitArray.Minutes_awake),
                         name: "Minuti da sveglia",
                         color: "#ff00ff",
                         axis: "awake"
@@ -144,7 +145,7 @@
                         max: 1200
                     }],
                     categoryAxis: {
-                        categories: @Model.fitbitArray.Date,
+                        categories: @Json.Serialize(Model.FitbitArray.Date),
                         axisCrossingValues: [0, 22, 0, 0, 0, 22, 22, 22],
                         justified: true,
                         labels: { rotation: "auto" }
@@ -162,7 +163,7 @@
         </script>
 
 
-
+        <h1>Hue</h1>
 <div id="hue"></div> <br />
         <script>
             function createChart() {
@@ -177,13 +178,13 @@
                     },
                     series: [{
                         type: "column",
-                        data: @Model.hueArray.Soft,
+                        data: @Json.Serialize(Model.HueArray.Soft),
                         name: "Cromoterapie Soft",
                         color: "#00ff00",
                         axis: "cromosoft"
                     }, {
                         type: "column",
-                        data: @Model.hueArray.Hard,
+                        data: @Json.Serialize(Model.HueArray.Hard),
                         name: "Cromoterapie Hard",
                         color: "#0066ff",
                         axis: "cromohard"
@@ -200,7 +201,7 @@
                         max: 30
                         }],
                     categoryAxis: {
-                        categories: @Model.hueArray.Date,
+                        categories: @Json.Serialize(Model.HueArray.Date),
                         axisCrossingValues: [0, 22],
                         justified: true,
                         labels: { rotation: "auto" }
@@ -218,7 +219,7 @@
         </script>
 
 
-
+        <h1>Sensor</h1>
 <div id="sensor"></div>
         <script>
             function createChart() {
@@ -234,21 +235,21 @@
                     series: [{
                         type: "line",
                         style: "smooth",
-                        data: @Model.sensorArray.Temperature,
+                        data: @Json.Serialize(Model.SensorArray.Temperature),
                         name: "Temperature [C°]",
                         color: "#ff1c1c",
                         axis: "temp"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.sensorArray.Humidity,
+                        data: @Json.Serialize(Model.SensorArray.Humidity),
                         name: "Umidità [%]",
                         color: "#ffae00",
                         axis: "hum"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.sensorArray.Luminescence,
+                        data: @Json.Serialize(Model.SensorArray.Luminescence),
                         name: "Luminosita [lux]",
                         color: "#73c100",
                         axis: "lum"
@@ -270,7 +271,7 @@
                         max: 1000
                     }],
                     categoryAxis: {
-                        categories: @Model.sensorArray.Date,
+                        categories: @Json.Serialize(Model.SensorArray.Date),
                         axisCrossingValues: [0, 0, 22],
                         justified: true,
                         labels: { rotation: "auto" }

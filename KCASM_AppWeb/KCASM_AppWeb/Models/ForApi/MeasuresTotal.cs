@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace KCASM_AppWeb.Models.ForApi
 {
-    public class MeasuresTotal : Measures
+    public class MeasuresTotal
     {
-        public Fitbit fitbit_total { get; set; }
+        public Fitbit Fitbit_total { get; set; }
 
-        public HueTotal hue_total { get; set; }
+        public HueTotal Hue_total { get; set; }
 
-        public Sensor sensor_total { get; set; }
+        public Sensor Sensor_total { get; set; }
     }
 }

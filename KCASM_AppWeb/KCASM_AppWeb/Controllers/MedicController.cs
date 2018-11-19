@@ -32,7 +32,7 @@ namespace KCASM_AppWeb.Controllers
                 HttpContext.Session.SetString("Type", "Medic");
             
             string id = HttpContext.Session.GetString("Id");
-            Medic medic = id.GetMedic().GetMedic(id.getLogin(false), id.getMedicPatients());
+            Medic medic = id.GetMedic().GetMedic(id.GetLogin(false), id.GetMedicPatients());
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View(medic);

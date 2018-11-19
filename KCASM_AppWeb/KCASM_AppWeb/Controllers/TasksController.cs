@@ -23,7 +23,7 @@ namespace KCASM_AppWeb.Controllers
             else
                 id = HttpContext.Session.GetString("Id");
 
-            Tasks tasks = id.getTasks(true, "general", null).GetTask(id.getTasks(true, "activities", null), id.getTasks(true, "diets", null));
+            Tasks tasks = id.GetTasks(true, "general", null).GetTask(id.GetTasks(true, "activities", null), id.GetTasks(true, "diets", null));
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View(tasks);

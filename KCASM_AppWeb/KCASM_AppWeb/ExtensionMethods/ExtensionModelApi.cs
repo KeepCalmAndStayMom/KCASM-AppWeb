@@ -11,7 +11,7 @@ namespace KCASM_AppWeb.ExtensionMethods
 {
     public static class ExtensionModelApi
     {
-        private static string executeGet(string url)
+        private static string ExecuteGet(string url)
         {
             try
             {
@@ -24,18 +24,33 @@ namespace KCASM_AppWeb.ExtensionMethods
             }
         }
 
-        public static Patient getPatient(this string id)
+        public static string ExecuteWebUpload(this string url, string method, string body)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                client.Headers.Add("Content-Type", "application/json");
+                return client.UploadString(url, method, body);
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+        }
+
+        public static Patient GetPatient(this string id)
         {
             Patient p = null;
 
-            var content = executeGet(Constant.API_ADDRESS + "patients/" + id);
+            var content = ExecuteGet(Constant.API_ADDRESS + "patients/" + id);
             if (content != null)
                 p = JsonConvert.DeserializeObject<Patient>(content);
 
             return p;
         }
 
-        public static TaskList getTasks(this string firstId, Boolean patient, String type, Dictionary<String, Object> filter)
+        public static TaskList GetTasks(this string firstId, Boolean patient, String type, Dictionary<String, Object> filter)
         {
             TaskList t = null;
             string url = Constant.API_ADDRESS;
@@ -47,7 +62,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             url += firstId + "/tasks/" + type;
             // al momento senza filtri ....
 
-            var content = executeGet(url);
+            var content = ExecuteGet(url);
             if (content != null)
                 t = JsonConvert.DeserializeObject<TaskList>(content);
 
@@ -61,7 +76,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             if (date != null)
                 url += "?date=" + date;
 
-            var content = executeGet(url);
+            var content = ExecuteGet(url);
             if (content != null)
                 w = JsonConvert.DeserializeObject<WeightsList>(content);
 
@@ -72,7 +87,7 @@ namespace KCASM_AppWeb.ExtensionMethods
         {
             Threshold t = null;
             string url = Constant.API_ADDRESS + "patients/" + id + "threshold";
-            var content = executeGet(url);
+            var content = ExecuteGet(url);
             if (content != null)
                 t = JsonConvert.DeserializeObject<Threshold>(content);
             return t;
@@ -82,18 +97,18 @@ namespace KCASM_AppWeb.ExtensionMethods
         {
             PatientInitial p = null;
 
-            var content = executeGet(Constant.API_ADDRESS + "patients/" + id + "/initial_data");
+            var content = ExecuteGet(Constant.API_ADDRESS + "patients/" + id + "/initial_data");
             if (content != null)
                 p = JsonConvert.DeserializeObject<PatientInitial>(content);
 
             return p;
         }
 
-        public static List<Medic> getPatientMedics(this string id)
+        public static List<Medic> GetPatientMedics(this string id)
         {
             List<Medic> m = null;
 
-            var content = executeGet(Constant.API_ADDRESS + "patients/" + id + "/medics");
+            var content = ExecuteGet(Constant.API_ADDRESS + "patients/" + id + "/medics");
             if (content != null)
                 m = JsonConvert.DeserializeObject<List<Medic>>(content);
 
@@ -112,7 +127,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             url += id + "/messages/" + type;
             // al momento senza filtri ....
 
-            var content = executeGet(url);
+            var content = ExecuteGet(url);
             if (content != null)
                 m = JsonConvert.DeserializeObject<MessageList>(content);
 
@@ -133,9 +148,8 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             if (device != null)
             {
-                url += device;
-                url += filter;
-                var content = executeGet(url);
+                url += device + filter;
+                var content = ExecuteGet(url);
                 if (content != null)
                 {
                     m = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
@@ -145,31 +159,28 @@ namespace KCASM_AppWeb.ExtensionMethods
             {
                 MeasuresListSamples mSingle;
                 string content;
-                url += "fitbit";
-                url += filter;
-                content = executeGet(url);
+                url += "fitbit" + filter;
+                content = ExecuteGet(url);
                 if (content != null)
                 {
                     mSingle = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
-                    m.fitbit_samples = mSingle.fitbit_samples;
+                    m.Fitbit_samples = mSingle.Fitbit_samples;
                 }
 
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/samples/hue";
-                url += filter;
-                content = executeGet(url);
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/samples/hue" + filter;
+                content = ExecuteGet(url);
                 if (content != null)
                 {
                     mSingle = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
-                    m.hue_samples = mSingle.hue_samples;
+                    m.Hue_samples = mSingle.Hue_samples;
                 }
 
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/samples/sensor";
-                url += filter;
-                content = executeGet(url);
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/samples/sensor" + filter;
+                content = ExecuteGet(url);
                 if (content != null)
                 {
                     mSingle = JsonConvert.DeserializeObject<MeasuresListSamples>(content);
-                    m.sensor_samples = mSingle.sensor_samples;
+                    m.Sensor_samples = mSingle.Sensor_samples;
                 }
 
             }
@@ -185,15 +196,15 @@ namespace KCASM_AppWeb.ExtensionMethods
             {
                 url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/" + device + "?date=" + date;
 
-                var content = executeGet(url);
+                var content = ExecuteGet(url);
                 if (content != null)
                 {
                     m = new MeasuresTotal();
                     switch (device)
                     {
-                        case "fitbit": m.fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
-                        case "hue": m.hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
-                        case "sensor": m.sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
+                        case "fitbit": m.Fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
+                        case "hue": m.Hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
+                        case "sensor": m.Sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
                     }
                 }
             }
@@ -202,26 +213,26 @@ namespace KCASM_AppWeb.ExtensionMethods
                 m = new MeasuresTotal();
                 string content;
                 url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/fitbit?date=" + date;
-                content = executeGet(url);
+                content = ExecuteGet(url);
                 if (content != null)
-                    m.fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content);
+                    m.Fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content);
 
                 url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/hue?date=" + date;
-                content = executeGet(url);
+                content = ExecuteGet(url);
                 if (content != null)
-                    m.hue_total = JsonConvert.DeserializeObject<HueTotal>(content);
+                    m.Hue_total = JsonConvert.DeserializeObject<HueTotal>(content);
 
                 url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/sensor?date=" + date;
-                content = executeGet(url);
+                content = ExecuteGet(url);
                 if (content != null)
-                    m.sensor_total = JsonConvert.DeserializeObject<Sensor>(content);
+                    m.Sensor_total = JsonConvert.DeserializeObject<Sensor>(content);
 
 
             }
             return m;
         }
 
-        public static Login getLogin(this string id, Boolean patient)
+        public static Login GetLogin(this string id, Boolean patient)
         {
             Login l = null;
             string url = Constant.API_ADDRESS;
@@ -230,7 +241,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             else
                 url += "medics/" + id + "/login_data";
 
-            var content = executeGet(url);
+            var content = ExecuteGet(url);
             if (content != null)
                 l = JsonConvert.DeserializeObject<Login>(content);
 
@@ -242,53 +253,23 @@ namespace KCASM_AppWeb.ExtensionMethods
         {
             Medic m = null;
 
-            var content = executeGet(Constant.API_ADDRESS + "medics/" + id);
+            var content = ExecuteGet(Constant.API_ADDRESS + "medics/" + id);
             if (content != null)
                 m = JsonConvert.DeserializeObject<Medic>(content);
 
             return m;
         }
 
-        public static List<Patient> getMedicPatients(this string id)
+        public static List<Patient> GetMedicPatients(this string id)
         {
             List<Patient> p = null;
 
-            var content = executeGet(Constant.API_ADDRESS + "medics/" + id + "/patients");
+            var content = ExecuteGet(Constant.API_ADDRESS + "medics/" + id + "/patients");
             if (content != null)
                 p = JsonConvert.DeserializeObject<List<Patient>>(content);
 
             return p;
         }
 
-        /*
-        paziente -> patients/id -> mappa
-
-        task -> general/activities/diets -> patients/id/tasks/general -> lista su "general"
-            filtri ?medic_id , ?executed=0/1 , ?date , ?startdate= &enddate= , ?starting_program=0/1 
-         
-        weight -> patients/id/weights -> lista su "weights"
-            filtri ?date
-
-        patientInitial -> patients/id/initial_data -> mappa diretta
-
-        medici collegati -> patients/id/medics -> lista diretta
-
-        messaggi paziente -> ricevuti/inviati -> patients/id/messages/received|sent -> lista su "message_sent" / "message_received"
-            filtri ?date, ?startdate= &enddate= , ?timedate , ?medic_id
-
-        measures -> samples/total -> fitbit/hue/sensor -> patients/id/measures/samples/fitbit|hue|sensor -> lista su "sensor_samples"
-            filtri samples ?date , ?startdate= &enddate= 
-            filtri total ?date (obbligatorio)
-
-        login -> patients/id/login_data -> mappa diretta
-
-
-        medico -> medics/id -> mappa diretta
-
-        pazienti collegati -> medics/id/patients -> lista diretta
-
-        task|message|login sono uguali ai patient
-
-         */
     }
 }

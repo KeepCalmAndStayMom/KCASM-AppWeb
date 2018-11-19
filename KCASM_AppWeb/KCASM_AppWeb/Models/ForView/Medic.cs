@@ -23,7 +23,7 @@ namespace KCASM_AppWeb.Models.ForView
 
         public Boolean Sms_notify { get; set; }
 
-        public List<PatientsForMedic> Patients { get; set; }
+        public List<PatientsForMedic> Patients { get; set; } = new List<PatientsForMedic>();
 
         public String Specialization { get; set; }
     }

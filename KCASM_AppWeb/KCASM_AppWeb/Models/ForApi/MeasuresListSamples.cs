@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace KCASM_AppWeb.Models.ForApi
 {
-    public class MeasuresListSamples : Measures
+    public class MeasuresListSamples
     {
-        public List<Fitbit> fitbit_samples { get; set; } = null;
+        public List<Fitbit> Fitbit_samples { get; set; } = null;
 
-        public List<Hue> hue_samples { get; set; } = null;
+        public List<Hue> Hue_samples { get; set; } = null;
 
-        public List<Sensor> sensor_samples { get; set; } = null;
+        public List<Sensor> Sensor_samples { get; set; } = null;
 
     }
 }

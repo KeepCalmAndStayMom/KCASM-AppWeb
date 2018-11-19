@@ -27,9 +27,9 @@ namespace KCASM_AppWeb.Models.ForView
 
         public Boolean Sms_notify { get; set; }
 
-        public Boolean Twin { get; set; } //modificabile solo dal medico
+        public Boolean Twin { get; set; }
 
-        public List<MedicsForPatient> Medics { get; set; }
+        public List<MedicsForPatient> Medics { get; set; } = new List<MedicsForPatient>();
 
         public String Pregnancy_start_date { get; set; }
 

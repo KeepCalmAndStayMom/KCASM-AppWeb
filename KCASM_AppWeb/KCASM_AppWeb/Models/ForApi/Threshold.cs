@@ -7,8 +7,8 @@ namespace KCASM_AppWeb.Models.ForApi
 {
     public class Threshold
     {
-        public Double[] Min { get; set; }
+        public List<Double> Min { get; set; }
 
-        public Double[] Max { get; set; }
+        public List<Double> Max { get; set; }
     }
 }

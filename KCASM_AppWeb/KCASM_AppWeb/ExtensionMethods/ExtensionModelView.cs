@@ -27,8 +27,6 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             medic.Email = apiLogin.Email;
 
-            medic.Patients = new List<PatientsForMedic>();
-
             foreach (Models.ForApi.Patient p in patients)
                 medic.Patients.Add(new PatientsForMedic(p.Id, p.Name, p.Surname));
 
@@ -46,7 +44,6 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static Tasks GetTask(this Models.ForApi.TaskList general, Models.ForApi.TaskList activity, Models.ForApi.TaskList diet)
         {
             Tasks tasks = new Tasks();
-            tasks.TaskList = new List<Models.ForView.Task>();
 
             foreach (Models.ForApi.Task t in general.General)
                 tasks.TaskList.Add(new Models.ForView.Task(t, "General"));
@@ -64,15 +61,15 @@ namespace KCASM_AppWeb.ExtensionMethods
         {
             Weights weights = new Weights();
             DateTime startDate = DateTime.Parse(patientInitial.Pregnancy_start_date);
-            weights.Date[0] = DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
-            weights.Weight[0] = patientInitial.Weight;
+            weights.Date.Add(DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT));
+            weights.Weight.Add(patientInitial.Weight);
             startDate = startDate.AddDays(1);
 
             double avg;
             double count;
             for (int i = 1; i <= Constant.WEIGHT_LIMIT; i++)
             {
-                weights.Date[i] =  DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+                weights.Date.Add(DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT));
 
                 avg = 0d;
                 count = 0d;
@@ -91,9 +88,9 @@ namespace KCASM_AppWeb.ExtensionMethods
                 }
 
                 if (count != 0)
-                    weights.Weight[i] = avg / count;
+                    weights.Weight.Add(avg / count);
                 else
-                    weights.Weight[i] = null;
+                    weights.Weight.Add(null);
             }
 
             weights.LowerThreshold = threshold.Min;
@@ -123,8 +120,6 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             patient.Email = login.Email;
 
-            patient.Medics = new List<MedicsForPatient>();
-
             foreach (Models.ForApi.Medic medic in medics)
                 patient.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
 
@@ -134,9 +129,6 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static Measures GetMeasuresTotal(this string id, DateTime date, DateTime endDate)
         {
             Measures measures = new Measures();
-            measures.fitbitArray = new FitbitArray();
-            measures.hueArray = new HueArray();
-            measures.sensorArray = new SensorArray();
 
             Models.ForApi.MeasuresTotal measuresTotal;
             int range;
@@ -166,63 +158,60 @@ namespace KCASM_AppWeb.ExtensionMethods
 
                 if (measuresTotal != null)
                 {
-                    if (measuresTotal.fitbit_total != null)
+                    measures.FitbitArray.Date.Add(dateFormatted);
+                    measures.HueArray.Date.Add(dateFormatted);
+                    measures.SensorArray.Date.Add(dateFormatted);
+
+                    if (measuresTotal.Fitbit_total != null)
                     {
-                        measures.fitbitArray.Date[i] = dateFormatted;
-                        measures.fitbitArray.Avg_heartbeats[i] = measuresTotal.fitbit_total.Avg_heartbeats;
-                        measures.fitbitArray.Calories[i] = measuresTotal.fitbit_total.Calories;
-                        measures.fitbitArray.Elevation[i] = measuresTotal.fitbit_total.Elevation;
-                        measures.fitbitArray.Floors[i] = measuresTotal.fitbit_total.Floors;
-                        measures.fitbitArray.Steps[i] = measuresTotal.fitbit_total.Steps;
-                        measures.fitbitArray.Distance[i] = measuresTotal.fitbit_total.Distance;
-                        measures.fitbitArray.Minutes_asleep[i] = measuresTotal.fitbit_total.Minutes_asleep;
-                        measures.fitbitArray.Minutes_awake[i] = measuresTotal.fitbit_total.Minutes_awake;
+                        measures.FitbitArray.Avg_heartbeats.Add(measuresTotal.Fitbit_total.Avg_heartbeats);
+                        measures.FitbitArray.Calories.Add(measuresTotal.Fitbit_total.Calories);
+                        measures.FitbitArray.Elevation.Add(measuresTotal.Fitbit_total.Elevation);
+                        measures.FitbitArray.Floors.Add(measuresTotal.Fitbit_total.Floors);
+                        measures.FitbitArray.Steps.Add(measuresTotal.Fitbit_total.Steps);
+                        measures.FitbitArray.Distance.Add(measuresTotal.Fitbit_total.Distance);
+                        measures.FitbitArray.Minutes_asleep.Add(measuresTotal.Fitbit_total.Minutes_asleep);
+                        measures.FitbitArray.Minutes_awake.Add(measuresTotal.Fitbit_total.Minutes_awake);
                     }
                     else
                     {
-                        measures.fitbitArray.Date[i] = dateFormatted;
-                        measures.fitbitArray.Avg_heartbeats[i] = null;
-                        measures.fitbitArray.Calories[i] = null;
-                        measures.fitbitArray.Elevation[i] = null;
-                        measures.fitbitArray.Floors[i] = null;
-                        measures.fitbitArray.Steps[i] = null;
-                        measures.fitbitArray.Distance[i] = null;
-                        measures.fitbitArray.Minutes_asleep[i] = null;
-                        measures.fitbitArray.Minutes_awake[i] = null;
+                        measures.FitbitArray.Avg_heartbeats.Add(null);
+                        measures.FitbitArray.Calories.Add(null);
+                        measures.FitbitArray.Elevation.Add(null);
+                        measures.FitbitArray.Floors.Add(null);
+                        measures.FitbitArray.Steps.Add(null);
+                        measures.FitbitArray.Distance.Add(null);
+                        measures.FitbitArray.Minutes_asleep.Add(null);
+                        measures.FitbitArray.Minutes_awake.Add(null);
                     }
 
-                    if (measuresTotal.hue_total != null)
+                    if (measuresTotal.Hue_total != null)
                     {
-                        measures.hueArray.Date[i] = dateFormatted;
-                        measures.hueArray.Hard[i] = measuresTotal.hue_total.Hard;
-                        measures.hueArray.Soft[i] = measuresTotal.hue_total.Soft;
+                        measures.HueArray.Hard.Add(measuresTotal.Hue_total.Hard);
+                        measures.HueArray.Soft.Add(measuresTotal.Hue_total.Soft);
                     }
                     else
                     {
-                        measures.hueArray.Date[i] = dateFormatted;
-                        measures.hueArray.Hard[i] = 0;
-                        measures.hueArray.Soft[i] = 0;
+                        measures.HueArray.Hard.Add(0);
+                        measures.HueArray.Soft.Add(0);
                     }
 
-                    if (measuresTotal.sensor_total != null)
+                    if (measuresTotal.Sensor_total != null)
                     {
-                        measures.sensorArray.Date[i] = dateFormatted;
-                        measures.sensorArray.Temperature[i] = measuresTotal.sensor_total.Temperature;
-                        measures.sensorArray.Luminescence[i] = measuresTotal.sensor_total.Luminescence;
-                        measures.sensorArray.Humidity[i] = measuresTotal.sensor_total.Humidity;
+                        measures.SensorArray.Temperature.Add(measuresTotal.Sensor_total.Temperature);
+                        measures.SensorArray.Luminescence.Add(measuresTotal.Sensor_total.Luminescence);
+                        measures.SensorArray.Humidity.Add(measuresTotal.Sensor_total.Humidity);
                     }
                     else
                     {
-                        measures.sensorArray.Date[i] = dateFormatted;
-                        measures.sensorArray.Temperature[i] = null;
-                        measures.sensorArray.Luminescence[i] = null;
-                        measures.sensorArray.Humidity[i] = null;
+                        measures.SensorArray.Temperature.Add(null);
+                        measures.SensorArray.Luminescence.Add(null);
+                        measures.SensorArray.Humidity.Add(null);
                     }
                 }
 
                 date = date.AddDays(1);
             }
-
 
             return measures;
         }
@@ -230,9 +219,6 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static Measures GetMeasuresSamples(this string id, DateTime date, DateTime endDate)
         {
             Measures measures = new Measures();
-            measures.fitbitArray = new FitbitArray();
-            measures.hueArray = new HueArray();
-            measures.sensorArray = new SensorArray();
             Models.ForApi.MeasuresListSamples measuresSamples;
 
             if (date != null)
@@ -257,19 +243,19 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             int i = 0;
    
-            foreach (Models.ForApi.Fitbit fitbit in measuresSamples.fitbit_samples)
+            foreach (Models.ForApi.Fitbit fitbit in measuresSamples.Fitbit_samples)
             {
                 if (i <= Constant.LIMIT_SAMPLES)
                 {
-                    measures.fitbitArray.Date[i] = fitbit.Timedate;
-                    measures.fitbitArray.Avg_heartbeats[i] = fitbit.Avg_heartbeats;
-                    measures.fitbitArray.Calories[i] = fitbit.Calories;
-                    measures.fitbitArray.Elevation[i] = fitbit.Elevation;
-                    measures.fitbitArray.Floors[i] = fitbit.Floors;
-                    measures.fitbitArray.Steps[i] = fitbit.Steps;
-                    measures.fitbitArray.Distance[i] = fitbit.Distance;
-                    measures.fitbitArray.Minutes_asleep[i] = fitbit.Minutes_asleep;
-                    measures.fitbitArray.Minutes_awake[i] = fitbit.Minutes_awake;
+                    measures.FitbitArray.Date.Add(fitbit.Timedate);
+                    measures.FitbitArray.Avg_heartbeats.Add(fitbit.Avg_heartbeats);
+                    measures.FitbitArray.Calories.Add(fitbit.Calories);
+                    measures.FitbitArray.Elevation.Add(fitbit.Elevation);
+                    measures.FitbitArray.Floors.Add(fitbit.Floors);
+                    measures.FitbitArray.Steps.Add(fitbit.Steps);
+                    measures.FitbitArray.Distance.Add(fitbit.Distance);
+                    measures.FitbitArray.Minutes_asleep.Add(fitbit.Minutes_asleep);
+                    measures.FitbitArray.Minutes_awake.Add(fitbit.Minutes_awake);
                 }
                 else
                     break;
@@ -277,20 +263,20 @@ namespace KCASM_AppWeb.ExtensionMethods
             }
 
             i = 0;
-            foreach (Models.ForApi.Hue hue in measuresSamples.hue_samples)
+            foreach (Models.ForApi.Hue hue in measuresSamples.Hue_samples)
             {
                 if (i <= Constant.LIMIT_SAMPLES)
                 {
-                    measures.hueArray.Date[i] = hue.Timedate;
+                    measures.HueArray.Date.Add(hue.Timedate);
                     if (hue.Chromotherapy.Equals("Hard"))
                     {
-                        measures.hueArray.Hard[i] = 1;
-                        measures.hueArray.Soft[i] = 0;
+                        measures.HueArray.Hard[i] = 1;
+                        measures.HueArray.Soft[i] = 0;
                     }
                     else
                     {
-                        measures.hueArray.Hard[i] = 0;
-                        measures.hueArray.Soft[i] = 1;
+                        measures.HueArray.Hard[i] = 0;
+                        measures.HueArray.Soft[i] = 1;
                     }
                 }
                 else
@@ -299,14 +285,14 @@ namespace KCASM_AppWeb.ExtensionMethods
             }
 
             i = 0;
-            foreach (Models.ForApi.Sensor sensor in measuresSamples.sensor_samples)
+            foreach (Models.ForApi.Sensor sensor in measuresSamples.Sensor_samples)
             {
                 if (i <= Constant.LIMIT_SAMPLES)
                 {
-                    measures.sensorArray.Date[i] = sensor.Timedate;
-                    measures.sensorArray.Temperature[i] = sensor.Temperature;
-                    measures.sensorArray.Luminescence[i] = sensor.Luminescence;
-                    measures.sensorArray.Humidity[i] = sensor.Humidity;
+                    measures.SensorArray.Date.Add(sensor.Timedate);
+                    measures.SensorArray.Temperature.Add(sensor.Temperature);
+                    measures.SensorArray.Luminescence.Add(sensor.Luminescence);
+                    measures.SensorArray.Humidity.Add(sensor.Humidity);
 
                 }
                 else
@@ -318,43 +304,3 @@ namespace KCASM_AppWeb.ExtensionMethods
         }
     }
 }
-
-
-
-/* 
- 
-     Home -> niente
-
-    Measures -> apertura base -> ultimi N giorni per 3 grafici fitbit, hue, sensor -> 
-                richiesta form di total tra due date -> 
-                    api total -> asse date è lo stesso per tutti +
-                        fitbit -> array per heartbeats, calories, elevation, floors, steps, distance, minutes_asleep, minutes_awake
-                        hue -> array per hard, soft
-                        sensor -> array per temperature, luminescence, humidity
-     
-     
-            -> richiesta form di samples -> come grafico settiamo un limite di dati a N
-            -> per ogni grafico c'è un array di timedate diverso a seconda dei valori contenuti.
-               con i relativi array per dispositivi
-     
-     
-    Medic -> dati medico, dati login, lista di pazienti
-
-    Messaggi -> lista di messaggi ricevuti, lista di messaggi inviati
-
-    Patient -> dati paziente, dati login, dati patient_initial, lista dei medici
-
-    Task -> apertura scheduler con tutti i task divisi nelle 3 categorie  
-        creare un unica lista con in più il campo type (general, activity, diet) partendo dalle 3 api task
-        
-    Weight -> apertura -> grafico con asse date ultimi N giorni -> array date
-                -> array pesi
-                -> dato Patient_Initial creo due array per i pesi di soglia
-
-            -> form richiesta fino a N dati massimi
-                -> array date, array pesi, array pesi soglia
-
-
-
-     
-     */

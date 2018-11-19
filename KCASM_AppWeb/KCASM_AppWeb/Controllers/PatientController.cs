@@ -24,7 +24,7 @@ namespace KCASM_AppWeb.Controllers
             else
                 id = HttpContext.Session.GetString("Id");
 
-            Patient patient = id.getPatient().GetPatient(id.GetPatientInitial(), id.getLogin(true), id.getPatientMedics());
+            Patient patient = id.GetPatient().GetPatient(id.GetPatientInitial(), id.GetLogin(true), id.GetPatientMedics());
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View(patient);
@@ -35,21 +35,10 @@ namespace KCASM_AppWeb.Controllers
         {
             var id = HttpContext.Session.GetString("Id");
             string body = $"{{ \"name\": \"{name}\", \"surname\": \"{surname}\", \"age\": {age}, \"phone\": \"{phone}\", \"address_home\": \"{home_address}\", \"address_hospital\": \"{hospital_address}\", \"email_notify\": {email_notify}, \"sms_notify\": {sms_notify} }}";
+            string url = $"{Constant.API_ADDRESS}patients/{id}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                client.UploadString($"{Constant.API_ADDRESS}patients/{id}", "PUT", body);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            url.ExecuteWebUpload("PUT", body);
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Patient", "Patient");
         }
 
@@ -57,53 +46,24 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult UpdatePassword(string email, string old_password, string new_password, string new_password2)
         {
             var id = HttpContext.Session.GetString("Id");
-            if(id.getLogin(true).Password.Equals(old_password))
+            if(id.GetLogin(true).Password.Equals(old_password))
             {
                 if (new_password == null && new_password2 == null)
                 {
-                    try
-                    {
-                        string body = $"{{ \"email\": \"{email}\", \"password\": \"{old_password}\" }}";
-                        WebClient client = new WebClient();
-                        client.Headers.Add("Content-Type", "application/json");
-                        client.UploadString($"{Constant.API_ADDRESS}patients/{id}/login_data", "PUT", body);
-                    }
-                    catch (WebException e)
-                    {
-                        Console.WriteLine(e);
-                        ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-                    }
+                    string body = $"{{ \"email\": \"{email}\", \"password\": \"{old_password}\" }}";
+                    string url = $"{Constant.API_ADDRESS}patients/{id}/login_data";
+                    url.ExecuteWebUpload("PUT", body);
                 }
                 else
-                {
                     if (new_password != null && new_password2 != null)
-                    {
                         if (new_password.Equals(new_password2))
                         {
-                            try
-                            {
-                                string body = $"{{ \"email\": \"{email}\", \"password\": \"{new_password}\" }}";
-                                WebClient client = new WebClient();
-                                client.Headers.Add("Content-Type", "application/json");
-                                client.UploadString($"{Constant.API_ADDRESS}patients/{id}", "PUT", body);
-                            }
-                            catch (WebException e)
-                            {
-                                Console.WriteLine(e);
-                                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-                            }
+                            string body = $"{{ \"email\": \"{email}\", \"password\": \"{new_password}\" }}";
+                            string url = $"{Constant.API_ADDRESS}patients/{id}/login_data";
+                            url.ExecuteWebUpload("PUT", body);
                         }
-                        else
-                            ViewData["Message"] = "Password non coincidono";
-                    }
-                    else
-                        ViewData["Message"] = "Password non coincidono";
-                }
             }
-            else
-                ViewData["Message"] = "Password non corretta";
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Patient", "Patient");
         }
 
@@ -112,21 +72,9 @@ namespace KCASM_AppWeb.Controllers
         {
             var id = HttpContext.Session.GetString("PatientId");
             string body = $"{{ \"twin\": {twin} }}";
+            string url = $"{Constant.API_ADDRESS}patients/{id}/initial_data";
+            url.ExecuteWebUpload("PUT", body);
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                client.UploadString($"{Constant.API_ADDRESS}patients/{id}/initial_data", "PUT", body);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
-
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Patient", "Patient");
         }
 

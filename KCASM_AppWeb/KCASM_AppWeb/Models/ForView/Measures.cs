@@ -8,11 +8,11 @@ namespace KCASM_AppWeb.Models.ForView
     public class Measures
     {
 
-        public FitbitArray fitbitArray {get; set;}
+        public FitbitList FitbitArray { get; set; } = new FitbitList();
 
-        public HueArray hueArray {get; set;}
+        public HueList HueArray { get; set; } = new HueList();
 
-        public SensorArray sensorArray {get; set;}
+        public SensorList SensorArray { get; set; } = new SensorList();
 
     }
 }
