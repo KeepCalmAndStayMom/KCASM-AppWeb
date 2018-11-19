@@ -33,11 +33,24 @@ namespace KCASM_AppWeb.ExtensionMethods
             return medic;
         }
 
-        public static Message GetMessage(this Models.ForApi.MessageList received, Models.ForApi.MessageList sent)
+        public static Message GetMessage(this Models.ForApi.MessageList received, Models.ForApi.MessageList sent, List<Models.ForApi.Patient> patients, List<Models.ForApi.Medic> medics)
         {
             Message message = new Message();
-            message.Message_received = received.Message_received;
-            message.Message_sent = received.Message_sent;
+
+            if(received != null)
+                message.Message_received = received.Message_received;
+
+            if(sent != null)
+                message.Message_sent = sent.Message_sent;
+
+            if(patients!=null)
+                foreach (Models.ForApi.Patient p in patients)
+                    message.Patients.Add(new PatientsForMedic(p.Id, p.Name, p.Surname));
+
+            if(medics != null)
+                foreach (Models.ForApi.Medic medic in medics)
+                    message.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
+
             return message;
         }
 
@@ -75,15 +88,14 @@ namespace KCASM_AppWeb.ExtensionMethods
                 count = 0d;
                 for (int j = 0; j < 7; j++)
                 {
-                    foreach (Models.ForApi.Weights w in weightsList.Weights)
-                    {
-                        if (DateTime.Parse(w.Date).Equals(startDate))
-                        {
-                            avg += w.Weight;
-                            count += 1;
-                            break;
-                        }
-                    }
+                    if(weightsList != null)
+                        foreach (Models.ForApi.Weights w in weightsList.Weights)
+                            if (DateTime.Parse(w.Date).Equals(startDate))
+                            {
+                                avg += w.Weight;
+                                count += 1;
+                                break;
+                            }
                     startDate = startDate.AddDays(1);
                 }
 

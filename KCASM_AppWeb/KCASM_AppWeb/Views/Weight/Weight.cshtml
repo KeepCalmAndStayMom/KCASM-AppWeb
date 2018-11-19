@@ -21,10 +21,10 @@
     </form>
 </fieldset>
 
-<div id="weight"></div> <br />
+<div id="pesi"></div> <br />
 <script>
             function createChart() {
-                $("#weight").kendoChart({
+                $("#pesi").kendoChart({
                     title: {
                         text: "Pesi",
                         font: "30px sans-serif",
@@ -36,21 +36,21 @@
                     series: [{
                         type: "line",
                         style: "smooth"
-                        data: @Model.Weight,
+                        data: @Json.Serialize(Model.Weight),
                         name: "Peso",
                         color: "#00ff00",
                         axis: "weight"
                     }, {
                         type: "line",
                         style: "smooth",
-                        data: @Model.UpperThreshold,
+                        data: @Json.Serialize(Model.UpperThreshold),
                         name: "Soglia superiore",
                         color: "#0066ff",
                         axis: "upper"
                         }, {
                             type: "line",
                             style: "smooth",
-                            data: @Model.LowerThreshold,
+                            data: @Json.Serialize(Model.LowerThreshold),
                             name: "Soglia inferiore",
                             color: "#73c100",
                             axis: "lower"
@@ -73,7 +73,7 @@
                         }
                     ],
                     categoryAxis: {
-                        categories: @Model.Date,
+                        categories: @Json.Serialize(Model.Date),
                         axisCrossingValues: [0, 22, 22],
                         justified: true,
                         labels: { rotation: "auto" }

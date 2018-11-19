@@ -16,12 +16,14 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult Medic()
         {
 
+            /*
+
             HttpContext.Session.SetString("Type", "MedicPatient");
             HttpContext.Session.SetString("PatientId", "2");
 
             return RedirectToAction("Patient", "Patient");
 
-
+    */
 
 
 

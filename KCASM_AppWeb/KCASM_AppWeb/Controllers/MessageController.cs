@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -22,7 +23,12 @@ namespace KCASM_AppWeb.Controllers
                 HttpContext.Session.SetString("Type", "Medic");
 
             string id = HttpContext.Session.GetString("Id");
-            Message message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null));
+            Message message;
+
+            if(HttpContext.Session.GetString("Type").Equals("Medic"))
+                message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null), id.GetMedicPatients(), null);
+            else
+                message = id.GetMessage(true, "received", null).GetMessage(id.GetMessage(true, "sent", null), null, id.GetPatientMedics());
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return View(message);
@@ -32,53 +38,38 @@ namespace KCASM_AppWeb.Controllers
         {
             var id = HttpContext.Session.GetString("Id");
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                if (HttpContext.Session.GetString("Type").Equals("Medic"))
-                    client.UploadString($"{Constant.API_ADDRESS}medics/{id}?timedate={timedate}&medic_id={id}&patient_id={senderId}", "PUT", null);
-                else
-                    client.UploadString($"{Constant.API_ADDRESS}patients/{id}?timedate={timedate}&patient_id={id}&medic_id={senderId}", "PUT", null);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            string url;
+            timedate = timedate.Replace(" ", "T");
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            if (HttpContext.Session.GetString("Type").Equals("Medic"))
+                url = $"{Constant.API_ADDRESS}medics/{id}/messages/received?timedate={timedate}&patient_id={senderId}";
+            else
+                url = $"{Constant.API_ADDRESS}patients/{id}/messages/received?timedate={timedate}&medic_id={senderId}";
+
+            url.ExecuteWebUpload("PUT", null);
+
             return RedirectToAction("Message", "Message");
         }
 
         [HttpPost]
         public IActionResult NewMessage(int id_receiver, string subject, string message)
         {
-
             var id = HttpContext.Session.GetString("Id");
-            var timedate = DateTime.Today;
-            string body = $"{{ \"subject\": \"{subject}\", \"messagge\": \"{message}\", \"timedate\": \"{timedate}\", ";
+            var timedate = DateTime.ParseExact(DateTime.Now.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm:ss");
+
+            string body = $"{{ \"subject\": \"{subject}\", \"message\": \"{message}\", \"timedate\": \"{timedate}\", ";
             if (HttpContext.Session.GetString("Type").Equals("Medic"))
                 body += $"\"patient_id\": {id_receiver} }}";
             else
                 body += $"\"medic_id\": {id_receiver} }}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                if (HttpContext.Session.GetString("Type").Equals("Medic"))
-                    client.UploadString($"{Constant.API_ADDRESS}medics/{id}/messages", "POST", body);
-                else
-                    client.UploadString($"{Constant.API_ADDRESS}patients/{id}/messages", "POST", body);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            string url;
+            if (HttpContext.Session.GetString("Type").Equals("Medic"))
+                url = $"{Constant.API_ADDRESS}medics/{id}/messages";
+            else
+                url = $"{Constant.API_ADDRESS}patients/{id}/messages";
+
+            url.ExecuteWebUpload("POST", body);
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Message", "Message");

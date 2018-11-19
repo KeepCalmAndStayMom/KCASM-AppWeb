@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -34,21 +35,12 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult NewWeight(double weight)
         {
             var id = HttpContext.Session.GetString("Id");
-            var date = DateTime.Today;
-            string body = $"{{ \"weight\": \"{weight}\", \"date\": \"{date}\" }}";
+            var date = DateTime.ParseExact(DateTime.Today.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                client.UploadString($"{Constant.API_ADDRESS}patients/{id}/weights", "POST", body);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            string body = $"{{ \"weight\": {weight}, \"date\": \"{date}\" }}";
+            string url = $"{Constant.API_ADDRESS}patients/{id}/weights";
+
+            url.ExecuteWebUpload("POST", body);
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Weight","Weight");

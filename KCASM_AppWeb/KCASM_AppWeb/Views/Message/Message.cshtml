@@ -14,7 +14,7 @@
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
-                            data: @Model.Message_received,
+                            data: @Json.Serialize(Model.Message_received),
                             schema: {
                                 model: {
                                     fields: {
@@ -66,7 +66,7 @@
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
-                            data: @Model.Message_sent,
+                            data: @Json.Serialize(Model.Message_sent),
                             schema: {
                                 model: {
                                     fields: {
@@ -112,4 +112,46 @@
                 });
 </script>
 
-<!-- possibile form di invio messaggio -->
+<fieldset style="margin-top: 2em; margin-bottom: 2em;">
+    <legend>Invia nuovo messaggio</legend>
+    <form id="form_details" method="post" action="/Message/NewMessage">
+        <div class="form-group">
+            <div class="col-md-3">
+
+                <label>Id destinatario</label>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    if (ViewData["Session"].Equals("Medic"))
+                    {
+                        foreach (KCASM_AppWeb.Models.ForView.PatientsForMedic p in Model.Patients)
+                        {
+                            if (p.Id != 0)
+                            {
+                                listItems.Add(new SelectListItem { Text = Convert.ToString(p.Id), Value = Convert.ToString(p.Id) });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (KCASM_AppWeb.Models.ForView.MedicsForPatient m in Model.Medics)
+                        {
+                            if (m.Id != 0)
+                            {
+                                listItems.Add(new SelectListItem { Text = Convert.ToString(m.Id), Value = Convert.ToString(m.Id) });
+                            }
+                        }
+                    }
+                    @Html.DropDownList("senderId", new SelectList(listItems, "Value", "Text"));
+                }
+                <label>Oggetto</label>
+                <input type="text" name="subject" placeholder="Oggetto" required />
+                <label>Messaggio</label>
+                <input type="text" name="message" placeholder="Messaggio..." required />
+            </div>
+            <div class="col-md-2">
+                <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Invia" />
+            </div>
+        </div>
+    </form>
+                    
+</fieldset>

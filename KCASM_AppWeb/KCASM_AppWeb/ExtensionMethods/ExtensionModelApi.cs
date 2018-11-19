@@ -72,7 +72,7 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static WeightsList GetWeights(this string id, String date)
         {
             WeightsList w = null;
-            string url = Constant.API_ADDRESS + "patients/" + id;
+            string url = Constant.API_ADDRESS + "patients/" + id + "/weights";
             if (date != null)
                 url += "?date=" + date;
 
@@ -86,7 +86,7 @@ namespace KCASM_AppWeb.ExtensionMethods
         public static Threshold GetThreshold(this string id)
         {
             Threshold t = null;
-            string url = Constant.API_ADDRESS + "patients/" + id + "threshold";
+            string url = Constant.API_ADDRESS + "patients/" + id + "/thresholds";
             var content = ExecuteGet(url);
             if (content != null)
                 t = JsonConvert.DeserializeObject<Threshold>(content);
@@ -143,7 +143,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             switch (date.Length)
             {
                 case 1: filter += "?date=" + date[0]; break;
-                case 2: filter += "?stardate=" + date[0] + "&enddate=" + date[1]; break;
+                case 2: filter += "?startdate=" + date[0] + "&enddate=" + date[1]; break;
             }
 
             if (device != null)
