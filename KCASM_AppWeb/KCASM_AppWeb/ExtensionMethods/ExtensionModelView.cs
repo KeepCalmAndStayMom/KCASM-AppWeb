@@ -223,10 +223,10 @@ namespace KCASM_AppWeb.ExtensionMethods
 
             if (date != null)
             {
-                var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+                var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATETIME_API_FORMAT);
                 if (endDate != null)
                 {
-                    var endDateFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+                    var endDateFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATETIME_API_FORMAT);
                     if (date.CompareTo(endDate) > 0)
                     {
                         DateTime tmp = date;
@@ -268,15 +268,15 @@ namespace KCASM_AppWeb.ExtensionMethods
                 if (i <= Constant.LIMIT_SAMPLES)
                 {
                     measures.HueArray.Date.Add(hue.Timedate);
-                    if (hue.Chromotherapy.Equals("Hard"))
+                    if (hue.Chromotherapy.Equals("hard"))
                     {
-                        measures.HueArray.Hard[i] = 1;
-                        measures.HueArray.Soft[i] = 0;
+                        measures.HueArray.Hard.Add(1);
+                        measures.HueArray.Soft.Add(0);
                     }
                     else
                     {
-                        measures.HueArray.Hard[i] = 0;
-                        measures.HueArray.Soft[i] = 1;
+                        measures.HueArray.Hard.Add(0);
+                        measures.HueArray.Soft.Add(1);
                     }
                 }
                 else

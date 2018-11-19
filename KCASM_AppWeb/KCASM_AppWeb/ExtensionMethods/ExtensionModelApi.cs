@@ -157,6 +157,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             }
             else
             {
+                m = new MeasuresListSamples();
                 MeasuresListSamples mSingle;
                 string content;
                 url += "fitbit" + filter;

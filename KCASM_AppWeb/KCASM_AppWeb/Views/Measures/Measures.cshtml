@@ -20,11 +20,11 @@
             </div>
             <div class="col-md-3">
                 <label>Data inizio</label>
-                <input class="date-mode form-control" type="date" name="start_date" placeholder="data d'inizio" min="2018-01-01" required />
+                <input class="date-mode form-control" type="date" name="startDate" placeholder="data d'inizio" min="2018-01-01" required />
             </div>
             <div class="col-md-3">
                 <label>Data fine</label>
-                <input class="date-mode form-control" type="date" name="end_date" placeholder="data di fine" min="2018-01-02" required />
+                <input class="date-mode form-control" type="date" name="endDate" placeholder="data di fine" min="2018-01-02" required />
             </div>
             <div class="col-md-2">
                 <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Controlla" />
@@ -33,7 +33,6 @@
     </form>
 </fieldset>
 
-    <h1>Fitbit</h1>
 <div id="fitbit"></div><br />
         <script>
             function createChart() {
@@ -162,8 +161,6 @@
             $(document).bind("kendo:skinChange", createChart);
         </script>
 
-
-        <h1>Hue</h1>
 <div id="hue"></div> <br />
         <script>
             function createChart() {
@@ -218,8 +215,6 @@
             $(document).bind("kendo:skinChange", createChart);
         </script>
 
-
-        <h1>Sensor</h1>
 <div id="sensor"></div>
         <script>
             function createChart() {
