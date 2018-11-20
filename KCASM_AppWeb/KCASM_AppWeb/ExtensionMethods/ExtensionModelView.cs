@@ -38,10 +38,10 @@ namespace KCASM_AppWeb.ExtensionMethods
             Message message = new Message();
 
             if(received != null)
-                message.Message_received = received.Message_received;
+                message.Messages_received = received.Messages_received;
 
             if(sent != null)
-                message.Message_sent = sent.Message_sent;
+                message.Messages_sent = sent.Messages_sent;
 
             if(patients!=null)
                 foreach (Models.ForApi.Patient p in patients)

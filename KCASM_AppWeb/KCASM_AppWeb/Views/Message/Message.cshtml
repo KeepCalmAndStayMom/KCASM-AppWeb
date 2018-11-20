@@ -12,18 +12,18 @@
 <div id="received_messages"></div>
 <script>
                 $(document).ready(function () {
-                    $("#medic").kendoGrid({
+                    $("#received_messages").kendoGrid({
                         dataSource: {
-                            data: @Json.Serialize(Model.Message_received),
+                            data: @Json.Serialize(Model.Messages_received),
                             schema: {
                                 model: {
                                     fields: {
-                                        Medic_id: { type: "int" },
-                                        Patient_id: { type: "int" },
-                                        Timedate: { type: "string" },
-                                        Subject: { type: "string" },
-                                        Message: { type: "string" },
-                                        Read: { type: "boolean" }
+                                        medic_id: { type: "int" },
+                                        patient_id: { type: "int" },
+                                        timedate: { type: "string" },
+                                        subject: { type: "string" },
+                                        message: { type: "string" },
+                                        read: { type: "boolean" }
                                     }
                                 }
                             },
@@ -38,22 +38,22 @@
                             buttonCount: 5
                         },
                         columns: [{
-                            field: "Medic_id",
+                            field: "medic_id",
                             title: "ID del medico"
                         }, {
-                            field: "Patient_id",
+                            field: "patient_id",
                             title: "ID della paziente"
                             }, {
-                                field: "Timedate",
+                                field: "timedate",
                                 title: "Ora"
                             }, {
-                                field: "Subject",
+                                field: "subject",
                                 title: "Oggetto"
                             }, {
-                                field: "Message",
+                                field: "message",
                                 title: "Contenuto messaggio"
                             }, {
-                                field: "Read",
+                                field: "read",
                                 title: "Letto"
                             }]
                     });
@@ -64,18 +64,18 @@
 <div id="sent_messages"></div>
 <script>
                 $(document).ready(function () {
-                    $("#medic").kendoGrid({
+                    $("#sent_messages").kendoGrid({
                         dataSource: {
-                            data: @Json.Serialize(Model.Message_sent),
+                            data: @Json.Serialize(Model.Messages_sent),
                             schema: {
                                 model: {
                                     fields: {
-                                        Medic_id: { type: "int" },
-                                        Patient_id: { type: "int" },
-                                        Timedate: { type: "string" },
-                                        Subject: { type: "string" },
-                                        Message: { type: "string" },
-                                        Read: { type: "boolean" }
+                                        medic_id: { type: "int" },
+                                        patient_id: { type: "int" },
+                                        timedate: { type: "string" },
+                                        subject: { type: "string" },
+                                        message: { type: "string" },
+                                        read: { type: "boolean" }
                                     }
                                 }
                             },
@@ -90,22 +90,22 @@
                             buttonCount: 5
                         },
                         columns: [{
-                            field: "Medic_id",
+                            field: "medic_id",
                             title: "ID del medico"
                         }, {
-                            field: "Patient_id",
+                            field: "patient_id",
                             title: "ID della paziente"
                             }, {
-                                field: "Timedate",
+                                field: "timedate",
                                 title: "Ora"
                             }, {
-                                field: "Subject",
+                                field: "subject",
                                 title: "Oggetto"
                             }, {
-                                field: "Message",
+                                field: "message",
                                 title: "Contenuto messaggio"
                             }, {
-                                field: "Read",
+                                field: "read",
                                 title: "Letto"
                             }]
                     });
@@ -141,7 +141,7 @@
                             }
                         }
                     }
-                    @Html.DropDownList("senderId", new SelectList(listItems, "Value", "Text"));
+                    @Html.DropDownList("id_receiver", new SelectList(listItems, "Value", "Text"));
                 }
                 <label>Oggetto</label>
                 <input type="text" name="subject" placeholder="Oggetto" required />
