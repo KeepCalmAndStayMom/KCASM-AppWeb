@@ -18,44 +18,32 @@ namespace KCASM_AppWeb.Controllers
                 return RedirectToAction("Index", "Home");
 
             string id;
-            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
-                id = HttpContext.Session.GetString("PatientId");
-            else
-                id = HttpContext.Session.GetString("Id");
-
-            Tasks tasks = id.GetTasks(true, "general", null).GetTask(id.GetTasks(true, "activities", null), id.GetTasks(true, "diets", null));
-
+            Tasks tasks;
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View(tasks);
+
+            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
+            {
+                id = HttpContext.Session.GetString("PatientId");
+                tasks = id.GetTasks(true, "general", null).GetTask(id.GetTasks(true, "activities", null), id.GetTasks(true, "diets", null));
+                return View("TasksMedic", tasks);
+            }
+            else
+            {
+                id = HttpContext.Session.GetString("Id");
+                tasks = id.GetTasks(true, "general", null).GetTask(id.GetTasks(true, "activities", null), id.GetTasks(true, "diets", null));
+                return View("TasksPatient", tasks);
+            }
+            
         }
 
-
-        /*Vedere se possibile tramite comandi diretti nello scheduler o form apposite a parte*/
-        [HttpPost]
         public IActionResult UpdateExecuted(int id, string type, bool executed)
         {
             var patient_id = HttpContext.Session.GetString("Id");
             string body = $"{{ \"executed\": {executed} }}";
+            string url = $"{Constant.API_ADDRESS}patients/{patient_id}/tasks/{type}/{id}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                switch (type)
-                {
-                    case "activities": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/activities/{id}", "PUT", body); break;
-                    case "general": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/general/{id}", "PUT", body); break;
-                    case "diets": client.UploadString($"{Constant.API_ADDRESS}patients/{patient_id}/tasks/diets/{id}", "PUT", body); break;
-                }
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            url.ExecuteWebUpload("PUT", body);
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks","Tasks");
         }
 
@@ -65,27 +53,10 @@ namespace KCASM_AppWeb.Controllers
             var patient_id = HttpContext.Session.GetString("PatientId");
             var medic_id = HttpContext.Session.GetString("Id");
             string body = $"{{ \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
+            string url = $"{Constant.API_ADDRESS}medics/{medic_id}/tasks/{type}/{id}";
 
+            url.ExecuteWebUpload("PUT", body);
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                switch (type)
-                {
-                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "PUT", body); break;
-                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "PUT", body); break;
-                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "PUT", body); break;
-                }
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
-
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks", "Tasks");
         }
 
@@ -95,54 +66,20 @@ namespace KCASM_AppWeb.Controllers
             var id = HttpContext.Session.GetString("Id");
             var patient_id = HttpContext.Session.GetString("PatientId");
             string body = $"{{ \"patient_id\": {patient_id}, \"category\": \"{category}\", \"date\": \"{date}\", \"description\": \"{description}\", \"starting_program\": {starting_program} }}";
+            string url = $"{Constant.API_ADDRESS}medics/{id}/tasks/{type}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                switch (type)
-                {
-                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/activities", "POST", body); break;
-                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/general", "POST", body); break;
-                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{id}/tasks/diets", "POST", body); break;
-                }
-                
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            url.ExecuteWebUpload("POST", body);
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks", "Tasks");
         }
 
-        [HttpPost]
-        public IActionResult Delete(int id, string type)
+        public IActionResult DeleteTask(int id, string type)
         {
             var medic_id = HttpContext.Session.GetString("Id");
+            string url = $"{Constant.API_ADDRESS}patients/{medic_id}/tasks/{type}/{id}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                switch (type)
-                {
-                    case "activities": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/activities/{id}", "DELETE", null); break;
-                    case "general": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/general/{id}", "DELETE", null); break;
-                    case "diets": client.UploadString($"{Constant.API_ADDRESS}medics/{medic_id}/tasks/diets/{id}", "DELETE", null); break;
-                }
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            url.ExecuteWebUpload("DELETE", "{ }");
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Tasks", "Tasks");
         }
     }

@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+@model KCASM_AppWeb.Models.ForView.Tasks
+
+<h2>Tasks</h2>
+
+
+<div id="tasks"></div>
+<script>
+                $(document).ready(function () {
+                    $("#tasks").kendoGrid({
+                        dataSource: {
+                            data: @Json.Serialize(Model.TaskList),
+                            schema: {
+                                model: {
+                                    fields: {
+                                        id: { from: "id", type: "number" },
+                                        tipo: { from: "type", type: "string" },
+                                        medic_id: { from: "medic_id", type: "number" },
+                                        date: { from: "date", type: "string" },
+                                        category: { from: "category", type: "string" },
+                                        description: { from: "description", type: "string" },
+                                        starting_program: { from: "starting_program", type: "boolean" },
+                                        executed: { from: "executed", type: "boolean" }
+                                    }
+                                }
+                            },
+                            pageSize: 10
+                        },
+                        height: "30em",
+                        groupable: false,
+                        sortable: true,
+                        pageable: {
+                            refresh: false,
+                            pageSizes: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            field: "id",
+                            title: "Id"
+                        }, {
+                            field: "tipo",
+                            title: "Tipo"
+                            } , {
+                                field: "medic_id",
+                                title: "Id Medico"
+                            }, {
+                                field: "date",
+                                title: "Data"
+                            }, {
+                                field: "category",
+                                title: "Categoria"
+                            }, {
+                                field: "description",
+                                title: "Descrizione"
+                            }, {
+                                field: "starting_program",
+                                title: "Inizio Programma"
+                            }, {
+                                field: "executed",
+                                title: "Eseguito"
+                            }, { command: { text: "Elimina Task", click: function (e) {
+                                                e.preventDefault();
+                                var data = this.dataItem($(e.target).closest("tr"));
+                                window.location.href = '@Url.Action("DeleteTask", "Tasks")?id=' + data.id + '&type=' + data.tipo;
+                                            }
+                                        }
+                                , title: " "
+                            }]
+                    });
+                });
+</script>
+
+
+<legend>Aggiorna task</legend>
+<form id="form_details" method="post" action="/Tasks/UpdateAll">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Id</label>
+            <input type="number" name="id" placeholder="id" required />
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+            <label>Data</label>
+            <input type="date" name="date" placeholder="data" required />
+            <label>Categoria</label>
+            <input type="text" name="category" placeholder="categoria" required />
+            <label>Descrizione</label>
+            <input type="text" name="description" placeholder="descrizione" required />
+            <label>Inizio Programma</label>
+            <input type="checkbox" name="starting_program" />
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+        </div>
+    </div>
+</form>
+
+
+<legend>Aggiungi task</legend>
+<form id="form_details" method="post" action="/Tasks/NewTasks">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Tipo</label>
+            <input type="text" name="type" placeholder="tipo" required />
+            <label>Data</label>
+            <input type="date" name="date" placeholder="data" required />
+            <label>Categoria</label>
+            <input type="text" name="category" placeholder="categoria" required />
+            <label>Descrizione</label>
+            <input type="text" name="description" placeholder="descrizione" required />
+            <label>Inizio Programma</label>
+            <input type="checkbox" name="starting_program" />
+        </div>
+        <div class="col-md-2">
+            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
+        </div>
+    </div>
+</form>

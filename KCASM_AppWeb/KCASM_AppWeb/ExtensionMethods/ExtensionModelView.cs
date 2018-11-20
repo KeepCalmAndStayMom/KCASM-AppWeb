@@ -60,13 +60,13 @@ namespace KCASM_AppWeb.ExtensionMethods
             Tasks tasks = new Tasks();
 
             foreach (Models.ForApi.Task t in general.General)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "General"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "general"));
 
             foreach (Models.ForApi.Task t in activity.Activities)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "Activities"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "activities"));
 
             foreach (Models.ForApi.Task t in diet.Diets)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "Diets"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "diets"));
 
             return tasks;
         }
