@@ -14,5 +14,9 @@ namespace KCASM_AppWeb.Models.ForView
         public List<Double> UpperThreshold { get; set; } = new List<double>();
 
         public List<Double> LowerThreshold { get; set; } = new List<double>();
+
+        public Double Min { get; set; }
+
+        public Double Max { get; set; }
     }
 }

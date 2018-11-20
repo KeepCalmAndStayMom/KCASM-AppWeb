@@ -21,71 +21,69 @@
     </form>
 </fieldset>
 
-<div id="pesi"></div> <br />
-<script>
-            function createChart() {
-                $("#pesi").kendoChart({
-                    title: {
-                        text: "Pesi",
-                        font: "30px sans-serif",
-                        color: "black"
-                    },
-                    legend: {
-                        position: "bottom"
-                    },
-                    series: [{
-                        type: "line",
-                        style: "smooth"
-                        data: @Json.Serialize(Model.Weight),
-                        name: "Peso",
-                        color: "#00ff00",
-                        axis: "weight"
-                    }, {
-                        type: "line",
-                        style: "smooth",
-                        data: @Json.Serialize(Model.UpperThreshold),
-                        name: "Soglia superiore",
-                        color: "#0066ff",
-                        axis: "upper"
-                        }, {
-                            type: "line",
-                            style: "smooth",
-                            data: @Json.Serialize(Model.LowerThreshold),
-                            name: "Soglia inferiore",
-                            color: "#73c100",
-                            axis: "lower"
-                        }],
-                    valueAxes: [{
-                        name: "weight",
-                        color: "#00ff00",
-                        min: 0,
-                        max: 250
-                    }, {
-                        name: "upper",
-                        color: "#0066ff",
-                        min: 0,
-                        max: 250
-                        }, {
-                            name: "lower",
-                            color: "#73c100",
-                            min: 0,
-                            max: 250
-                        }
-                    ],
-                    categoryAxis: {
-                        categories: @Json.Serialize(Model.Date),
-                        axisCrossingValues: [0, 22, 22],
-                        justified: true,
-                        labels: { rotation: "auto" }
-                    },
-                    tooltip: {
-                        visible: true,
-                        format: "{0}",
-                        template: "#= category #: #= value #"
-                    }
-                });
-            }
+<div id="pesi"> </div> <br />
 
-            $(document).ready(createChart);
-            $(document).bind("kendo:skinChange", createChart);
+<script>
+    function createChart() {
+        $("#pesi").kendoChart({
+            title: {
+                text: "Pesi",
+                font: "30px sans-serif",
+                color: "black"
+            },
+            legend: {
+                position: "bottom"
+            },
+            seriesDefaults: {
+                type: "line",
+                style: "smooth"
+            },
+            series: [{
+                name: "Pesi",
+                data: @Json.Serialize(Model.Weight),
+                markers: {
+                    visible: false
+                }
+            }, {
+                name: "Limite superiore",
+                    data: @Json.Serialize(Model.UpperThreshold),
+                    markers: {
+                        visible: false
+                    }
+            }, {
+                name: "Limite inferiore",
+                    data: @Json.Serialize(Model.LowerThreshold),
+                    markers: {
+                        visible: false
+                    }
+            }],
+            valueAxis: {
+                labels: {
+                    format: "{0}"
+                },
+                line: {
+                    visible: false
+                },
+                min: @Json.Serialize(Model.Min),
+                max: @Json.Serialize(Model.Max)
+            },
+            categoryAxis: {
+                categories: @Json.Serialize(Model.Date),
+                majorGridLines: {
+                    visible: false
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}",
+                template: "#= series.name #: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
 </script>

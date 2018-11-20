@@ -77,6 +77,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             weights.Date.Add(DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT));
             weights.Weight.Add(patientInitial.Weight);
             startDate = startDate.AddDays(1);
+            double max = 0;
 
             double avg;
             double count;
@@ -100,13 +101,23 @@ namespace KCASM_AppWeb.ExtensionMethods
                 }
 
                 if (count != 0)
+                {
                     weights.Weight.Add(avg / count);
+                    if (avg / count > max)
+                        max = avg / count;
+                }
                 else
                     weights.Weight.Add(null);
             }
 
             weights.LowerThreshold = threshold.Min;
             weights.UpperThreshold = threshold.Max;
+
+            if (threshold.Max.Last() > max)
+                max = threshold.Max.Last();
+
+            weights.Min = patientInitial.Weight - 2;
+            weights.Max = max + 2;
 
             return weights;
         }
