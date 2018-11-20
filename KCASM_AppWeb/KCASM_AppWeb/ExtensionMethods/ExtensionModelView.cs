@@ -28,7 +28,8 @@ namespace KCASM_AppWeb.ExtensionMethods
             medic.Email = apiLogin.Email;
 
             foreach (Models.ForApi.Patient p in patients)
-                medic.Patients.Add(new PatientsForMedic(p.Id, p.Name, p.Surname));
+                if(p.Id != 0)
+                    medic.Patients.Add(new PatientsForMedic(p.Id, p.Name, p.Surname));
 
             return medic;
         }
@@ -144,7 +145,8 @@ namespace KCASM_AppWeb.ExtensionMethods
             patient.Email = login.Email;
 
             foreach (Models.ForApi.Medic medic in medics)
-                patient.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
+                if(medic.Id != 0)
+                    patient.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
 
             return patient;
         }

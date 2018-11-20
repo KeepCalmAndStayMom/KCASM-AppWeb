@@ -25,13 +25,18 @@ namespace KCASM_AppWeb.Controllers
             string id = HttpContext.Session.GetString("Id");
             Message message;
 
-            if(HttpContext.Session.GetString("Type").Equals("Medic"))
-                message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null), id.GetMedicPatients(), null);
-            else
-                message = id.GetMessage(true, "received", null).GetMessage(id.GetMessage(true, "sent", null), null, id.GetPatientMedics());
-
             ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return View(message);
+
+            if (HttpContext.Session.GetString("Type").Equals("Medic"))
+            {
+                message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null), id.GetMedicPatients(), null);
+                return View("MessageMedic", message);
+            }
+            else
+            {
+                message = id.GetMessage(true, "received", null).GetMessage(id.GetMessage(true, "sent", null), null, id.GetPatientMedics());
+                return View("MessagePatient", message);
+            }
         }
 
         public IActionResult ReadMessage(int senderId, string timedate)
@@ -46,7 +51,7 @@ namespace KCASM_AppWeb.Controllers
             else
                 url = $"{Constant.API_ADDRESS}patients/{id}/messages/received?timedate={timedate}&medic_id={senderId}";
 
-            url.ExecuteWebUpload("PUT", null);
+            url.ExecuteWebUpload("PUT", "{ }");
 
             return RedirectToAction("Message", "Message");
         }

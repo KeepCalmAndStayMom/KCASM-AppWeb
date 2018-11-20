@@ -43,15 +43,15 @@ namespace KCASM_AppWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdatePassword(string email, string old_password, string new_password, string new_password2)
+        public IActionResult UpdateLogin(string email, string old_password, string new_password, string new_password2)
         {
             var id = HttpContext.Session.GetString("Id");
-            if(id.GetLogin(true).Password.Equals(old_password))
+            string url = $"{Constant.API_ADDRESS}patients/{id}/login_data";
+            if (id.GetLogin(true).Password.Equals(old_password))
             {
                 if (new_password == null && new_password2 == null)
                 {
                     string body = $"{{ \"email\": \"{email}\", \"password\": \"{old_password}\" }}";
-                    string url = $"{Constant.API_ADDRESS}patients/{id}/login_data";
                     url.ExecuteWebUpload("PUT", body);
                 }
                 else
@@ -59,7 +59,6 @@ namespace KCASM_AppWeb.Controllers
                         if (new_password.Equals(new_password2))
                         {
                             string body = $"{{ \"email\": \"{email}\", \"password\": \"{new_password}\" }}";
-                            string url = $"{Constant.API_ADDRESS}patients/{id}/login_data";
                             url.ExecuteWebUpload("PUT", body);
                         }
             }

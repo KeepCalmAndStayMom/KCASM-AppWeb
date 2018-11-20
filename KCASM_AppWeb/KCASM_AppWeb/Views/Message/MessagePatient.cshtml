@@ -6,8 +6,6 @@
 
 <h2>Messaggi</h2>
 
-<!-- possibile form di selezione messaggio per segnalare lettura -->
-
 <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi ricevuti</p>
 <div id="received_messages"></div>
 <script>
@@ -19,16 +17,15 @@
                                 model: {
                                     fields: {
                                         medic_id: { type: "int" },
-                                        patient_id: { type: "int" },
                                         timedate: { type: "string" },
                                         subject: { type: "string" },
                                         message: { type: "string" },
                                         read: { type: "boolean" }
                                     }
                                 }
-                            },
-                            pageSize: 10
+                            }
                         },
+                        pageSize: 10,
                         height: "30em",
                         groupable: false,
                         sortable: true,
@@ -41,9 +38,6 @@
                             field: "medic_id",
                             title: "ID del medico"
                         }, {
-                            field: "patient_id",
-                            title: "ID della paziente"
-                            }, {
                                 field: "timedate",
                                 title: "Ora"
                             }, {
@@ -55,9 +49,20 @@
                             }, {
                                 field: "read",
                                 title: "Letto"
+                            },
+                            { command: { text: "Segna come letto", click: function (e) {
+                                                e.preventDefault();
+                                                var data = this.dataItem($(e.target).closest("tr"));
+                                                window.location.href = '@Url.Action("ReadMessage", "Message")?senderId=' + data.medic_id + '&timedate=' + data.timedate;
+                                                }
+                                        }
+                                , title: " "
                             }]
                     });
                 });
+
+
+
 </script>
 
 <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi inviati</p>
@@ -71,7 +76,6 @@
                                 model: {
                                     fields: {
                                         medic_id: { type: "int" },
-                                        patient_id: { type: "int" },
                                         timedate: { type: "string" },
                                         subject: { type: "string" },
                                         message: { type: "string" },
@@ -93,9 +97,6 @@
                             field: "medic_id",
                             title: "ID del medico"
                         }, {
-                            field: "patient_id",
-                            title: "ID della paziente"
-                            }, {
                                 field: "timedate",
                                 title: "Ora"
                             }, {
@@ -117,28 +118,14 @@
     <form id="form_details" method="post" action="/Message/NewMessage">
         <div class="form-group">
             <div class="col-md-3">
-
-                <label>Id destinatario</label>
+                <label>Medico</label>
                 @{
-                    List<SelectListItem> listItems = new List<SelectListItem>();
-                    if (ViewData["Session"].Equals("Medic"))
+                    List<SelectListItem> listItems = new List<SelectListItem>(); 
+                    foreach (KCASM_AppWeb.Models.ForView.MedicsForPatient m in Model.Medics)
                     {
-                        foreach (KCASM_AppWeb.Models.ForView.PatientsForMedic p in Model.Patients)
+                        if (m.Id != 0)
                         {
-                            if (p.Id != 0)
-                            {
-                                listItems.Add(new SelectListItem { Text = Convert.ToString(p.Id), Value = Convert.ToString(p.Id) });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (KCASM_AppWeb.Models.ForView.MedicsForPatient m in Model.Medics)
-                        {
-                            if (m.Id != 0)
-                            {
-                                listItems.Add(new SelectListItem { Text = Convert.ToString(m.Id), Value = Convert.ToString(m.Id) });
-                            }
+                            listItems.Add(new SelectListItem { Text = Convert.ToString(m.Id), Value = Convert.ToString(m.Id) });
                         }
                     }
                     @Html.DropDownList("id_receiver", new SelectList(listItems, "Value", "Text"));
@@ -153,5 +140,5 @@
             </div>
         </div>
     </form>
-                    
+
 </fieldset>

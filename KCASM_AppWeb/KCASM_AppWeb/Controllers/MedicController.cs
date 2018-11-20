@@ -16,17 +16,6 @@ namespace KCASM_AppWeb.Controllers
         public IActionResult Medic()
         {
 
-            /*
-
-            HttpContext.Session.SetString("Type", "MedicPatient");
-            HttpContext.Session.SetString("PatientId", "2");
-
-            return RedirectToAction("Patient", "Patient");
-
-    */
-
-
-
             if (!"Medic".CheckSession(HttpContext.Session.GetString("Type")))
                 return RedirectToAction("Index", "Home");
 
@@ -45,19 +34,9 @@ namespace KCASM_AppWeb.Controllers
         {
             var id = HttpContext.Session.GetString("Id");
             string body = $"{{ \"name\": \"{name}\", \"surname\": \"{surname}\", \"age\": {age}, \"phone\": \"{phone}\", \"address\": \"{address}\", \"email_notify\": {email_notify}, \"sms_notify\": {sms_notify} }}";
+            string url = $"{Constant.API_ADDRESS}medics/{id}";
 
-            try
-            {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                client.UploadString($"{Constant.API_ADDRESS}medics/{id}", "PUT", body);
-                ViewData["Message"] = "Successo";
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e.StackTrace);
-                ViewData["Message"] = "Errore durante la modifica. Ritenta più tardi";
-            }
+            url.ExecuteWebUpload("PUT", body);
 
             ViewData["Session"] = HttpContext.Session.GetString("Type");
             return RedirectToAction("Medic","Medic");
@@ -66,7 +45,24 @@ namespace KCASM_AppWeb.Controllers
         [HttpPost]
         public IActionResult UpdateLogin(string email, string old_password, string new_password, string new_password2)
         {
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            var id = HttpContext.Session.GetString("Id");
+            string url = $"{Constant.API_ADDRESS}medics/{id}/login_data";
+            if (id.GetLogin(false).Password.Equals(old_password))
+            {
+                if (new_password == null && new_password2 == null)
+                {
+                    string body = $"{{ \"email\": \"{email}\", \"password\": \"{old_password}\" }}";
+                    url.ExecuteWebUpload("PUT", body);
+                }
+                else
+                    if (new_password != null && new_password2 != null)
+                    if (new_password.Equals(new_password2))
+                    {
+                        string body = $"{{ \"email\": \"{email}\", \"password\": \"{new_password}\" }}";
+                        url.ExecuteWebUpload("PUT", body);
+                    }
+            }
+
             return RedirectToAction("Medic", "Medic");
         }
 

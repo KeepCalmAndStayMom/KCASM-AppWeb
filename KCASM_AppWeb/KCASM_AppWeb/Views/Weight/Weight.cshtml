@@ -6,6 +6,8 @@
 
 @model KCASM_AppWeb.Models.ForView.Weights
 
+@if (ViewData["Session"].Equals("Patient"))
+{
 <fieldset style="margin-top: 2em; margin-bottom: 2em;">
     <legend>Aggiungi il peso odierno</legend>
     <form id="form_details" method="post" action="/Weight/NewWeight">
@@ -20,9 +22,9 @@
         </div>
     </form>
 </fieldset>
+}
 
 <div id="pesi"> </div> <br />
-
 <script>
     function createChart() {
         $("#pesi").kendoChart({
