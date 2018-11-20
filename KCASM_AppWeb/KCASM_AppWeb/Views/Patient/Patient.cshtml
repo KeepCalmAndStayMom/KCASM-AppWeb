@@ -5,161 +5,187 @@
 @model KCASM_AppWeb.Models.ForView.Patient
 
 <h2>Patient</h2>
-
-<div id="dati_anagrafici">
-    <fieldset style="margin-top: 2em">
-        <legend>Dati anagrafici</legend>
-        <form id="form_anagrafica" method="post" action="/Patient/Update">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Nome</label>
-                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
-                        <label>Cognome</label>
-                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
-                        <label>Età</label>
-                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" min="18" max="60" required />
-                        <label>Numero di telefono</label>
-                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
-                        <label>Indirizzo di casa</label>
-                        <input class="form-control" type="text" name="home_address" value="@Model.Address_home" placeholder="@Model.Address_home" required />
-                        <label>Indirizzo dell'ospedale</label>
-                        <input class="form-control" type="text" name="hospital_address" value="@Model.Address_hospital" placeholder="@Model.Address_hospital" required />
-                    </div>
-                    <div>
-                        <label>Sistema di notifiche</label>
-                        Email
-                        @if (Model.Email_notify)
-                        {
-                            <input type="checkbox" name="email_notify" value="true" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="email_notify" value="true" />
-                        }
-                        SMS
-                        @if (Model.Sms_notify)
-                        {
-                            <input type="checkbox" name="sms_notify" value="true" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="sms_notify" value="true" />
-                        }
-                    </div>
-                    @if (ViewData["Session"].Equals("Patient"))
-                    {
-                        <div class="col-md-1">
-                            <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="dati_anagrafici" class="container">
+                <fieldset style="margin-top: 2em">
+                    <legend class="col-form-label">Dati anagrafici</legend>
+                    <form id="form_anagrafica" method="post" action="/Patient/Update">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Nome</label>
+                                    <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
+                                    <label>Cognome</label>
+                                    <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
+                                    <label>Età</label>
+                                    <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" min="18" max="60" required />
+                                    <label>Numero di telefono</label>
+                                    <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
+                                    <label>Indirizzo di casa</label>
+                                    <input class="form-control" type="text" name="home_address" value="@Model.Address_home" placeholder="@Model.Address_home" required />
+                                    <label>Indirizzo dell'ospedale</label>
+                                    <input class="form-control" type="text" name="hospital_address" value="@Model.Address_hospital" placeholder="@Model.Address_hospital" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-5 col-form-label">Sistema di notifiche</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <label class="col-sm-2 col-form-label">Email</label>
+                                            @if (Model.Email_notify)
+                                            {
+                                                <input class="form-check-input" type="checkbox" name="email_notify" value="true" checked />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-check-input" type="checkbox" name="email_notify" value="true" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <label class="col-sm-2 col-form-label">SMS</label>
+                                            @if (Model.Sms_notify)
+                                            {
+                                                <input class="form-check-input" type="checkbox" name="sms_notify" value="true" checked />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-check-input" type="checkbox" name="sms_notify" value="true" />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @if (ViewData["Session"].Equals("Patient"))
+                                    {
+                                        <div class="col-md-1">
+                                            <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    }
-                    </div>
+                    </form>
+                    <p class="error-message"></p>
+                </fieldset>
             </div>
-            </form>
-        <p class="error-message"></p>
-    </fieldset>
-</div>
+        </div>
+        <div class="col-md-4">
+            <div id="dati_iniziali" class="container">
+                <fieldset style="margin-top: 2em">
+                    <legend>Dati iniziali</legend>
+                    <form id="form_login" method="post" action="/Patient/UpdateInitial">
+                        <div class="row">
+                            <div>
+                                <label>Data d'inizio gravidanza</label>
+                                <p>@Model.Pregnancy_start_date</p>
+                            </div>
+                            <div>
+                                <label>Altezza</label>
+                                <p>@Model.Height</p>
+                            </div>
+                            <div>
+                                <label>Peso iniziale</label>
+                                <p>@Model.Weight</p>
+                            </div>
+                            <div>
+                                <label>Indice di massa corporea (BMI)</label>
+                                <p>@Model.Bmi</p>
+                            </div>
+                            @if (ViewData["Session"].Equals("MedicPatient"))
+                            {
+                                <div>
+                                    <label>Parto gemellare</label>
+                                    @if (Model.Twin)
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="twin" value="true" checked />
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="twin" value="true" />
+                                    }
 
-<div id="dati_iniziali">
-    <fieldset style="margin-top: 2em">
-        <legend>Dati iniziali</legend>
-        <form id="form_login" method="post" action="/Patient/UpdateInitial">
-            <div class="row">
-                <div>
-                    <label>Data d'inizio gravidanza</label>
-                    <p>@Model.Pregnancy_start_date</p>
-                </div>
-                <div>
-                    <label>Altezza</label>
-                    <p>@Model.Height</p>
-                </div>
-                <div>
-                    <label>Peso iniziale</label>
-                    <p>@Model.Weight</p>
-                </div>
-                <div>
-                    <label>Indice di massa corporea (BMI)</label>
-                    <p>@Model.Bmi</p>
-                </div>
-                @if (ViewData["Session"].Equals("MedicPatient"))
+                                </div>
+                                <div class="col-md-1">
+                                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <label>Parto gemellare</label>
+                                    @if (Model.Twin)
+                                    {
+                                        <p>Si</p>
+                                    }
+                                    else
+                                    {
+                                        <p>No</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="form-group-sm-5">
+        <div id="dati_login" class="container">
+            <fieldset style="margin-top: 2em">
+                <legend>Dati di accesso</legend>
+                @if (ViewData["Session"].Equals("Patient"))
                 {
-                <div>
-                    <label>Parto gemellare</label>
-                    @if (Model.Twin)
-                    {
-                    <input class="form-control" type="checkbox" name="twin" value="true" checked />
-                    }
-                    else
-                    {
-                    <input class="form-control" type="checkbox" name="twin" value="true"/>
-                    }
-                    
-                </div>
-                    <div class="col-md-1">
-                        <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-                    </div>
+                    <form id="form_login" method="post" action="/Patient/UpdateLogin">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label>Indirizzo email</label>
+                                <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
+                            </div>
+                            <div class="col-sm-5">
+                                <label>Vecchia password</label>
+                                <input class="form-control" type="password" name="old_password" required />
+                            </div>
+                            <div class="col-sm-5">
+                                <label>Nuova password</label>
+                                <input class="form-control" type="password" name="new_password" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label>Conferma della nuova password</label>
+                                <input class="form-control" type="password" name="new_password2" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            @if (ViewData["Session"].Equals("Patient"))
+                            {
+                                <div class="col-md-1">
+                                    <label></label>
+                                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                                </div>
+                            }
+                        </div>
+                    </form>
                 }
                 else
                 {
-                    <div>
-                        <label>Parto gemellare</label>
-                        @if (Model.Twin)
-                        {
-                            <p>Si</p>
-                        }
-                        else
-                        {
-                            <p>No</p>
-                        }
-                    </div>
+                    <p>Email: @Model.Email</p>
                 }
-            </div>
-        </form>
-    </fieldset>
+            </fieldset>
+        </div>
+    </div>
 </div>
 
-<div id="dati_login">
-    <fieldset style="margin-top: 2em">
-        <legend>Dati di accesso</legend>
-        @if (ViewData["Session"].Equals("Patient"))
-        {
-        <form id="form_login" method="post" action="/Patient/UpdateLogin">
-            <div class="row">
-                <div>
-                    <label>Indirizzo email</label>
-                    <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
-                </div>
-                <div>
-                    <label>Vecchia password</label>
-                    <input class="form-control" type="password" name="old_password" required />
-                </div>
-                <div>
-                    <label>Nuova password</label>
-                    <input class="form-control" type="password" name="new_password" />
-                </div>
-                <div>
-                    <label>Conferma della nuova password</label>
-                    <input class="form-control" type="password" name="new_password2" />
-                </div>
-            </div>
-            @if (ViewData["Session"].Equals("Patient"))
-            {
-                <div class="col-md-1">
-                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-                </div>
-            }
-            </form>
-        }
-        else
-        {
-            <p>Email: @Model.Email</p>
-        }
-    </fieldset>
-</div>
-
-<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
-<div id="medic"></div>
-<script>
+    <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
+    <div id="medic"></div>
+    <script>
                 $(document).ready(function () {
                     $("#medic").kendoGrid({
                         dataSource: {
@@ -195,4 +221,4 @@
                         }]
                     });
                 });
-</script>
+    </script>
