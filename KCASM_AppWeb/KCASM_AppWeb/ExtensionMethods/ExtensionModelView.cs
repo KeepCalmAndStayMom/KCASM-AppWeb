@@ -55,18 +55,20 @@ namespace KCASM_AppWeb.ExtensionMethods
             return message;
         }
 
-        public static Tasks GetTask(this Models.ForApi.TaskList general, Models.ForApi.TaskList activity, Models.ForApi.TaskList diet)
+        public static Tasks GetTask(this Models.ForApi.TaskList general, Models.ForApi.TaskList activity, Models.ForApi.TaskList diet, Models.ForApi.CategoryTask categoryTask)
         {
             Tasks tasks = new Tasks();
 
             foreach (Models.ForApi.Task t in general.General)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "general"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "Generali"));
 
             foreach (Models.ForApi.Task t in activity.Activities)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "activities"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "Attività"));
 
             foreach (Models.ForApi.Task t in diet.Diets)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "diets"));
+                tasks.TaskList.Add(new Models.ForView.Task(t, "Diete"));
+
+            tasks.CategoryTask = categoryTask;
 
             return tasks;
         }

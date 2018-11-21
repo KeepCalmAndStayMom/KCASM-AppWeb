@@ -7,7 +7,10 @@ namespace KCASM_AppWeb.Models.ForApi
 {
     public class CategoryTask
     {
-        public String Name { get; set; }
+        public List<String> General { get; set; } = new List<string>();
 
+        public List<String> Activities { get; set; } = new List<string>();
+
+        public List<String> Diets { get; set; } = new List<string>();
     }
 }

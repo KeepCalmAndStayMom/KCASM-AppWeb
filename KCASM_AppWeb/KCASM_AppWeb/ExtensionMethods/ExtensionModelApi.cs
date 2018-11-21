@@ -50,6 +50,45 @@ namespace KCASM_AppWeb.ExtensionMethods
             return p;
         }
 
+        public static CategoryTask GetCategoryTask(string type)
+        {
+            CategoryTask t = new CategoryTask();
+            List<String> single_category_task = new List<string>();
+            string url = $"{Constant.API_ADDRESS}/task_categories/";
+
+            if (type != null)
+            {
+                url += type;
+                var content = ExecuteGet(url);
+                if (content != null)
+                    switch (type)
+                    {
+                        case "general": t.General = JsonConvert.DeserializeObject<List<String>>(content); break;
+                        case "activities": t.Activities = JsonConvert.DeserializeObject<List<String>>(content); break;
+                        case "diets": t.Diets = JsonConvert.DeserializeObject<List<String>>(content); break;
+                    }
+            }
+            else
+            {
+                url += "general";
+                var content = ExecuteGet(url);
+                if (content != null)
+                    t.General = JsonConvert.DeserializeObject<List<String>>(content);
+
+                url = $"{Constant.API_ADDRESS}/task_categories/activities";
+                content = ExecuteGet(url);
+                if (content != null)
+                    t.Activities = JsonConvert.DeserializeObject<List<String>>(content);
+
+                url = $"{Constant.API_ADDRESS}/task_categories/diets";
+                content = ExecuteGet(url);
+                if (content != null)
+                    t.Diets = JsonConvert.DeserializeObject<List<String>>(content);
+            }
+
+            return t;
+        }
+
         public static TaskList GetTasks(this string firstId, Boolean patient, String type, Dictionary<String, Object> filter)
         {
             TaskList t = null;
