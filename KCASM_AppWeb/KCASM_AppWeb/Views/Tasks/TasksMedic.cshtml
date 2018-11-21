@@ -116,145 +116,247 @@
 
 
 <div class="container">
-    <fieldset>
-        <legend> Task generali </legend>
-
-        <legend>Aggiorna task</legend>
-        <form id="form_details" method="post" action="/Tasks/UpdateAllGeneral">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <label>Id</label>
-                    @Html.DropDownList("id", new SelectList(listItemsIDGenerali, "Value", "Text"))
-                    <label>Data</label>
-                    <input type="date" name="date" placeholder="data" required />
-                    <label>Categoria</label>
-                    @Html.DropDownList("category", new SelectList(listItemsGenerali, "Value", "Text"))
-                    <label>Descrizione</label>
-                    <input type="text" name="description" placeholder="descrizione" required />
-                    <label>Inizio Programma</label>
-                    <input type="checkbox" name="starting_program" value="true" />
-                </div>
-                <div class="col-md-2">
-                    <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
-                </div>
-            </div>
-        </form>
-    </fieldset>
-
-    <fieldset>
-        <legend>Aggiungi task</legend>
-        <form id="form_details" method="post" action="/Tasks/NewTaskGeneral">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <label>Data</label>
-                    <input type="date" name="date" placeholder="data" required />
-                    <label>Categoria</label>
-                    @Html.DropDownList("category", new SelectList(listItemsGenerali, "Value", "Text"))
-                    <label>Descrizione</label>
-                    <input type="text" name="description" placeholder="descrizione" required />
-                    <label>Inizio Programma</label>
-                    <input type="checkbox" name="starting_program" value="true" />
-                </div>
-                <div class="col-md-2">
-                    <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
-                </div>
-            </div>
-        </form>
-    </fieldset>
-</div>
-
-<div class="container">
-    <fieldset>
-           <legend> Attività </legend>
-
-           <legend>Aggiorna attività</legend>
-           <form id="form_details" method="post" action="/Tasks/UpdateAllActivities">
-               <div class="form-group">
-                   <div class="col-md-3">
-                       <label>Id</label>
-                       @Html.DropDownList("id", new SelectList(listItemsIDAttivita, "Value", "Text"))
-                       <label>Data</label>
-                       <input type="date" name="date" placeholder="data" required />
-                       <label>Categoria</label>
-                       @Html.DropDownList("category", new SelectList(listItemsAttivita, "Value", "Text"))
-                       <label>Descrizione</label>
-                       <input type="text" name="description" placeholder="descrizione" required />
-                       <label>Inizio Programma</label>
-                       <input type="checkbox" name="starting_program" value="true" />
-                   </div>
-                   <div class="col-md-2">
-                       <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
-                   </div>
-               </div>
-           </form>
-    </fieldset>
-
-    <fieldset>
-           <legend>Aggiungi attività</legend>
-           <form id="form_details" method="post" action="/Tasks/NewTaskActivities">
-               <div class="form-group">
-                   <div class="col-md-3">
-                       <label>Data</label>
-                       <input type="date" name="date" placeholder="data" required />
-                       <label>Categoria</label>
-                       @Html.DropDownList("category", new SelectList(listItemsAttivita, "Value", "Text"))
-                       <label>Descrizione</label>
-                       <input type="text" name="description" placeholder="descrizione" required />
-                       <label>Inizio Programma</label>
-                       <input type="checkbox" name="starting_program" value="true" />
-                   </div>
-                   <div class="col-md-2">
-                       <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
-                   </div>
-               </div>
-           </form>
-     </fieldset> 
-</div>
-
-<div class="container">
-    <fieldset>
-        <legend> Diete </legend>
-
-        <legend>Aggiorna dieta</legend>
-        <form id="form_details" method="post" action="/Tasks/UpdateAllDiets">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <label>Id</label>
-                    @Html.DropDownList("id", new SelectList(listItemsIDDiete, "Value", "Text"))
-                    <label>Data</label>
-                    <input type="date" name="date" placeholder="data" required />
-                    <label>Categoria</label>
-                    @Html.DropDownList("category", new SelectList(listItemsDiete, "Value", "Text"))
-                    <label>Descrizione</label>
-                    <input type="text" name="description" placeholder="descrizione" required />
-                    <label>Inizio Programma</label>
-                    <input type="checkbox" name="starting_program" value="true" />
-                </div>
-                <div class="col-md-2">
-                    <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
-                </div>
-            </div>
-        </form>
-    </fieldset>
-
-    <fieldset>
-        <legend>Aggiungi dieta</legend>
-        <form id="form_details" method="post" action="/Tasks/NewTaskDiets">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <label>Data</label>
-                    <input type="date" name="date" placeholder="data" required />
-                    <label>Categoria</label>
-                    @Html.DropDownList("category", new SelectList(listItemsDiete, "Value", "Text"))
-                    <label>Descrizione</label>
-                    <input type="text" name="description" placeholder="descrizione" required />
-                    <label>Inizio Programma</label>
-                    <input type="checkbox" name="starting_program" value="true" />
-                </div>
-                <div class="col-md-2">
-                    <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
-                </div>
-            </div>
-        </form>
-    </fieldset>
+    <div class="row">
+        <h2> Attività </h2>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiorna attività</legend>
+                <form id="form_details" method="post" action="/Tasks/UpdateAllActivities">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Id</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("id", new SelectList(listItemsIDAttivita, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input  class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsAttivita, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input  class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiungi attività</legend>
+                <form id="form_details" method="post" action="/Tasks/NewTaskActivities">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsAttivita, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <h2> Task generali </h2>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiorna task</legend>
+                <form id="form_details" method="post" action="/Tasks/UpdateAllGeneral">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Id</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("id", new SelectList(listItemsIDGenerali, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsGenerali, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiungi task</legend>
+                <form id="form_details" method="post" action="/Tasks/NewTaskGeneral">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsGenerali, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <h2> Diete </h2>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiorna dieta</legend>
+                <form id="form_details" method="post" action="/Tasks/UpdateAllDiets">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Id</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("id", new SelectList(listItemsIDDiete, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsDiete, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiorna" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset>
+                <legend>Aggiungi dieta</legend>
+                <form id="form_details" method="post" action="/Tasks/NewTaskDiets">
+                    <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Data</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="date" name="date" placeholder="data" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Categoria</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("category", new SelectList(listItemsDiete, "Value", "Text"))
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Descrizione</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="description" placeholder="descrizione" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Inizio Programma</label>
+                            <div class="col-sm-2">
+                                <input style="width: 2em; height: 2em;" class="form-check-input" type="checkbox" name="starting_program" value="true" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
 </div>
