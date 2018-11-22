@@ -5,118 +5,226 @@
 @model KCASM_AppWeb.Models.ForView.Medic
 
 <h2>Medic</h2>
-
-        <legend>Dati Anagrafici</legend>
-        <form id="form_settings" method="post" action="/Medic/Update">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Nome</label>
-                        <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
-                        <label>Cognome</label>
-                        <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
-                        <label>Età</label>
-                        <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
-                        <label>Numero di telefono</label>
-                        <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
-                        <label>Indirizzo dello studio</label>
-                        <input class="form-control" type="text" name="address" value="@Model.Address" placeholder="@Model.Address" required />
-                        <label>Sistema di notifiche</label>
-                        <div class="col-md-2">
-                            Email
-                            @if (Model.Email_notify)
-                            {
-                                <input type="checkbox" name="email_notify" value="true" checked />
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="email_notify" value="true" />
-                            }
-                            SMS
-                            @if (Model.Sms_notify)
-                            {
-                                <input type="checkbox" name="sms_notify" value="true" checked />
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="sms_notify" value="true" />
-                            }
+<div class="container">
+    <div class="row">
+        <div style="margin-bottom: 2em;" class="col-md-6">
+            <fieldset>
+                <legend>Dati Anagrafici</legend>
+                <form id="form_settings" method="post" action="/Medic/Update">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Nome</label>
+                            </div>
                         </div>
-                        <p>Specializzazione: @Model.Specialization</p>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" name="name" value="@Model.Name" placeholder="@Model.Name" required />
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-1">
-                    <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-                </div>
-            </div>
-        </form>
-
-        <legend>Dati Accesso</legend>
-        <form id="form_settings" method="post" action="/Medic/UpdateLogin">
-            <div class="row">
-                <div>
-                    <label>Indirizzo email</label>
-                    <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
-                </div>
-                <div>
-                    <label>Vecchia password</label>
-                    <input class="form-control" type="password" name="old_password" required />
-                </div>
-                <div>
-                    <label>Nuova password</label>
-                    <input class="form-control" type="password" name="new_password" />
-                </div>
-                <div>
-                    <label>Conferma della nuova password</label>
-                    <input class="form-control" type="password" name="new_password2" />
-                </div>
-            </div>
-            <div class="col-md-1">
-                <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
-            </div>
-        </form> 
-
-            <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutte le pazienti</p>
-            <div id="medic"></div>
-            <script>
-                $(document).ready(function () {
-                    $("#medic").kendoGrid({
-                        dataSource: {
-                            data: @Json.Serialize(Model.Patients),
-                            schema: {
-                                model: {
-                                    fields: {
-                                        id: { type: "int" },
-                                        name: { type: "string" },
-                                        surname: { type: "string" },
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Cognome</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" name="surname" value="@Model.Surname" placeholder="@Model.Surname" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Età</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="number" name="age" value="@Model.Age" placeholder="@Model.Age" required min="18" max="60" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Numero di telefono</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" name="phone" value="@Model.Phone" placeholder="@Model.Phone" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Indirizzo dello studio</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="text" name="address" value="@Model.Address" placeholder="@Model.Address" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label>Specializzazione</label>
+                        </div>
+                        <div class="col-md-4">
+                            <p>@Model.Specialization</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-5 col-form-label">Sistema di notifiche</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <label class="col-sm-2 col-form-label">Email</label>
+                                    @if (Model.Email_notify)
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="email_notify" value="true" checked />
                                     }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="email_notify" value="true" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <label class="col-sm-2 col-form-label">SMS</label>
+                                    @if (Model.Sms_notify)
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="sms_notify" value="true" checked />
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="sms_notify" value="true" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-md-5" style="margin-bottom: 2em;">
+            <fieldset>
+                <legend>Dati Accesso</legend>
+                <form id="form_settings" method="post" action="/Medic/UpdateLogin">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Indirizzo email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="email" name="email" value="@Model.Email" placeholder="@Model.Email" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Vecchia password</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="password" name="old_password" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Nuova password</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="password" name="new_password" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>Conferma nuova password</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input class="form-control" type="password" name="new_password2" />
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-1">
+                            <input class="btn btn-primary" type="submit" value="Aggiorna dati" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+        
+         
+<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutte le pazienti</p>
+<div id="medic"></div>
+<script>
+    $(document).ready(function () {
+        $("#medic").kendoGrid({
+            dataSource: {
+                data: @Json.Serialize(Model.Patients),
+                schema: {
+                    model: {
+                        fields: {
+                            id: { type: "int" },
+                            name: { type: "string" },
+                            surname: { type: "string" },
+                        }
+                    }
+                },
+                pageSize: 10
+            },
+            height: "30em",
+            groupable: false,
+            sortable: true,
+            pageable: {
+                refresh: false,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: [{
+                field: "name",
+                title: "Nome"
+            }, {
+                field: "surname",
+                title: "Cognome"
+            }, { command: { text: "Accedi alla paziente", click: function (e) {
+                                    e.preventDefault();
+                                    var data = this.dataItem($(e.target).closest("tr"));
+                                    window.location.href = '@Url.Action("RedirectPatient", "Medic")?patientId=' + data.id;
                                 }
-                            },
-                            pageSize: 10
-                        },
-                        height: "30em",
-                        groupable: false,
-                        sortable: true,
-                        pageable: {
-                            refresh: false,
-                            pageSizes: true,
-                            buttonCount: 5
-                        },
-                        columns: [{
-                            field: "name",
-                            title: "Nome"
-                        }, {
-                            field: "surname",
-                            title: "Cognome"
-                        }, { command: { text: "Accedi alla paziente", click: function (e) {
-                                                e.preventDefault();
-                                                var data = this.dataItem($(e.target).closest("tr"));
-                                                window.location.href = '@Url.Action("RedirectPatient", "Medic")?patientId=' + data.id;
-                                            }
-                                        }
-                                , title: " "
-                            }]
-                    });
-                });
-            </script>
+                            }
+                    , title: " "
+                }]
+        });
+    });
+</script>
 
