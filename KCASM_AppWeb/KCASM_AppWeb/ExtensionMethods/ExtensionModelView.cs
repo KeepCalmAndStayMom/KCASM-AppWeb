@@ -34,25 +34,69 @@ namespace KCASM_AppWeb.ExtensionMethods
             return medic;
         }
 
-        public static Message GetMessage(this Models.ForApi.MessageList received, Models.ForApi.MessageList sent, List<Models.ForApi.Patient> patients, List<Models.ForApi.Medic> medics)
+        public static Message GetMessage(this Models.ForApi.MessageList received, List<Models.ForApi.Patient> patients, List<Models.ForApi.Medic> medics)
         {
             Message message = new Message();
 
-            if(received != null)
-                message.Messages_received = received.Messages_received;
-
-            if(sent != null)
-                message.Messages_sent = sent.Messages_sent;
-
-            if(patients!=null)
+            if (patients != null)
+            {
                 foreach (Models.ForApi.Patient p in patients)
-                    message.Patients.Add(new PatientsForMedic(p.Id, p.Name, p.Surname));
+                {
+                    Int16 toRead = 0;
 
-            if(medics != null)
-                foreach (Models.ForApi.Medic medic in medics)
-                    message.Medics.Add(new MedicsForPatient(medic.Id, medic.Name, medic.Surname, medic.Specialization));
+                    foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
+                    {
+                        if (m.Patient_id == p.Id)
+                            if (!m.Read)
+                                toRead++;
+                    }
+
+                    message.chatProfiles.Add(new ChatProfile(p.Id, p.Name, p.Surname, toRead));
+                }
+            }
+
+            if (medics != null)
+            {
+                foreach (Models.ForApi.Medic me in medics)
+                {
+                    Int16 toRead = 0;
+
+                    foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
+                    {
+                        if (m.Medic_id == me.Id)
+                            if (!m.Read)
+                                toRead++;
+                    }
+
+                    message.chatProfiles.Add(new ChatProfile(me.Id, me.Name, me.Surname, toRead));
+                }
+            }
 
             return message;
+        }
+
+        public static Chat GetChat(this string id, string filterId, string name, string surname, bool patient)
+        {
+            Chat chat = new Chat();
+            chat.Id = Convert.ToInt16(filterId);
+            chat.Name = name;
+            chat.Surname = surname;
+
+            Models.ForApi.MessageList received = id.GetMessage(patient, "received", filterId);
+            Models.ForApi.MessageList sent = id.GetMessage(patient, "sent", filterId);
+
+            if(received != null)
+                foreach (Models.ForApi.MessageMedicPatient message in received.Messages_received)
+                    chat.MessageList.Add(message);
+
+            if(sent != null)
+                foreach (Models.ForApi.MessageMedicPatient message in sent.Messages_sent)
+                    chat.MessageList.Add(message);
+
+
+            chat.MessageList = chat.MessageList.OrderBy(x => x.Timedate).ToList();
+
+            return chat;
         }
 
         public static Tasks GetTask(this Models.ForApi.TaskList general, Models.ForApi.TaskList activity, Models.ForApi.TaskList diet, Models.ForApi.CategoryTask categoryTask)
