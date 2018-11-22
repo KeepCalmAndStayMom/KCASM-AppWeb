@@ -1,14 +1,10 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Tasks";
 }
 
 @model KCASM_AppWeb.Models.ForView.Tasks
 
-<h2>Tasks</h2>
-
-
-<div id="tasks"></div>
+<div style="margin-top: 2em" id="tasks"></div>
 <script>
                 $(document).ready(function () {
                     $("#tasks").kendoGrid({
@@ -30,7 +26,7 @@
                             },
                             pageSize: 10
                         },
-                        height: "30em",
+                        height: "50em",
                         groupable: false,
                         sortable: true,
                         pageable: {
@@ -198,10 +194,10 @@
         </div>
     </div>
     <div class="row">
-        <h2> Task generali </h2>
+        <h2>Generali</h2>
         <div class="col-sm-6">
             <fieldset>
-                <legend>Aggiorna task</legend>
+                <legend>Aggiorna generali</legend>
                 <form id="form_details" method="post" action="/Tasks/UpdateAllGeneral">
                     <div class="form-group">
                         <div class="form-group row">
@@ -243,7 +239,7 @@
         </div>
         <div class="col-sm-6">
             <fieldset>
-                <legend>Aggiungi task</legend>
+                <legend>Aggiungi generali</legend>
                 <form id="form_details" method="post" action="/Tasks/NewTaskGeneral">
                     <div class="form-group">
                         <div class="form-group row">

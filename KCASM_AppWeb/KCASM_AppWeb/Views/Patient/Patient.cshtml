@@ -1,10 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Patient";
+    ViewData["Title"] = "Paziente";
 }
 
 @model KCASM_AppWeb.Models.ForView.Patient
 
-<h2>Patient</h2>
 <div class="container">
     <div class="row">
         <div class="col-md-7">
@@ -212,8 +211,8 @@
     </div>
 </div>
 <div class="container">
-    <div class="form-group-sm-5">
-        <div id="dati_login" class="container">
+    <div class="form-group">
+        <div id="dati_login">
             <fieldset style="margin-top: 2em">
                 <legend>Dati di accesso</legend>
                 @if (ViewData["Session"].Equals("Patient"))
@@ -274,7 +273,7 @@
     </div>
 </div>
 
-    <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco di tutti i medici</p>
+    <h2>Elenco di tutti i medici</h2>
     <div id="medic"></div>
     <script>
                 $(document).ready(function () {
