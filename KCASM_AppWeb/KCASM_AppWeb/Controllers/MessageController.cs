@@ -25,21 +25,36 @@ namespace KCASM_AppWeb.Controllers
             string id = HttpContext.Session.GetString("Id");
             Message message;
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
-
             if (HttpContext.Session.GetString("Type").Equals("Medic"))
-            {
-                message = id.GetMessage(false, "received", null).GetMessage(id.GetMessage(false, "sent", null), id.GetMedicPatients(), null);
-                return View("MessageMedic", message);
-            }
+                message = id.GetMessage(false, "received", null).GetMessage(id.GetMedicPatients(), null);
             else
-            {
-                message = id.GetMessage(true, "received", null).GetMessage(id.GetMessage(true, "sent", null), null, id.GetPatientMedics());
-                return View("MessagePatient", message);
-            }
+                message = id.GetMessage(true, "received", null).GetMessage(null, id.GetPatientMedics());
+
+            ViewData["Session"] = HttpContext.Session.GetString("Type");
+            return View(message);
         }
 
-        public IActionResult ReadMessage(int senderId, string timedate)
+        public IActionResult Chat(string filterId, string name, string surname)
+        {
+            if (!"Message".CheckSession(HttpContext.Session.GetString("Type")))
+                return RedirectToAction("Index", "Home");
+
+            if (HttpContext.Session.GetString("Type").Equals("MedicPatient"))
+                HttpContext.Session.SetString("Type", "Medic");
+
+            string id = HttpContext.Session.GetString("Id");
+            Chat chat;
+
+            if (HttpContext.Session.GetString("Type").Equals("Patient"))
+                chat = id.GetChat(filterId, name, surname, true);
+            else
+                chat = id.GetChat(filterId, name, surname, false);
+
+            ViewData["Session"] = HttpContext.Session.GetString("Type");  
+            return View(chat);
+        }
+
+        public IActionResult ReadMessage(int senderId, string timedate, string name, string surname)
         {
             var id = HttpContext.Session.GetString("Id");
 
@@ -53,11 +68,11 @@ namespace KCASM_AppWeb.Controllers
 
             url.ExecuteWebUpload("PUT", "{ }");
 
-            return RedirectToAction("Message", "Message");
+            return RedirectToAction("Chat", "Message", new { senderId, name, surname });
         }
 
         [HttpPost]
-        public IActionResult NewMessage(int id_receiver, string subject, string message)
+        public IActionResult NewMessage(int id_receiver, string subject, string message, string name, string surname)
         {
             var id = HttpContext.Session.GetString("Id");
             var timedate = DateTime.ParseExact(DateTime.Now.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm:ss");
@@ -76,8 +91,7 @@ namespace KCASM_AppWeb.Controllers
 
             url.ExecuteWebUpload("POST", body);
 
-            ViewData["Session"] = HttpContext.Session.GetString("Type");
-            return RedirectToAction("Message", "Message");
+            return RedirectToAction("Chat", "Message", new { id_receiver, name, surname });
         }
     }
 }

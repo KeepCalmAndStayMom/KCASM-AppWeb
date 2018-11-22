@@ -8,12 +8,6 @@ namespace KCASM_AppWeb.Models.ForView
 {
     public class Message
     {
-        public List<MessageMedicPatient> Messages_sent { get; set; } = new List<MessageMedicPatient>();
-
-        public List<MessageMedicPatient> Messages_received { get; set; } = new List<MessageMedicPatient>();
-
-        public List<MedicsForPatient> Medics { get; set; } = new List<MedicsForPatient>();
-
-        public List<PatientsForMedic> Patients { get; set; } = new List<PatientsForMedic>();
+        public List<ChatProfile> chatProfiles { get; set; } = new List<ChatProfile>();
     }
 }

@@ -154,7 +154,7 @@ namespace KCASM_AppWeb.ExtensionMethods
             return m;
         }
 
-        public static MessageList GetMessage(this string id, Boolean patient, String type, Dictionary<String, Object> filter)
+        public static MessageList GetMessage(this string id, Boolean patient, String type, string filterId)
         {
             MessageList m = null;
             string url = Constant.API_ADDRESS;
@@ -164,7 +164,14 @@ namespace KCASM_AppWeb.ExtensionMethods
                 url += "medics/";
 
             url += id + "/messages/" + type;
-            // al momento senza filtri ....
+
+            if (filterId != null)
+            {
+                if (patient)
+                    url += "?medic_id=" + filterId;
+                else
+                    url += "?patient_id=" + filterId;
+            }
 
             var content = ExecuteGet(url);
             if (content != null)

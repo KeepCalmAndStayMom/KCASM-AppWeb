@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewData["Title"] = "Chat";
+}
+
+@model KCASM_AppWeb.Models.ForView.Chat
+
+<h2>Chat con @Model.Name @Model.Surname</h2>
+
+@{
+    foreach (KCASM_AppWeb.Models.ForApi.MessageMedicPatient message in Model.MessageList)
+    {
+
+        if (message.Medic_sender)
+        {
+            <div class="container">
+                <h3> @message.Subject </h3>
+                <p> @message.Message </p>
+                <span class="time-right"> @message.Timedate </span>
+                @if (ViewData["Session"].Equals("Patient") && !message.Read)
+                {
+                    <button onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                } 
+            </div>
+        }
+        else
+        {
+            <div class="container darker">
+                <h3> @message.Subject </h3>
+                <p> @message.Message </p>
+                <span class="time-right"> @message.Timedate </span>
+                @if (ViewData["Session"].Equals("Medic") && !message.Read)
+                {
+                    <button onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                }
+            </div>
+        }
+    }
+
+}
+
+
+<fieldset>
+    <legend>Nuovo messaggio</legend>
+    <form id="form_details" method="post" action="/Message/NewMessage">
+        <div class="form-group">
+
+            <input type="text" name="subject" placeholder="Oggetto" />
+            <input type="text" name="message", placeholder="Messaggio..." />
+            @Html.Hidden("id_receiver", Model.Id)
+            @Html.Hidden("name", Model.Name)
+            @Html.Hidden("surname", Model.Surname)
+
+            <div class="form-group row">
+                <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Invia" />
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+
+<style>
+    /* Chat containers */
+    .container {
+        border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    /* Darker chat container */
+    .darker {
+        border-color: #ccc;
+        background-color: #ddd;
+    }
+
+    /* Clear floats */
+    .container::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Style images */
+    .container img {
+        float: left;
+        max-width: 60px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+        /* Style the right image */
+        .container img.right {
+            float: right;
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+    /* Style time text */
+    .time-right {
+        float: right;
+        color: #aaa;
+    }
+
+    /* Style time text */
+    .time-left {
+        float: left;
+        color: #999;
+    }
+</style>
