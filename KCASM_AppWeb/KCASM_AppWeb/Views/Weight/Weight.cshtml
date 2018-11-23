@@ -6,25 +6,27 @@
 
 
 <div style="margin-top: 3em;" class="container">
-    <div id="pesi"></div><br />
+    <div id="pesi" style="height: 650px"></div><br />
 </div>
 
 @if (ViewData["Session"].Equals("Patient"))
 {
+    <center>
     <fieldset style="margin-top: 2em; margin-bottom: 2em;">
         <legend>Aggiungi il peso odierno</legend>
-        <form id="form_details" method="post" action="/Weight/NewWeight">
+        <form method="post" action="/Weight/NewWeight">
             <div class="form-group">
-                <div class="col-md-3">
-                    <label>Nuovo Peso</label>
+                <div>
+                    <label style="margin-right: 1em;">Nuovo Peso</label>
                     <input type="number" step="0.01" name="weight" placeholder="nuovo peso" required />
                 </div>
-                <div class="col-md-2">
+                <div>
                     <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Aggiungi" />
                 </div>
             </div>
         </form>
     </fieldset>
+    </center>
 }
 
 <script>
