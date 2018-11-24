@@ -4,66 +4,70 @@
 
 @model KCASM_AppWeb.Models.ForView.Tasks
 
-<h2>Elenco di tutti i task</h2>
-<div style="margin-top: 2em" id="tasks"></div>
-<script>
-                $(document).ready(function () {
-                    $("#tasks").kendoGrid({
-                        dataSource: {
-                            data: @Json.Serialize(Model.TaskList),
-                            schema: {
-                                model: {
-                                    fields: {
-                                        id: { from: "id", type: "number" },
-                                        tipo: { from: "type", type: "string" },
-                                        medic_id: { from: "medic_id", type: "number" },
-                                        date: { from: "date", type: "string" },
-                                        category: { from: "category", type: "string" },
-                                        description: { from: "description", type: "string" },
-                                        starting_program: { from: "starting_program", type: "boolean" },
-                                        executed: { from: "executed", type: "boolean" }
-                                    }
-                                }
-                            },
-                            pageSize: 10
-                        },                      
-                        height: "50em",
-                        groupable: false,
-                        sortable: true,
-                        pageable: {
-                            refresh: false,
-                            pageSizes: true,
-                            buttonCount: 5
-                        },
-                        columns: [{
-                            field: "tipo",
-                            title: "Tipo"
-                            } , {
-                                field: "medic_id",
-                                title: "Id Medico"
-                            }, {
-                                field: "date",
-                                title: "Data"
-                            }, {
-                                field: "category",
-                                title: "Categoria"
-                            }, {
-                                field: "description",
-                                title: "Descrizione"
-                            }, {
-                                field: "starting_program",
-                                title: "Inizio Programma"
-                            }, {
-                                field: "executed",
-                                title: "Eseguito"
-                            }, { command: { text: "Cambia Eseguito", click: function (e) {
-                                                e.preventDefault();
-                                var data = this.dataItem($(e.target).closest("tr"));
-                                window.location.href = '@Url.Action("UpdateExecuted", "Tasks")?id=' + data.id + '&type=' + data.tipo + '&executed=' + (!data.executed);
-                                            }
+@if (Model.TaskList.Count != 0)
+{ 
+    <h2>Elenco di tutti i task</h2>
+    <div style="margin-top: 2em" id="tasks"></div>
+    <script>
+                    $(document).ready(function () {
+                        $("#tasks").kendoGrid({
+                            dataSource: {
+                                data: @Json.Serialize(Model.TaskList),
+                                schema: {
+                                    model: {
+                                        fields: {
+                                            id: { from: "id", type: "number" },
+                                            tipo: { from: "type", type: "string" },
+                                            medic_id: { from: "medic_id", type: "number" },
+                                            date: { from: "date", type: "string" },
+                                            category: { from: "category", type: "string" },
+                                            description: { from: "description", type: "string" },
+                                            starting_program: { from: "starting_program", type: "boolean" },
+                                            executed: { from: "executed", type: "boolean" }
                                         }
-                                , title: " "
-                            }]
+                                    }
+                                },
+                                pageSize: 10
+                            },
+                            height: "50em",
+                            groupable: false,
+                            sortable: true,
+                            pageable: {
+                                refresh: false,
+                                pageSizes: true,
+                                buttonCount: 5
+                            },
+                            columns: [{
+                                field: "tipo",
+                                title: "Tipo"
+                                }, {
+                                    field: "date",
+                                    title: "Data"
+                                }, {
+                                    field: "category",
+                                    title: "Categoria"
+                                }, {
+                                    field: "description",
+                                    title: "Descrizione"
+                                }, {
+                                    field: "starting_program",
+                                    title: "Inizio Programma"
+                                }, {
+                                    field: "executed",
+                                    title: "Eseguito"
+                                }, { command: { text: "Cambia Eseguito", click: function (e) {
+                                                    e.preventDefault();
+                                    var data = this.dataItem($(e.target).closest("tr"));
+                                    window.location.href = '@Url.Action("UpdateExecuted", "Tasks")?id=' + data.id + '&type=' + data.tipo + '&executed=' + (!data.executed);
+                                                }
+                                            }
+                                    , title: " "
+                                }]
+                        });
                     });
-                });
-</script>
+    </script>
+}
+else
+{
+    <h2>Attualmente non hai task programmati</h2>
+}

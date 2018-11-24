@@ -182,7 +182,8 @@
     </div>
 </div>
         
-         
+@if (Model.Patients.Count != 0)
+{
 <h2>Elenco di tutte le pazienti</h2>
 <div id="medic"></div>
 <script>
@@ -226,4 +227,9 @@
         });
     });
 </script>
+}
+else
+{
+    <h2>Non segui ancora nessuna paziente</h2>
+}
 
