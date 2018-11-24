@@ -1,13 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Message";
+    ViewData["Title"] = "Messaggi";
 }
 
 @model KCASM_AppWeb.Models.ForView.Message
 
-<h2>Messaggi</h2>
-
-
-<p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco delle chat</p>
+<h2>Elenco delle chat</h2>
 <div id="chatprofile"></div>
 <script>
                   $(document).ready(function () {
@@ -23,9 +20,9 @@
                                           toRead: { type: "int" }
                                       }
                                   }
-                              }
+                              },
+                              pageSize: 10
                           },
-                          pageSize: 10,
                           height: "30em",
                           groupable: false,
                           sortable: true,
@@ -54,146 +51,3 @@
                       });
                   });
 </script>
-
-
-
-@{ /*
-   <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi ricevuti</p>
-   <div id="received_messages"></div>
-   <script>
-                   $(document).ready(function () {
-                       $("#received_messages").kendoGrid({
-                           dataSource: {
-                               data: @Json.Serialize(Model.Messages_received),
-                               schema: {
-                                   model: {
-                                       fields: {
-                                           medic_id: { type: "int" },
-                                           timedate: { type: "string" },
-                                           subject: { type: "string" },
-                                           message: { type: "string" },
-                                           read: { type: "boolean" }
-                                       }
-                                   }
-                               }
-                           },
-                           pageSize: 10,
-                           height: "30em",
-                           groupable: false,
-                           sortable: true,
-                           pageable: {
-                               refresh: false,
-                               pageSizes: true,
-                               buttonCount: 5
-                           },
-                           columns: [{
-                               field: "medic_id",
-                               title: "ID del medico"
-                           }, {
-                                   field: "timedate",
-                                   title: "Ora"
-                               }, {
-                                   field: "subject",
-                                   title: "Oggetto"
-                               }, {
-                                   field: "message",
-                                   title: "Contenuto messaggio"
-                               }, {
-                                   field: "read",
-                                   title: "Letto"
-                               },
-                               { command: { text: "Segna come letto", click: function (e) {
-                                                   e.preventDefault();
-                                                   var data = this.dataItem($(e.target).closest("tr"));
-                                                   window.location.href = '@Url.Action("ReadMessage", "Message")?senderId=' + data.medic_id + '&timedate=' + data.timedate;
-                                                   }
-                                           }
-                                   , title: " "
-                               }]
-                       });
-                   });
-
-
-
-   </script>
-
-   <p style="font: 30px sans-serif; margin-top: 1.5em;">Elenco dei messaggi inviati</p>
-   <div id="sent_messages"></div>
-   <script>
-                   $(document).ready(function () {
-                       $("#sent_messages").kendoGrid({
-                           dataSource: {
-                               data: @Json.Serialize(Model.Messages_sent),
-                               schema: {
-                                   model: {
-                                       fields: {
-                                           medic_id: { type: "int" },
-                                           timedate: { type: "string" },
-                                           subject: { type: "string" },
-                                           message: { type: "string" },
-                                           read: { type: "boolean" }
-                                       }
-                                   }
-                               },
-                               pageSize: 10
-                           },
-                           height: "30em",
-                           groupable: false,
-                           sortable: true,
-                           pageable: {
-                               refresh: false,
-                               pageSizes: true,
-                               buttonCount: 5
-                           },
-                           columns: [{
-                               field: "medic_id",
-                               title: "ID del medico"
-                           }, {
-                                   field: "timedate",
-                                   title: "Ora"
-                               }, {
-                                   field: "subject",
-                                   title: "Oggetto"
-                               }, {
-                                   field: "message",
-                                   title: "Contenuto messaggio"
-                               }, {
-                                   field: "read",
-                                   title: "Letto"
-                               }]
-                       });
-                   });
-   </script>
-
-   <fieldset style="margin-top: 2em; margin-bottom: 2em;">
-       <legend>Invia nuovo messaggio</legend>
-       <form id="form_details" method="post" action="/Message/NewMessage">
-           <div class="form-group">
-               <div class="col-md-3">
-                   <label>Medico</label>
-                   @{
-                       List<SelectListItem> listItems = new List<SelectListItem>();
-                       foreach (KCASM_AppWeb.Models.ForView.MedicsForPatient m in Model.Medics)
-                       {
-                           if (m.Id != 0)
-                           {
-                               listItems.Add(new SelectListItem { Text = Convert.ToString(m.Id), Value = Convert.ToString(m.Id) });
-                           }
-                       }
-                       @Html.DropDownList("id_receiver", new SelectList(listItems, "Value", "Text"));
-                   }
-                   <label>Oggetto</label>
-                   <input type="text" name="subject" placeholder="Oggetto" required />
-                   <label>Messaggio</label>
-                   <input type="text" name="message" placeholder="Messaggio..." required />
-               </div>
-               <div class="col-md-2">
-                   <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Invia" />
-               </div>
-           </div>
-       </form>
-
-   </fieldset>
-
-           */
-}

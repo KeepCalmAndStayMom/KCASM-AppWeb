@@ -1,10 +1,15 @@
-﻿
+﻿@{ 
+    ViewData["Title"] = "Home";
+}
 
-<p id="welcome">Keep Calm And Stay Mom</p>
+<h1 id="welcome">Keep Calm And Stay Mom</h1>
 
 <p> Possibile logo / immagine</p>
 
-<p> Possibile descrizione</p>
+<p style="font-size: 20px">Keep Calm and Stay Mom è un progetto che supporta le donne incinte e i medici durante il periodo della gravidanza. Una volta iscritta, alla donna incinta verrà consegnata una home station,
+    un dispositivo interattivo che, tramite braccialetto Fitbit, lampadine Philips Hue e sensore multiplo, monitora la situazione attorno e della donna incinta. Tramite questo portale, forniamo
+    l'accesso e la visualizzazione dei dati raccolti in maniera semplice e intuitiva. I medici potranno quindi controllare lo stato di tutte le proprie pazienti e assegnare loro delle attività da svolgere.
+    Per mezzo di un apposito sistema di chat, è possibile comunicare agevolmente senza ricorrere a email o chiamate telefoniche.</p>
 
 @if (ViewData["Session"].Equals("NotLogged"))
 {
@@ -99,11 +104,6 @@
         outline: 0;
         -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-    }
-
-    #welcome {
-        font-size: 22px;
-        color: green;
     }
 
     .btn.btn-signin {

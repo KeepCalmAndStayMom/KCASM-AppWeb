@@ -1,14 +1,11 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Tasks";
 }
 
 @model KCASM_AppWeb.Models.ForView.Tasks
 
-<h2>Tasks</h2>
-
-
-<div id="tasks"></div>
+<h2>Elenco di tutti i task</h2>
+<div style="margin-top: 2em" id="tasks"></div>
 <script>
                 $(document).ready(function () {
                     $("#tasks").kendoGrid({
@@ -29,8 +26,8 @@
                                 }
                             },
                             pageSize: 10
-                        },
-                        height: "30em",
+                        },                      
+                        height: "50em",
                         groupable: false,
                         sortable: true,
                         pageable: {

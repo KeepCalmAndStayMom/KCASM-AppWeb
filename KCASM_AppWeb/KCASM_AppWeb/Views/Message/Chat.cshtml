@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Chat";
 }
 
@@ -13,25 +12,25 @@
 
         if (message.Medic_sender)
         {
-            <div class="container">
+            <div class="container_box">
                 <h3> @message.Subject </h3>
                 <p> @message.Message </p>
-                <span class="time-right"> @message.Timedate </span>
+                <span class="time-left"> @message.Timedate </span>
                 @if (ViewData["Session"].Equals("Patient") && !message.Read)
                 {
-                    <button onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                    <button style="float: right;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
                 } 
             </div>
         }
         else
         {
-            <div class="container darker">
+            <div class="container_box darker">
                 <h3> @message.Subject </h3>
                 <p> @message.Message </p>
                 <span class="time-right"> @message.Timedate </span>
                 @if (ViewData["Session"].Equals("Medic") && !message.Read)
                 {
-                    <button onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                    <button style="float: left;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
                 }
             </div>
         }
@@ -39,29 +38,34 @@
 
 }
 
-
+<center>
 <fieldset>
     <legend>Nuovo messaggio</legend>
-    <form id="form_details" method="post" action="/Message/NewMessage">
+    <form method="post" action="/Message/NewMessage">
         <div class="form-group">
-
-            <input type="text" name="subject" placeholder="Oggetto" />
-            <input type="text" name="message", placeholder="Messaggio..." />
+            <div>
+                <label>Oggetto</label>
+                <input type="text" name="subject" placeholder="Oggetto" required/>
+            </div>
+            <div>
+                <label>Messaggio</label>
+                <textarea name="message" placeholder="Messaggio... (max 500 caratteri)" rows="4" cols="20" maxlength="500" required></textarea>
+            </div>
             @Html.Hidden("id_receiver", Model.Id)
             @Html.Hidden("name", Model.Name)
             @Html.Hidden("surname", Model.Surname)
-
-            <div class="form-group row">
+            <div>
                 <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Invia" />
             </div>
         </div>
     </form>
 </fieldset>
+</center>
 
 
 <style>
     /* Chat containers */
-    .container {
+    .container_box {
         border: 2px solid #dedede;
         background-color: #f1f1f1;
         border-radius: 5px;
@@ -71,32 +75,18 @@
 
     /* Darker chat container */
     .darker {
+        text-align: right;
         border-color: #ccc;
         background-color: #ddd;
     }
 
     /* Clear floats */
-    .container::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    /* Style images */
-    .container img {
-        float: left;
-        max-width: 60px;
-        width: 100%;
-        margin-right: 20px;
-        border-radius: 50%;
-    }
-
-        /* Style the right image */
-        .container img.right {
-            float: right;
-            margin-left: 20px;
-            margin-right: 0;
-        }
+    .container_box::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+    
 
     /* Style time text */
     .time-right {
