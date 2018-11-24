@@ -197,52 +197,54 @@ namespace KCASM_AppWeb.ExtensionMethods
             return patient;
         }
 
-        public static Measures GetMeasuresTotal(this string id, DateTime date, DateTime endDate)
+        public static Measures GetMeasuresTotal(this string id, DateTime startDate, DateTime endDate)
         {
             Measures measures = new Measures();
 
             Models.ForApi.MeasuresTotal measuresTotal;
-            int range;
 
             if (endDate != null)
             {
-                if (date.CompareTo(endDate) > 0)
+                if (startDate.CompareTo(endDate) > 0)
                 {
-                    DateTime tmp = date;
-                    date = endDate;
+                    DateTime tmp = startDate;
+                    startDate = endDate;
                     endDate = tmp;
                 }
 
-                range = endDate.Subtract(date).Days + 1;
-                if (range > Constant.DATE_LIMIT_TOTAL)
-                    range = Constant.DATE_LIMIT_TOTAL;
+                if (endDate.Subtract(startDate).Days > Constant.DATE_LIMIT_TOTAL)
+                    endDate = startDate.AddDays(Constant.DATE_LIMIT_TOTAL);
 
             }
             else
-                range = Constant.DATE_LIMIT_TOTAL;
+                endDate = startDate.AddDays(Constant.DATE_LIMIT_TOTAL);
 
-            for (int i = 0; i < range; i++)
+            var dateStartFormatted = DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+            var dateEndFormatted = DateTime.ParseExact(endDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
+
+            measuresTotal = id.GetMeasuresTotalApi(null, dateStartFormatted, dateEndFormatted);
+
+            if (measuresTotal != null)
             {
-                var dateFormatted = DateTime.ParseExact(date.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
-
-                measuresTotal = id.GetMeasuresTotalApi(null, dateFormatted);
-
-                if (measuresTotal != null)
+                int i = 0;
+                while (startDate.CompareTo(endDate) <= 0)
                 {
-                    measures.FitbitArray.Date.Add(dateFormatted);
-                    measures.HueArray.Date.Add(dateFormatted);
-                    measures.SensorArray.Date.Add(dateFormatted);
+                    dateStartFormatted = DateTime.ParseExact(startDate.ToString(), Constant.DATETIME_FORMAT, CultureInfo.InvariantCulture).ToString(Constant.DATE_API_FORMAT);
 
-                    if (measuresTotal.Fitbit_total != null)
+                    measures.FitbitArray.Date.Add(dateStartFormatted);
+                    measures.HueArray.Date.Add(dateStartFormatted);
+                    measures.SensorArray.Date.Add(dateStartFormatted);
+
+                    if (measuresTotal.Fitbit_total.ElementAt(i) != null)
                     {
-                        measures.FitbitArray.Avg_heartbeats.Add(measuresTotal.Fitbit_total.Avg_heartbeats);
-                        measures.FitbitArray.Calories.Add(measuresTotal.Fitbit_total.Calories);
-                        measures.FitbitArray.Elevation.Add(measuresTotal.Fitbit_total.Elevation);
-                        measures.FitbitArray.Floors.Add(measuresTotal.Fitbit_total.Floors);
-                        measures.FitbitArray.Steps.Add(measuresTotal.Fitbit_total.Steps);
-                        measures.FitbitArray.Distance.Add(measuresTotal.Fitbit_total.Distance);
-                        measures.FitbitArray.Minutes_asleep.Add(measuresTotal.Fitbit_total.Minutes_asleep);
-                        measures.FitbitArray.Minutes_awake.Add(measuresTotal.Fitbit_total.Minutes_awake);
+                        measures.FitbitArray.Avg_heartbeats.Add(measuresTotal.Fitbit_total.ElementAt(i).Avg_heartbeats);
+                        measures.FitbitArray.Calories.Add(measuresTotal.Fitbit_total.ElementAt(i).Calories);
+                        measures.FitbitArray.Elevation.Add(measuresTotal.Fitbit_total.ElementAt(i).Elevation);
+                        measures.FitbitArray.Floors.Add(measuresTotal.Fitbit_total.ElementAt(i).Floors);
+                        measures.FitbitArray.Steps.Add(measuresTotal.Fitbit_total.ElementAt(i).Steps);
+                        measures.FitbitArray.Distance.Add(measuresTotal.Fitbit_total.ElementAt(i).Distance);
+                        measures.FitbitArray.Minutes_asleep.Add(measuresTotal.Fitbit_total.ElementAt(i).Minutes_asleep);
+                        measures.FitbitArray.Minutes_awake.Add(measuresTotal.Fitbit_total.ElementAt(i).Minutes_awake);
                     }
                     else
                     {
@@ -256,10 +258,10 @@ namespace KCASM_AppWeb.ExtensionMethods
                         measures.FitbitArray.Minutes_awake.Add(null);
                     }
 
-                    if (measuresTotal.Hue_total != null)
+                    if (measuresTotal.Hue_total.ElementAt(i) != null)
                     {
-                        measures.HueArray.Hard.Add(measuresTotal.Hue_total.Hard);
-                        measures.HueArray.Soft.Add(measuresTotal.Hue_total.Soft);
+                        measures.HueArray.Hard.Add(measuresTotal.Hue_total.ElementAt(i).Hard);
+                        measures.HueArray.Soft.Add(measuresTotal.Hue_total.ElementAt(i).Soft);
                     }
                     else
                     {
@@ -267,11 +269,11 @@ namespace KCASM_AppWeb.ExtensionMethods
                         measures.HueArray.Soft.Add(0);
                     }
 
-                    if (measuresTotal.Sensor_total != null)
+                    if (measuresTotal.Sensor_total.ElementAt(i) != null)
                     {
-                        measures.SensorArray.Temperature.Add(measuresTotal.Sensor_total.Temperature);
-                        measures.SensorArray.Luminescence.Add(measuresTotal.Sensor_total.Luminescence);
-                        measures.SensorArray.Humidity.Add(measuresTotal.Sensor_total.Humidity);
+                        measures.SensorArray.Temperature.Add(measuresTotal.Sensor_total.ElementAt(i).Temperature);
+                        measures.SensorArray.Luminescence.Add(measuresTotal.Sensor_total.ElementAt(i).Luminescence);
+                        measures.SensorArray.Humidity.Add(measuresTotal.Sensor_total.ElementAt(i).Humidity);
                     }
                     else
                     {
@@ -279,9 +281,10 @@ namespace KCASM_AppWeb.ExtensionMethods
                         measures.SensorArray.Luminescence.Add(null);
                         measures.SensorArray.Humidity.Add(null);
                     }
-                }
 
-                date = date.AddDays(1);
+                    startDate = startDate.AddDays(1);
+                    i++;
+                }
             }
 
             return measures;

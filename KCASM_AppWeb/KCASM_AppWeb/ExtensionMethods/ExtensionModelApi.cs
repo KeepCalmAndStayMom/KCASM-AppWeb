@@ -234,14 +234,21 @@ namespace KCASM_AppWeb.ExtensionMethods
             return m;
         }
 
-        public static MeasuresTotal GetMeasuresTotalApi(this string id, String device, String date)
+        public static MeasuresTotal GetMeasuresTotalApi(this string id, String device, params string[] date)
         {
             MeasuresTotal m = null;
             string url;
 
+            string filter = "";
+            switch (date.Length)
+            {
+                case 1: filter += "?date=" + date[0]; break;
+                case 2: filter += "?startdate=" + date[0] + "&enddate=" + date[1]; break;
+            }
+
             if (device != null)
             {
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/" + device + "?date=" + date;
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/" + device + filter;
 
                 var content = ExecuteGet(url);
                 if (content != null)
@@ -249,30 +256,40 @@ namespace KCASM_AppWeb.ExtensionMethods
                     m = new MeasuresTotal();
                     switch (device)
                     {
-                        case "fitbit": m.Fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content); break;
-                        case "hue": m.Hue_total = JsonConvert.DeserializeObject<HueTotal>(content); break;
-                        case "sensor": m.Sensor_total = JsonConvert.DeserializeObject<Sensor>(content); break;
+                        case "fitbit": m = JsonConvert.DeserializeObject<MeasuresTotal>(content); break;
+                        case "hue": m = JsonConvert.DeserializeObject<MeasuresTotal>(content); break;
+                        case "sensor": m = JsonConvert.DeserializeObject<MeasuresTotal>(content); break;
                     }
                 }
             }
             else
             {
                 m = new MeasuresTotal();
+                MeasuresTotal mSingle = new MeasuresTotal();
                 string content;
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/fitbit?date=" + date;
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/fitbit" + filter;
                 content = ExecuteGet(url);
                 if (content != null)
-                    m.Fitbit_total = JsonConvert.DeserializeObject<Fitbit>(content);
+                {
+                    mSingle = JsonConvert.DeserializeObject<MeasuresTotal>(content);
+                    m.Fitbit_total = mSingle.Fitbit_total;
+                }
 
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/hue?date=" + date;
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/hue" + filter;
                 content = ExecuteGet(url);
                 if (content != null)
-                    m.Hue_total = JsonConvert.DeserializeObject<HueTotal>(content);
+                {
+                    mSingle = JsonConvert.DeserializeObject<MeasuresTotal>(content);
+                    m.Hue_total = mSingle.Hue_total;
+                }
 
-                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/sensor?date=" + date;
+                url = Constant.API_ADDRESS + "patients/" + id + "/measures/total/sensor" + filter;
                 content = ExecuteGet(url);
                 if (content != null)
-                    m.Sensor_total = JsonConvert.DeserializeObject<Sensor>(content);
+                {
+                    mSingle = JsonConvert.DeserializeObject<MeasuresTotal>(content);
+                    m.Sensor_total = mSingle.Sensor_total;
+                }
 
 
             }

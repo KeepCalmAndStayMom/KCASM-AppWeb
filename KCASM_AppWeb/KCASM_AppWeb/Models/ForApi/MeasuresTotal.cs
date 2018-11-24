@@ -7,10 +7,10 @@ namespace KCASM_AppWeb.Models.ForApi
 {
     public class MeasuresTotal
     {
-        public Fitbit Fitbit_total { get; set; }
+        public List<Fitbit> Fitbit_total { get; set; } = new List<Fitbit>();
 
-        public HueTotal Hue_total { get; set; }
+        public List<HueTotal> Hue_total { get; set; } = new List<HueTotal>();
 
-        public Sensor Sensor_total { get; set; }
+        public List<Sensor> Sensor_total { get; set; } = new List<Sensor>();
     }
 }
