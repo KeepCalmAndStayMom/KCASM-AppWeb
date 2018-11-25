@@ -44,12 +44,13 @@ namespace KCASM_AppWeb.ExtensionMethods
                 {
                     Int16 toRead = 0;
 
-                    foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
-                    {
-                        if (m.Patient_id == p.Id)
-                            if (!m.Read)
-                                toRead++;
-                    }
+                    if(received != null)
+                        foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
+                        {
+                            if (m.Patient_id == p.Id)
+                                if (!m.Read)
+                                    toRead++;
+                        }
 
                     message.chatProfiles.Add(new ChatProfile(p.Id, p.Name, p.Surname, toRead));
                 }
@@ -61,12 +62,13 @@ namespace KCASM_AppWeb.ExtensionMethods
                 {
                     Int16 toRead = 0;
 
-                    foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
-                    {
-                        if (m.Medic_id == me.Id)
-                            if (!m.Read)
-                                toRead++;
-                    }
+                    if (received != null)
+                        foreach (Models.ForApi.MessageMedicPatient m in received.Messages_received)
+                        {
+                            if (m.Medic_id == me.Id)
+                                if (!m.Read)
+                                    toRead++;
+                        }
 
                     message.chatProfiles.Add(new ChatProfile(me.Id, me.Name, me.Surname, toRead));
                 }
@@ -103,13 +105,16 @@ namespace KCASM_AppWeb.ExtensionMethods
         {
             Tasks tasks = new Tasks();
 
-            foreach (Models.ForApi.Task t in general.General)
-                tasks.TaskList.Add(new Models.ForView.Task(t, "Generali"));
+            if(general!=null)
+                foreach (Models.ForApi.Task t in general.General)
+                    tasks.TaskList.Add(new Models.ForView.Task(t, "Generali"));
 
-            foreach (Models.ForApi.Task t in activity.Activities)
+            if (activity != null)
+                foreach (Models.ForApi.Task t in activity.Activities)
                 tasks.TaskList.Add(new Models.ForView.Task(t, "Attività"));
 
-            foreach (Models.ForApi.Task t in diet.Diets)
+            if (diet != null)
+                foreach (Models.ForApi.Task t in diet.Diets)
                 tasks.TaskList.Add(new Models.ForView.Task(t, "Diete"));
 
             tasks.CategoryTask = categoryTask;
