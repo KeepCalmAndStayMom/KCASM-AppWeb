@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     ViewData["Title"] = "Home";
 }
 
@@ -6,10 +6,13 @@
 
 <p> Possibile logo / immagine</p>
 
-<p style="font-size: 20px">Keep Calm and Stay Mom è un progetto che supporta le donne incinte e i medici durante il periodo della gravidanza. Una volta iscritta, alla donna incinta verrà consegnata una home station,
+<p style="font-size: 20px">
+    Keep Calm and Stay Mom è un progetto che supporta le donne incinte e i medici durante il periodo della gravidanza. Una volta iscritta, alla donna incinta verrà consegnata una home station,
     un dispositivo interattivo che, tramite braccialetto Fitbit, lampadine Philips Hue e sensore multiplo, monitora la situazione attorno e della donna incinta. Tramite questo portale, forniamo
     l'accesso e la visualizzazione dei dati raccolti in maniera semplice e intuitiva. I medici potranno quindi controllare lo stato di tutte le proprie pazienti e assegnare loro delle attività da svolgere.
-    Per mezzo di un apposito sistema di chat, è possibile comunicare agevolmente senza ricorrere a email o chiamate telefoniche.</p>
+    Per mezzo di un apposito sistema di chat, è possibile comunicare agevolmente senza ricorrere a email o chiamate telefoniche.
+</p>
+
 
 @if (ViewData["Session"].Equals("NotLogged"))
 {
@@ -17,7 +20,7 @@
         <div class="card card-container">
             <form class="form-signin" style="text-align: center;" method="post" action="/Home/Login">
                 <div class="form-group">
-                    <input type="text" name="email" class="form-control" placeholder="Email address" required autofocus>
+                    <input type="email" name="email" class="form-control" placeholder="Indirizzo email" required autofocus>
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
@@ -28,8 +31,7 @@
             <p class="forgot-password" style="cursor: pointer; margin-top: 1em;">Recupera la Password</p>
             <form id="recovery" method="post" style="display: none; text-align: center;" action="/Home/PasswordForgot">
                 <div class="form-group">
-                    <input type="text" name="name" class="form-control" placeholder="Username or Email address" required>
-
+                    <input type="text" name="email" class="form-control" placeholder="Indirizzo email" required>
                 </div>
                 <input class="btn btn-primary" type="submit" value="Recupera" />
             </form>

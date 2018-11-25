@@ -7,35 +7,41 @@
 <h2>Chat con @Model.Name @Model.Surname</h2>
 
 @{
-    foreach (KCASM_AppWeb.Models.ForApi.MessageMedicPatient message in Model.MessageList)
+    if (Model.MessageList.Count != 0)
     {
+        foreach (KCASM_AppWeb.Models.ForApi.MessageMedicPatient message in Model.MessageList)
+        {
 
-        if (message.Medic_sender)
-        {
-            <div class="container_box">
-                <h3> @message.Subject </h3>
-                <p> @message.Message </p>
-                <span class="time-left"> @message.Timedate </span>
-                @if (ViewData["Session"].Equals("Patient") && !message.Read)
-                {
-                    <button style="float: right;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
-                } 
-            </div>
-        }
-        else
-        {
-            <div class="container_box darker">
-                <h3> @message.Subject </h3>
-                <p> @message.Message </p>
-                <span class="time-right"> @message.Timedate </span>
-                @if (ViewData["Session"].Equals("Medic") && !message.Read)
-                {
-                    <button style="float: left;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
-                }
-            </div>
+            if (message.Medic_sender)
+            {
+                <div class="container_box" style="margin-right: 15%;">
+                    <h3> @message.Subject </h3>
+                    <p> @message.Message </p>
+                    <span class="time-left"> @message.Timedate </span>
+                    @if (ViewData["Session"].Equals("Patient") && !message.Read)
+                    {
+                        <button style="float: right;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                    } 
+                </div>
+            }
+            else
+            {
+                <div class="container_box darker" style="margin-left: 15%;">
+                    <h3> @message.Subject </h3>
+                    <p> @message.Message </p>
+                    <span class="time-right"> @message.Timedate </span>
+                    @if (ViewData["Session"].Equals("Medic") && !message.Read)
+                    {
+                        <button style="float: left;" onclick="location.href='@Url.Action("ReadMessage", "Message", new { senderId = Model.Id, timedate = message.Timedate, name = Model.Name, surname = Model.Surname })'"> Leggi </button>
+                    }
+                </div>
+            }
         }
     }
-
+    else
+    {
+        <h2>Non ci sono ancora messaggi</h2>
+    }
 }
 
 <center>
@@ -43,20 +49,26 @@
     <legend>Nuovo messaggio</legend>
     <form method="post" action="/Message/NewMessage">
         <div class="form-group">
-            <div>
+            <div class="row">
                 <label>Oggetto</label>
-                <input type="text" name="subject" placeholder="Oggetto" required/>
             </div>
-            <div>
+            <div class="row">
+                <input type="text" name="subject" placeholder="Oggetto" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
                 <label>Messaggio</label>
-                <textarea name="message" placeholder="Messaggio... (max 500 caratteri)" rows="4" cols="20" maxlength="500" required></textarea>
             </div>
+            <div class="row">
+                <textarea name="message" placeholder="Messaggio... (max 500 caratteri)" rows="6" cols="135" maxlength="500" required style="resize: none;"></textarea>
+            </div>
+        </div>
             @Html.Hidden("id_receiver", Model.Id)
             @Html.Hidden("name", Model.Name)
             @Html.Hidden("surname", Model.Surname)
-            <div>
-                <input style="margin-top: 1.73em" class="btn btn-primary" type="submit" value="Invia" />
-            </div>
+        <div class="form-group">
+             <input class="btn btn-primary row" type="submit" value="Invia" />
         </div>
     </form>
 </fieldset>
