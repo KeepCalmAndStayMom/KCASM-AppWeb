@@ -68,7 +68,7 @@ namespace KCASM_AppWeb.Controllers
 
             url.ExecuteWebUpload("PUT", "{ }");
 
-            return RedirectToAction("Chat", "Message", new { senderId, name, surname });
+            return RedirectToAction("Chat", "Message", new { filterId = senderId, name, surname });
         }
 
         [HttpPost]
@@ -91,7 +91,7 @@ namespace KCASM_AppWeb.Controllers
 
             url.ExecuteWebUpload("POST", body);
 
-            return RedirectToAction("Chat", "Message", new { id_receiver, name, surname });
+            return RedirectToAction("Chat", "Message", new { filterId = id_receiver, name, surname });
         }
     }
 }

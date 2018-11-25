@@ -67,19 +67,13 @@ namespace KCASM_AppWeb.Controllers
         {
             try
             {
-
-                /* DA CORREGGERE INDIRIZZO API APPENA PRONTA*/
-
-                var client = new WebClient();
-                /*controllo se ho inserito una email corretta presente nel database*/
-                client.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(email)));
-                var content = client.UploadString($"{Constant.API_ADDRESS}login_data", "POST");
+                var content = new WebClient().DownloadString($"{Constant.API_ADDRESS}password_reset?email={email}");
                 Dictionary<string, string> pass_rec = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
 
                 /*Preparo la mail da inviare*/
                 MailMessage mailMessagePlainText = new MailMessage();
                 mailMessagePlainText.From = new MailAddress("kandstaymom@gmail.com", "KeepCalmAndStayMom");
-                mailMessagePlainText.To.Add(new MailAddress(pass_rec["email"]));
+                mailMessagePlainText.To.Add(new MailAddress(email));
                 mailMessagePlainText.Subject = "Recupero Password";
                 mailMessagePlainText.Body = $"Gentile Utente, la password associata al tuo account è: \"{pass_rec["password"]}\"";
 
