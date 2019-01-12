@@ -24,9 +24,7 @@ namespace KCASM_AppWeb.Controllers
                 id = HttpContext.Session.GetString("Id");
             
             DateTime endDate = DateTime.Today;
-            //DateTime startDate = endDate.AddDays(-Constant.DATE_LIMIT_TOTAL);
-
-            DateTime startDate = endDate.AddDays(2);
+            DateTime startDate = endDate.AddDays(-Constant.DATE_LIMIT_TOTAL);
 
             Measures measures = id.GetMeasuresTotal(startDate, endDate);
 
